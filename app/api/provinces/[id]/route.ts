@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import DB from "@/lib/db";
-import { verifyAdmin } from "@/lib/auth";
+// import { verifyAdmin } from "@/lib/auth";
 import { deleteImage, updateImage } from "@/lib/utils";
 
 // export const dynamic = "force-dynamic";
@@ -25,9 +25,9 @@ export async function GET(
 
 // Update a province
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const admin = verifyAdmin(req);
-  if (!admin)
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // const admin = verifyAdmin(req);
+  // if (!admin)
+  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const db = await DB();

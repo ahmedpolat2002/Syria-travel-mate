@@ -170,17 +170,49 @@ export async function deleteImage(imagePath: string) {
 
 export async function updateImage(
   req: Request,
-  oldImagePath: string
+  currentImagePath: string
 ): Promise<{ fields: Fields; newImagePath: string }> {
-  const uploadResult = await handleImageUpload(req);
-  if (!uploadResult) {
-    throw new Error("Failed to upload new image");
+  const contentType = req.headers.get("content-type") || "";
+
+  // ✅ إذا الطلب مش multipart، اعتبر أنه تعديل بدون صورة
+  if (!contentType.includes("multipart/form-data")) {
+    const body = await req.json();
+    const fields = {
+      name: [body.name],
+      description: [body.description],
+      safetyStatus: [body.safetyStatus],
+    };
+    return {
+      fields,
+      newImagePath: currentImagePath, // نحتفظ بالصورة القديمة
+    };
   }
 
-  const { fields, imagePath: newImagePath } = uploadResult;
+  // ✅ هذا الجزء يبقى كما هو (لو كان multipart)
+  const form = new IncomingForm({
+    uploadDir,
+    keepExtensions: true,
+    multiples: false,
+  });
 
-  // حذف الصورة القديمة
-  await deleteImage(oldImagePath);
+  const buffer = Buffer.from(await req.arrayBuffer());
+  const readable = new PassThrough();
+  readable.end(buffer);
 
-  return { fields, newImagePath };
+  return new Promise((resolve) => {
+    form.parse(readable as unknown as IncomingMessage, (err, fields, files) => {
+      const file = files.image as File | File[] | undefined;
+      const imageFile = Array.isArray(file) ? file[0] : file;
+
+      let newImagePath = currentImagePath;
+
+      // ✅ فقط إذا فيه صورة مرفوعة نحذف القديمة
+      if (imageFile && imageFile.filepath) {
+        deleteImage(currentImagePath);
+        newImagePath = "/uploads/" + path.basename(imageFile.filepath);
+      }
+
+      resolve({ fields, newImagePath });
+    });
+  });
 }
