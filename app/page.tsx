@@ -1,95 +1,106 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+
+export default function AddProvinceForm() {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [safetyStatus, setSafetyStatus] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!image) {
+      setMessage("Please select an image.");
+      return;
+    }
+
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("safetyStatus", safetyStatus);
+    formData.append("image", image);
+
+    try {
+      console.log("Submitting form data");
+      const res = await fetch("/api/provinces", {
+        method: "POST",
+        body: formData,
+      });
+      console.log("end form data");
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage("Province added successfully.");
+        setName("");
+        setDescription("");
+        setSafetyStatus("");
+        setImage(null);
+      } else {
+        setMessage(data.error || "Something went wrong.");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 p-4 border rounded max-w-md"
+    >
+      <h2 className="text-xl font-bold">Add Province</h2>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="w-full border p-2 rounded"
+        required
+      />
+
+      <textarea
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className="w-full border p-2 rounded"
+        required
+      />
+
+      <input
+        type="text"
+        placeholder="Safety Status"
+        value={safetyStatus}
+        onChange={(e) => setSafetyStatus(e.target.value)}
+        className="w-full border p-2 rounded"
+        required
+      />
+
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setImage(e.target.files?.[0] || null)}
+        className="w-full"
+        required
+      />
+
+      <button
+        type="submit"
+        className="bg-blue-600 text-white px-4 py-2 rounded"
+        disabled={loading}
+      >
+        {loading ? "Adding..." : "Add Province"}
+      </button>
+
+      {message && <p className="text-sm mt-2">{message}</p>}
+    </form>
   );
 }
