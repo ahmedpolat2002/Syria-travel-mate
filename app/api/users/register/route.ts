@@ -7,23 +7,23 @@ const SALT_ROUNDS = 10;
 // Register API Endpoint :
 export async function POST(req: Request) {
   const db = await DB(); // get database instance
-  const { username, password } = await req.json();
+  const { username, email, password } = await req.json();
 
-  if (!username || !password) {
+  if (!username || !email || !password) {
     return NextResponse.json(
-      { error: "Username and password are required." },
+      { error: "Username, email and password are required." },
       { status: 400 }
     );
   }
 
-  // تأكد إن المستخدم غير موجود مسبقًا
+  // التحقق من تكرار البريد الإلكتروني أو اسم المستخدم
   const userExists = db
-    .prepare("SELECT * FROM users WHERE username = ?")
-    .get(username);
+    .prepare("SELECT * FROM users WHERE username = ? OR email = ?")
+    .get(username, email);
 
   if (userExists) {
     return NextResponse.json(
-      { error: "Username already taken." },
+      { error: "Username or email already taken." },
       { status: 409 }
     );
   }
@@ -31,11 +31,11 @@ export async function POST(req: Request) {
   // تشفير كلمة المرور
   const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-  // إدخال المستخدم الجديد
+  // حفظ المستخدم
   const stmt = db.prepare(
-    "INSERT INTO users (username, password) VALUES (?, ?)"
+    "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
   );
-  const result = stmt.run(username, hashedPassword);
+  const result = stmt.run(username, email, hashedPassword);
 
   return NextResponse.json({
     message: "User registered successfully.",

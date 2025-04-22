@@ -9,15 +9,20 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // Login API Endpoint :
 export async function POST(req: Request) {
   const db = await DB();
-  const { username, password } = await req.json();
+  const { usernameOrEmail, password } = await req.json();
 
-  if (!username || !password) {
-    return NextResponse.json({ error: "Missing username or password" }, { status: 400 });
+  if (!usernameOrEmail || !password) {
+    return NextResponse.json(
+      { error: "Missing username/email or password" },
+      { status: 400 }
+    );
   }
 
-  // تحقق من وجود المستخدم
-  const stmt = db.prepare("SELECT * FROM users WHERE username = ?");
-  const user = stmt.get(username) as Users;
+  // البحث باستخدام username أو email
+  const stmt = db.prepare(
+    "SELECT * FROM users WHERE username = ? OR email = ?"
+  );
+  const user = stmt.get(usernameOrEmail, usernameOrEmail) as Users;
 
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });

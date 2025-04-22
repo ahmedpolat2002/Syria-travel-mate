@@ -13,7 +13,8 @@ export function CreateTables(db: db) {
   return db.exec(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      username TEXT NOT NULL,
+      username TEXT NOT NULL UNIQUE,
+      email TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL,
       role TEXT NOT NULL DEFAULT 'user',
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -28,16 +29,22 @@ export function CreateTables(db: db) {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
+    CREATE TABLE IF NOT EXISTS place_types (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS places (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       description TEXT NOT NULL,
-      type TEXT NOT NULL,
+      typeId INTEGER NOT NULL REFERENCES place_types(id),
       provinceId INTEGER NOT NULL REFERENCES provinces(id),
       image TEXT NOT NULL,
-      safetyStatus TEXT NOT NULL,
+      safetyStatus TEXT NOT NULL CHECK (safetyStatus IN ('safe', 'warning', 'danger')),
       latitude REAL NOT NULL,
       longitude REAL NOT NULL,
+      deleted BOOLEAN NOT NULL DEFAULT 0,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -45,16 +52,19 @@ export function CreateTables(db: db) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       userId INTEGER NOT NULL REFERENCES users(id),
       placeId INTEGER NOT NULL REFERENCES places(id),
-      rating INTEGER NOT NULL,
+      rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
       comment TEXT,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP,
+      UNIQUE(userId, placeId)
     );
 
     CREATE TABLE IF NOT EXISTS likes (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       userId INTEGER NOT NULL REFERENCES users(id),
       placeId INTEGER NOT NULL REFERENCES places(id),
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(userId, placeId)
     );
 
     CREATE TABLE IF NOT EXISTS events (
@@ -67,6 +77,8 @@ export function CreateTables(db: db) {
       endDate DATE NOT NULL,
       latitude REAL NOT NULL,
       longitude REAL NOT NULL,
+      status TEXT NOT NULL CHECK (status IN ('active', 'finished', 'cancelled')) DEFAULT 'active',
+      deleted BOOLEAN NOT NULL DEFAULT 0,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `);
