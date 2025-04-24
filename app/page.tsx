@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function AddProvinceForm() {
+export default function Page() { // edit
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [safetyStatus, setSafetyStatus] = useState("");

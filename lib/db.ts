@@ -24,8 +24,10 @@ export function CreateTables(db: db) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       description TEXT NOT NULL,
-      safetyStatus TEXT NOT NULL,
+      safetyStatus TEXT NOT NULL CHECK (safetyStatus IN ('safe', 'warning', 'danger')),
       image TEXT NOT NULL,
+      latitude REAL NOT NULL,
+      longitude REAL NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 

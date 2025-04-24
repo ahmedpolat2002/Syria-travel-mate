@@ -14,9 +14,7 @@ export async function GET(
 
   const id = params.id;
 
-  const province = db
-    .prepare("SELECT * FROM provinces WHERE id = ?")
-    .get(id);
+  const province = db.prepare("SELECT * FROM provinces WHERE id = ?").get(id);
   if (!province) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -24,7 +22,10 @@ export async function GET(
 }
 
 // Update a province
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   // const admin = verifyAdmin(req);
   // if (!admin)
   //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -50,14 +51,17 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     const stmt = db.prepare(`
       UPDATE provinces
-      SET name = ?, description = ?, safetyStatus = ?, image = ?
+      SET name = ?, description = ?, safetyStatus = ?, image = ?, latitude = ?, longitude = ?
       WHERE id = ?
     `);
+
     stmt.run(
       fields.name?.[0],
       fields.description?.[0],
       fields.safetyStatus?.[0],
       newImagePath,
+      parseFloat(fields.latitude?.[0] || "0"),
+      parseFloat(fields.longitude?.[0] || "0"),
       id
     );
 
@@ -72,7 +76,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // Delete a province
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   // const admin = verifyAdmin(req);
   // if (!admin)
   //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

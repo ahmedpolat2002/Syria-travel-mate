@@ -39,6 +39,8 @@ export async function POST(req: NextRequest) {
         name?: string[];
         description?: string[];
         safetyStatus?: string[];
+        latitude?: string[];
+        longitude?: string[];
       };
       imagePath: string;
     } = uploadResult;
@@ -46,15 +48,17 @@ export async function POST(req: NextRequest) {
     const db = await DB();
 
     const stmt = db.prepare(`
-      INSERT INTO provinces (name, description, safetyStatus, image)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO provinces (name, description, safetyStatus, image, latitude, longitude)
+      VALUES (?, ?, ?, ?, ?, ?)
     `);
 
     const result = stmt.run(
       fields.name?.[0],
       fields.description?.[0],
       fields.safetyStatus?.[0],
-      imagePath
+      imagePath,
+      parseFloat(fields.latitude?.[0] || "0"),
+      parseFloat(fields.longitude?.[0] || "0")
     );
 
     return NextResponse.json({ id: result.lastInsertRowid, imagePath });
