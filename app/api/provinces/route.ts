@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
     if (!uploadResult) {
       throw new Error("Failed to upload image");
     }
+
     const {
       fields,
       imagePath,
