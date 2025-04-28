@@ -1,0 +1,154 @@
+/* src/components/Event/EventSection.module.css */
+
+.slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background-color: #f6f0e8;
+    padding: 2rem;
+    border-radius: 1rem;
+    position: relative;
+}
+
+.card {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(226, 215, 186);
+    border-radius: 1rem;
+    padding: 55px;
+    width: 100%;
+    max-width: 1000px;
+    position: relative;
+    height: 315px;
+}
+
+.left {
+    flex: 1;
+}
+
+.left h2 {
+    font-size: 52px;
+    color: #142d1b;
+    margin-bottom: 1rem;
+    margin: 35px;
+}
+
+.left p {
+    font-size: 19px;
+    margin-bottom: 0.5rem;
+    color: #11111187;
+    margin-left: 35px;
+}
+
+.price span {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #000;
+}
+
+.btn {
+    background-color: rgb(242, 108, 5);
+    color: white;
+    border: none;
+
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 2rem;
+    margin-left: 35px;
+    padding: 15px 30px;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.images {
+    display: grid;
+    grid-template-columns: repeat(2, 205px);
+    grid-template-rows: repeat(2, 154px);
+    gap: 0.5rem;
+}
+
+.images img {
+    width: 205px;
+    height: 154px;
+    object-fit: cover;
+    border-radius: 0.8rem;
+}
+
+.images .extend {
+    height: 316px;
+}
+
+.images img:nth-child(3) {
+    grid-column: span 2;
+    width: 205px;
+}
+
+.badge {
+    position: absolute;
+    top: -48px;
+    right: -46px;
+    background: rgb(242, 108, 5);
+    color: white;
+    padding: 1rem;
+    border-radius: 50%;
+    font-weight: bold;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    display: grid;
+    place-content: center;
+}
+
+.nav {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.nav:hover {
+    color: rgb(242, 108, 5);
+}
+
+.slider {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 1rem;
+}
+
+.nav {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: rgb(242, 108, 5);
+    z-index: 2;
+}
+
+.sliderWrapper {
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+}
+
+.sliderInner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.slide {
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+}

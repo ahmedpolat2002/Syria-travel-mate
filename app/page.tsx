@@ -1,7 +1,6 @@
-"use client";
+import Homepage from "@/pages/Homepage/Homepage";
 
-import { useState } from "react";
-
+/*
 export default function Page() { // edit
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -102,5 +101,19 @@ export default function Page() { // edit
 
       {message && <p className="text-sm mt-2">{message}</p>}
     </form>
+  );
+}
+*/
+
+export const metadata = {
+  title: "Homepage",
+  description: "Welcome to the homepage of our application.",
+};
+
+export default function Page() {
+  return (
+    <div>
+      <Homepage />
+    </div>
   );
 }

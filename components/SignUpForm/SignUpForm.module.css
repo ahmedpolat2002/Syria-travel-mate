@@ -1,0 +1,93 @@
+/* src/components/LoginForm.module.css */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+}
+
+.form {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.form p {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.form label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+.form input[type="text"],
+.form input[type="password"],
+.form input[type="email"] {
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.show {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #007c89;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.checkboxWrapper {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.loginButton {
+  margin-top: 1.5rem;
+  background-color: #007c89;
+  color: white;
+  padding: 0.7rem;
+  border: none;
+  width: 100%;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.link {
+  color: #007c89;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.error {
+  color: red;
+  font-size: 0.85rem;
+  margin: 5px 0 0 0;
+  padding: 0;
+}
+
+.show:hover {
+  text-decoration: underline;
+  color: #004f58;
+}

@@ -1,0 +1,59 @@
+.hero {
+    max-width: 1200px;
+    background-image: url('/images/image-1.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    margin-top: 20px;
+    height: 470px;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    border-radius: 30px;
+    color: white;
+    max-width: 380px;
+    height: 83%;
+}
+
+.overlay h1 {
+    font-size: 65px;
+    line-height: 1.2;
+    font-weight: bold;
+    margin: 15px;
+    color: rgb(244 239 231);
+}
+
+.overlay h1 span {
+    color: rgb(242, 108, 5);
+}
+
+.overlay p {
+    margin-top: 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgb(244 239 231);
+    margin-left: 15px;
+}
+
+.overlay button {
+    margin-top: 25px;
+    margin-left: 15px;
+    background-color: rgb(242, 108, 5);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: rgb(244 239 231);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.overlay button:hover {
+    background-color: rgb(242, 108, 5);
+}
