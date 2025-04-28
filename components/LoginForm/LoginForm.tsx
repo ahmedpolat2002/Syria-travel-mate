@@ -3,10 +3,18 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./LoginForm.module.css";
+import { jwtDecode } from "jwt-decode";
+import Link from "next/link";
 
 type LoginFormInputs = {
   username: string;
   password: string;
+};
+
+type TokenPayload = {
+  id: number;
+  username: string;
+  role: string;
 };
 
 const LoginForm: React.FC = () => {
@@ -22,8 +30,45 @@ const LoginForm: React.FC = () => {
     password: "",
   });
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log("Form Data:", data);
+  const onSubmit = async (data: LoginFormInputs) => {
+    try {
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          usernameOrEmail: data.username, // ✨ هنا نرسله باسم usernameOrEmail
+          password: data.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Login failed");
+      }
+
+      const result = await response.json();
+
+      console.log("Login successful:", result);
+
+      // ✨ فك التوكن
+      const decoded = jwtDecode<TokenPayload>(result.token);
+
+      // ✨ تحقق من الدور وعمل التوجيه
+      if (decoded.role === "admin") {
+        window.location.href = "/admin"; // إعادة توجيه للوحة تحكم الأدمن مثلاً
+      } else {
+        window.location.href = "/"; // إعادة توجيه مثلاً للصفحة الرئيسية
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Login error:", error.message);
+      } else {
+        console.error("Login error:", error);
+      }
+    }
   };
 
   return (
@@ -32,9 +77,9 @@ const LoginForm: React.FC = () => {
         <h2>Log in</h2>
         <p>
           Need a Mailchimp account?{" "}
-          <a href="#" className={styles.link}>
+          <Link href="/register" className={styles.link}>
             Create an account
-          </a>
+          </Link>
         </p>
 
         <label>Username or Email</label>

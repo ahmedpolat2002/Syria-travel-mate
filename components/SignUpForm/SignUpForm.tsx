@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./SignUpForm.module.css";
+import Link from "next/link";
 
-type LoginFormInputs = {
+type SignUpFormInputs = {
   username: string;
   email: string;
   password: string;
@@ -15,7 +16,7 @@ const SignUpForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>();
+  } = useForm<SignUpFormInputs>();
 
   const [showPassword, setShowPassword] = useState(false);
   const [signupinputs, setsignupinputs] = useState({
@@ -24,8 +25,41 @@ const SignUpForm: React.FC = () => {
     password: "",
   });
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log("Form Data:", data);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const onSubmit = async (data: SignUpFormInputs) => {
+    try {
+      const response = await fetch("/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Registration failed");
+      }
+
+      setSuccessMessage("Account created successfully! You can now log in.");
+      setErrorMessage(null);
+
+      // اختياري: إعادة توجيه المستخدم لصفحة تسجيل الدخول بعد النجاح
+      // مثلا بعد 2 ثانية
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("An unknown error occurred.");
+      }
+      setSuccessMessage(null);
+    }
   };
 
   return (
@@ -34,10 +68,14 @@ const SignUpForm: React.FC = () => {
         <h2>Sign Up</h2>
         <p>
           Do you have account?{" "}
-          <a href="#" className={styles.link}>
+          <Link href="/login" className={styles.link}>
             I have account
-          </a>
+          </Link>
         </p>
+
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+        {successMessage && <p className={styles.success}>{successMessage}</p>}
+
         <label>Username</label>
         <input
           value={signupinputs.username}
