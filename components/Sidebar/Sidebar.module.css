@@ -1,15 +1,12 @@
 .sidebar {
-  background-color: #f4efe7;
+  background-color: #1c2b1cee;
   width: 250px;
   height: 100%;
   transition: width 0.3s ease;
   overflow: hidden;
-  /* position: fixed; */
-  /* top: 0;
-  left: 0; */
   padding-top: 20px;
   margin-right: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 0 1px rgba(0, 0, 0, 0.1);
 }
 
 .closed {
@@ -32,7 +29,7 @@
 .menuItem {
   display: flex;
   align-items: center;
-  color: #333;
+  color: rgb(208, 217, 203);
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }

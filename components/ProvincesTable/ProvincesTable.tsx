@@ -26,8 +26,7 @@ export default function ProvincesTable({
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const handleDelete = async (id: number) => {
-    setDeletingId(id); // ✅ حدد أي زر يتم عليه التحميل الآن
-
+    setDeletingId(id);
     const deletePromise = fetch(`/api/provinces/${id}`, { method: "DELETE" });
 
     toast.promise(deletePromise, {
@@ -51,7 +50,7 @@ export default function ProvincesTable({
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2>المقاطعات</h2>
+        <h2>المحافظات</h2>
         <Link href="/admin/provinces/new" className={styles.addButton}>
           + إضافة جديد
         </Link>
