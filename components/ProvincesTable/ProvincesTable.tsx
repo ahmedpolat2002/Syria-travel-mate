@@ -3,8 +3,8 @@
 import Link from "next/link";
 import styles from "./ProvincesTable.module.css";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 type Province = {
   id: number;
@@ -23,29 +23,30 @@ export default function ProvincesTable({
   provinces: Province[];
 }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const handleDelete = async (id: number) => {
-    try {
-      setLoading(true);
-      const res = await fetch(`/api/provinces/${id}`, { method: "DELETE" });
+    setDeletingId(id); // ✅ حدد أي زر يتم عليه التحميل الآن
 
+    const deletePromise = fetch(`/api/provinces/${id}`, { method: "DELETE" });
+
+    toast.promise(deletePromise, {
+      loading: "جاري حذف المحافظة...",
+      success: "تم حذف المحافظة بنجاح ✅",
+      error: "فشل حذف المحافظة ❌",
+    });
+
+    try {
+      const res = await deletePromise;
       if (res.ok) {
-        toast.success("تم حذف المحافظة بنجاح");
         router.refresh();
-      } else {
-        toast.error("فشل حذف المحافظة");
       }
-    } catch {
-      toast.error("حدث خطأ أثناء الحذف");
+    } catch (error) {
+      console.error("خطأ أثناء الحذف:", error);
     } finally {
-      setLoading(false);
+      setDeletingId(null); // ✅ رجع للوضع الطبيعي بعد ما ينتهي
     }
   };
-
-  if (loading) {
-    return <p>Loading ...</p>;
-  }
 
   return (
     <div className={styles.container}>
@@ -106,8 +107,15 @@ export default function ProvincesTable({
                   <button
                     className={styles.deleteButton}
                     onClick={() => handleDelete(province.id)}
+                    disabled={deletingId === province.id} // ❌ قفل الزر أثناء الحذف
                   >
-                    حذف
+                    {deletingId === province.id ? (
+                      <>
+                        <span className={styles.spinner}></span> جاري الحذف...
+                      </>
+                    ) : (
+                      "حذف"
+                    )}
                   </button>
                 </td>
               </tr>
