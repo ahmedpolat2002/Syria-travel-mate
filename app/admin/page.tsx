@@ -37,7 +37,7 @@ export default function AdminDashboard() {
   }, []);
 
   if (!stats) {
-    return <p>Loading dashboard...</p>; // أو شاشة تحميل لطيفة
+    return <p>Loading dashboard...</p>;
   }
 
   return (

@@ -60,8 +60,8 @@ export async function PUT(
       fields.description?.[0],
       fields.safetyStatus?.[0],
       newImagePath,
-      parseFloat(fields.latitude?.[0] || "0"),
-      parseFloat(fields.longitude?.[0] || "0"),
+      fields.latitude?.[0] || "0",
+      fields.longitude?.[0] || "0",
       id
     );
 
