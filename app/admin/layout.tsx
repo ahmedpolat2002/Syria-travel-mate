@@ -17,7 +17,8 @@ export default function layout({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <div
         style={{
-          margin: 20,
+          margin: 10,
+          flex: 1,
         }}
       >
         {children}
