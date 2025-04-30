@@ -4,6 +4,7 @@ import Link from "next/link";
 import styles from "./ProvincesTable.module.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 type Province = {
   id: number;
@@ -25,10 +26,21 @@ export default function ProvincesTable({
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async (id: number) => {
-    setLoading(true);
-    await fetch(`/api/provinces/${id}`, { method: "DELETE" });
-    setLoading(false);
-    router.refresh();
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/provinces/${id}`, { method: "DELETE" });
+
+      if (res.ok) {
+        toast.success("تم حذف المحافظة بنجاح");
+        router.refresh();
+      } else {
+        toast.error("فشل حذف المحافظة");
+      }
+    } catch {
+      toast.error("حدث خطأ أثناء الحذف");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) {
