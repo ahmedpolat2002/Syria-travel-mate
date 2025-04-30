@@ -85,3 +85,10 @@ export function CreateTables(db: db) {
     );
   `);
 }
+
+// Uncomment this function to create an admin user
+// UPDATE users
+// SET role = 'admin'
+// WHERE email = 'admin@gmail.com';
+
+// select * from users

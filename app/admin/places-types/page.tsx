@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function page() {
-  return <div>page province</div>;
+  return <div>page types</div>;
 }

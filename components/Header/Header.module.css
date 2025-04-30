@@ -3,15 +3,13 @@
   justify-content: space-between;
   align-items: center;
   background-color: #f4efe7;
-  padding: 20px 0px;
+  padding: 10px 0px;
   font-family: Arial, sans-serif;
   width: 100%;
   position: sticky;
   top: 0;
   left: 0;
   z-index: 1000;
-
-
 }
 
 .logo {
@@ -24,7 +22,6 @@
 
 .logoIcon {
   color: rgb(242, 108, 5);
-  ;
 }
 
 .logoText {
@@ -48,7 +45,6 @@
 
 .active {
   color: rgb(242, 108, 5);
-  ;
   font-weight: bold;
 }
 
@@ -61,7 +57,7 @@
   border: 1px solid #ddd;
   width: 220px;
   background-color: transparent;
-  border: solid 2px rgb(217 217 217)
+  border: solid 2px rgb(217 217 217);
 }
 
 .searchInput {

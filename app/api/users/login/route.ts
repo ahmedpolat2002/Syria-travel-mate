@@ -47,11 +47,13 @@ export async function POST(req: Request) {
 
   // إرسال التوكن داخل كوكي
   const res = NextResponse.json({ message: "Logged in", token });
+
   res.cookies.set("token", token, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7, // 7 أيام
+    maxAge: 60 * 60 * 24 * 7, // 7 days
   });
 
   return res;
