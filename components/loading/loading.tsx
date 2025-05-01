@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import styles from "./Loading.module.css";
+import styles from "./loading.module.css";
 
 interface LoadingProps {
   text?: string;
