@@ -27,23 +27,27 @@ export default function ProvincesTable({
 
   const handleDelete = async (id: number) => {
     setDeletingId(id);
-    const deletePromise = fetch(`/api/provinces/${id}`, { method: "DELETE" });
-
-    toast.promise(deletePromise, {
-      loading: "جاري حذف المحافظة...",
-      success: "تم حذف المحافظة بنجاح ✅",
-      error: "فشل حذف المحافظة ❌",
-    });
+    const toastId = toast.loading("جارٍ حذف المحافظة...");
 
     try {
-      const res = await deletePromise;
-      if (res.ok) {
-        router.refresh();
+      const res = await fetch(`/api/provinces/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "فشل الحذف");
       }
-    } catch (error) {
-      console.error("خطأ أثناء الحذف:", error);
+
+      toast.success("تم حذف المحافظة بنجاح", { id: toastId });
+      router.refresh();
+    } catch {
+      toast.error("لا يمكنك حذف المحافظة لانها تحتوي على اماكن", {
+        id: toastId,
+      });
     } finally {
-      setDeletingId(null); // ✅ رجع للوضع الطبيعي بعد ما ينتهي
+      setDeletingId(null);
     }
   };
 

@@ -8,10 +8,15 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const db = await DB();
-    const types = db.prepare("SELECT * FROM place_types").all();
+    const types = db
+      .prepare("SELECT * FROM place_types WHERE deleted = 0")
+      .all();
     return NextResponse.json(types);
   } catch {
-    return NextResponse.json({ error: "Failed to fetch types" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch types" },
+      { status: 500 }
+    );
   }
 }
 
@@ -31,9 +36,14 @@ export async function POST(req: NextRequest) {
     const db = await DB();
 
     // تحقق من وجود النوع مسبقًا
-    const existing = db.prepare("SELECT * FROM place_types WHERE name = ?").get(name);
+    const existing = db
+      .prepare("SELECT * FROM place_types WHERE name = ?")
+      .get(name);
     if (existing) {
-      return NextResponse.json({ error: "Type already exists" }, { status: 409 });
+      return NextResponse.json(
+        { error: "Type already exists" },
+        { status: 409 }
+      );
     }
 
     const stmt = db.prepare("INSERT INTO place_types (name) VALUES (?)");

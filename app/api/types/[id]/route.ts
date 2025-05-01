@@ -20,7 +20,9 @@ export async function GET(
       );
     }
 
-    const stmt = db.prepare("SELECT * FROM place_types WHERE id = ?");
+    const stmt = db.prepare(
+      "SELECT * FROM place_types WHERE id = ? AND deleted = 0"
+    );
     const placeType = stmt.get(id);
 
     if (!placeType) {
@@ -93,9 +95,11 @@ export async function DELETE(
       );
     }
 
-    // تحقق من وجود أماكن مرتبطة بهذا النوع
+    // تحقق من وجود أماكن مرتبطة بهذا النوع ولم يتم حذفها soft delete
     const placeCount = db
-      .prepare("SELECT COUNT(*) AS count FROM places WHERE typeId = ?")
+      .prepare(
+        "SELECT COUNT(*) AS count FROM places WHERE typeId = ? AND deleted = 0"
+      )
       .get(id) as { count: number };
 
     if (placeCount.count > 0) {
@@ -105,8 +109,8 @@ export async function DELETE(
       );
     }
 
-    // تنفيذ الحذف إن لم يكن هناك ربط
-    const stmt = db.prepare("DELETE FROM place_types WHERE id = ?");
+    // تنفيذ soft delete بدلاً من الحذف النهائي
+    const stmt = db.prepare("UPDATE place_types SET deleted = 1 WHERE id = ?");
     const result = stmt.run(id);
 
     if (result.changes === 0) {

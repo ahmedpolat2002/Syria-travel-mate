@@ -9,7 +9,9 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const db = await DB();
-    const provinces = db.prepare("SELECT * FROM provinces").all();
+    const provinces = db
+      .prepare("SELECT * FROM provinces WHERE deleted = 0")
+      .all();
     return NextResponse.json(provinces);
   } catch {
     return NextResponse.json(

@@ -28,12 +28,14 @@ export function CreateTables(db: db) {
       image TEXT NOT NULL,
       latitude REAL NOT NULL,
       longitude REAL NOT NULL,
+      deleted BOOLEAN NOT NULL DEFAULT 0,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS place_types (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL
+      name TEXT NOT NULL UNIQUE,
+      deleted BOOLEAN NOT NULL DEFAULT 0
     );
 
     CREATE TABLE IF NOT EXISTS places (

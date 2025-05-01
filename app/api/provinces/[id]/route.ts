@@ -14,7 +14,9 @@ export async function GET(
 
   const id = params.id;
 
-  const province = db.prepare("SELECT * FROM provinces WHERE id = ?").get(id);
+  const province = db
+    .prepare("SELECT * FROM provinces WHERE id = ? AND deleted = 0")
+    .get(id);
   if (!province) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -97,7 +99,9 @@ export async function DELETE(
 
     // تحقق من وجود أماكن مرتبطة بالمحافظة
     const placeCount = db
-      .prepare("SELECT COUNT(*) AS count FROM places WHERE provinceId = ?")
+      .prepare(
+        "SELECT COUNT(*) AS count FROM places WHERE provinceId = ? AND deleted = 0"
+      )
       .get(id) as { count: number };
 
     if (placeCount.count > 0) {
@@ -109,7 +113,9 @@ export async function DELETE(
 
     // تحقق من وجود فعاليات مرتبطة بالمحافظة
     const eventCount = db
-      .prepare("SELECT COUNT(*) AS count FROM events WHERE provinceId = ?")
+      .prepare(
+        "SELECT COUNT(*) AS count FROM events WHERE provinceId = ? AND deleted = 0"
+      )
       .get(id) as { count: number };
 
     if (eventCount.count > 0) {
@@ -129,7 +135,7 @@ export async function DELETE(
     }
 
     // تنفيذ الحذف
-    const stmt = db.prepare("DELETE FROM provinces WHERE id = ?");
+    const stmt = db.prepare("UPDATE provinces SET deleted = 1 WHERE id = ?");
     stmt.run(id);
 
     return NextResponse.json({ success: true });

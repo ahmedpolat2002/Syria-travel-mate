@@ -32,8 +32,7 @@ export default function PlaceTypesTable({
 
       toast.success("تم حذف النوع بنجاح", { id: toastId });
       router.refresh();
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error("حدث خطأ أثناء الحذف", { id: toastId });
     } finally {
       setLoading(false);

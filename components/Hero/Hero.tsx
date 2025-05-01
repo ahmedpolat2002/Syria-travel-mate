@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Hero.module.css";
+import Link from "next/link";
 
 const Hero: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const Hero: React.FC = () => {
           <span>the world</span> with us
         </h1>
         <p>Discover possibilities of travelling !</p>
-        <button>Explore</button>
+        <Link href="/login">Explore</Link>
       </div>
     </section>
   );
