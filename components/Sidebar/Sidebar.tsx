@@ -14,13 +14,15 @@ import {
   FiSettings,
   FiMenu,
 } from "react-icons/fi";
+import { LuLayoutDashboard } from "react-icons/lu";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
   const pathname = usePathname();
 
   const menuItems = [
-    { label: "لوحة التحكم", icon: <FiHome />, path: "/admin" },
+    { label: "الصفحة الرئيسية", icon: <FiHome />, path: "/" },
+    { label: "لوحة التحكم", icon: <LuLayoutDashboard />, path: "/admin" },
     { label: "المحافظات", icon: <FiMapPin />, path: "/admin/provinces" },
     { label: "الأماكن", icon: <FiMap />, path: "/admin/places" },
     { label: "أنواع الأماكن", icon: <FiList />, path: "/admin/places-types" },

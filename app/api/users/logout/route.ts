@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 
-// Logout API Endpoint :
 export async function POST() {
-  const res = NextResponse.json({ message: "Logged out" });
-  res.cookies.set("token", "", {
+  const response = NextResponse.json({ message: "Logged out" });
+
+  response.cookies.set("token", "", {
     httpOnly: true,
+    secure: false, // يجب أن يكون true في بيئة الإنتاج
+    // secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: 0, // حذف الكوكي
+    maxAge: 0,
   });
-  return res;
+
+  return response;
 }

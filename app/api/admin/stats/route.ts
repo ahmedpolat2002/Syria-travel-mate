@@ -6,7 +6,9 @@ export async function GET() {
     const db = await DB();
 
     const provincesCount = (
-      db.prepare("SELECT COUNT(*) as count FROM provinces").get() as {
+      db
+        .prepare("SELECT COUNT(*) as count FROM provinces WHERE deleted = 0")
+        .get() as {
         count: number;
       }
     ).count;
@@ -16,7 +18,9 @@ export async function GET() {
         .get() as { count: number }
     ).count;
     const placeTypesCount = (
-      db.prepare("SELECT COUNT(*) as count FROM place_types").get() as {
+      db
+        .prepare("SELECT COUNT(*) as count FROM place_types WHERE deleted = 0")
+        .get() as {
         count: number;
       }
     ).count;

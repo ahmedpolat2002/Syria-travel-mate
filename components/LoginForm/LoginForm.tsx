@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import styles from "./LoginForm.module.css";
 import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type LoginFormInputs = {
   username: string;
@@ -29,6 +30,7 @@ const LoginForm: React.FC = () => {
     username: "",
     password: "",
   });
+  const router = useRouter();
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
@@ -58,9 +60,11 @@ const LoginForm: React.FC = () => {
 
       // ✨ تحقق من الدور وعمل التوجيه
       if (decoded.role === "admin") {
-        window.location.href = "/admin"; // إعادة توجيه للوحة تحكم الأدمن مثلاً
+        router.push("/admin"); // إعادة توجيه للوحة تحكم الأدمن
+        // window.location.href = "/admin"; // إعادة توجيه للوحة تحكم الأدمن مثلاً
       } else {
-        window.location.href = "/"; // إعادة توجيه مثلاً للصفحة الرئيسية
+        router.push("/"); // إعادة توجيه للصفحة الرئيسية
+        // window.location.href = "/"; // إعادة توجيه مثلاً للصفحة الرئيسية
       }
     } catch (error) {
       if (error instanceof Error) {

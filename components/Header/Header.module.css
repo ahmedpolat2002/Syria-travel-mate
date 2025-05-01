@@ -12,6 +12,13 @@
   z-index: 1000;
 }
 
+.userName {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 20px;
+  color: rgb(242, 108, 5);
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -30,7 +37,7 @@
 
 .nav {
   display: flex;
-  gap: 70px;
+  gap: 50px;
 }
 
 .navItem {
@@ -74,4 +81,38 @@
 
 .searchInput::placeholder {
   color: black;
+}
+
+.authButton {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: rgb(242, 108, 5);
+  transition: all 0.2s;
+}
+
+.authButton:hover {
+  background-color: #f3eadb;
+}
+
+.logoutButton {
+  background-color: rgb(242, 108, 5);
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.logoutButton:hover {
+  background-color: rgb(217, 89, 0);
+  transition: background-color 0.3s;
 }

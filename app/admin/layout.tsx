@@ -1,5 +1,6 @@
+// import Loading from "@/components/loading/loading";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import React from "react";
+import React, { Suspense } from "react";
 
 export const metadata = {
   title: "Admin Dashboard",
@@ -21,7 +22,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
           flex: 1,
         }}
       >
-        {children}
+        <Suspense>{children}</Suspense>
       </div>
     </div>
   );
