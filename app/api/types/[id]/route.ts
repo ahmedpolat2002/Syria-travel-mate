@@ -84,7 +84,6 @@ export async function DELETE(
 
   try {
     const db = await DB();
-
     const id = params.id;
 
     if (!id) {
@@ -94,6 +93,19 @@ export async function DELETE(
       );
     }
 
+    // تحقق من وجود أماكن مرتبطة بهذا النوع
+    const placeCount = db
+      .prepare("SELECT COUNT(*) AS count FROM places WHERE typeId = ?")
+      .get(id) as { count: number };
+
+    if (placeCount.count > 0) {
+      return NextResponse.json(
+        { error: "لا يمكن حذف النوع لوجود أماكن مرتبطة به" },
+        { status: 400 }
+      );
+    }
+
+    // تنفيذ الحذف إن لم يكن هناك ربط
     const stmt = db.prepare("DELETE FROM place_types WHERE id = ?");
     const result = stmt.run(id);
 

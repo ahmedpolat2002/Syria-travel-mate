@@ -12,8 +12,6 @@ function Homepage() {
   return (
     <div>
       <div className={styles.container}>
-        {/* <SignUpPage />
-        <LoginPage /> */}
         <Header />
         <Hero />
         <Booking />

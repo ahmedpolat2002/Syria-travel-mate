@@ -86,10 +86,40 @@ export async function DELETE(
 
   try {
     const db = await DB();
-
     const id = params.id;
 
-    // Get current image path
+    if (!id) {
+      return NextResponse.json(
+        { error: "Missing or invalid id" },
+        { status: 400 }
+      );
+    }
+
+    // تحقق من وجود أماكن مرتبطة بالمحافظة
+    const placeCount = db
+      .prepare("SELECT COUNT(*) AS count FROM places WHERE provinceId = ?")
+      .get(id) as { count: number };
+
+    if (placeCount.count > 0) {
+      return NextResponse.json(
+        { error: "Cannot delete province due to linked places" },
+        { status: 400 }
+      );
+    }
+
+    // تحقق من وجود فعاليات مرتبطة بالمحافظة
+    const eventCount = db
+      .prepare("SELECT COUNT(*) AS count FROM events WHERE provinceId = ?")
+      .get(id) as { count: number };
+
+    if (eventCount.count > 0) {
+      return NextResponse.json(
+        { error: "Cannot delete province due to linked events" },
+        { status: 400 }
+      );
+    }
+
+    // احصل على مسار الصورة الحالية
     const getImage = db
       .prepare("SELECT image FROM provinces WHERE id = ?")
       .get(id) as { image?: string };
@@ -98,11 +128,13 @@ export async function DELETE(
       await deleteImage(getImage.image);
     }
 
+    // تنفيذ الحذف
     const stmt = db.prepare("DELETE FROM provinces WHERE id = ?");
     stmt.run(id);
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
+    console.error("Error deleting province:", err);
     return NextResponse.json(
       { error: "Failed to delete province" },
       { status: 500 }
