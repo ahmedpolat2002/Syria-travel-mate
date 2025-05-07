@@ -54,8 +54,7 @@ export default function PlaceTypeForm({
       );
       router.push("/admin/places-types");
       router.refresh();
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error("فشل في الإرسال", { id: toastId });
     } finally {
       setLoading(false);

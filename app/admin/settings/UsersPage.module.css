@@ -1,0 +1,32 @@
+.container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.search {
+  margin-bottom: 16px;
+  padding: 8px;
+  width: calc(100% - 16px);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.usernameInput {
+  padding: 6px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}

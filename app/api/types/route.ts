@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     // تحقق من وجود النوع مسبقًا
     const existing = db
-      .prepare("SELECT * FROM place_types WHERE name = ?")
+      .prepare("SELECT * FROM place_types WHERE name = ? AND deleted = 0")
       .get(name);
     if (existing) {
       return NextResponse.json(

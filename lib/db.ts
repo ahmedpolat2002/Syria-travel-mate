@@ -34,7 +34,7 @@ export function CreateTables(db: db) {
 
     CREATE TABLE IF NOT EXISTS place_types (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL,
       deleted BOOLEAN NOT NULL DEFAULT 0
     );
 
