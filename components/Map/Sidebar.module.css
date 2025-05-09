@@ -1,0 +1,161 @@
+.sidebar {
+  background-color: #1c2b1cee;
+  width: 250px;
+  height: 97%;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  padding-top: 20px;
+  box-shadow: 1px 0 1px rgba(0, 0, 0, 0.1);
+  overflow-y: scroll;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #f26c05;
+  border-radius: 1px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+.closed {
+  width: 80px;
+}
+
+.menuButton {
+  cursor: pointer;
+  color: rgb(242, 108, 5);
+  font-size: 24px;
+  padding: 0 20px 20px;
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  color: rgb(208, 217, 203);
+  cursor: pointer;
+  transition: 0.3s, color 0.3s;
+  padding: 10px 10px 10px 20px;
+}
+
+.menuItems {
+  display: flex;
+  align-items: center;
+  color: rgb(208, 217, 203);
+  transition: 0.3s, color 0.3s;
+  padding: 10px 10px 10px 20px;
+}
+
+.filterLabel {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 17px;
+  color: #d0d9cb;
+  gap: 10px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.filterLabel:hover {
+  color: #f26c05;
+}
+
+.filterInput {
+  appearance: none;
+  width: 17px;
+  height: 17px;
+  border: 2px solid #f26c05;
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.filterInput:checked {
+  background-color: #f26c05;
+  border-color: #f26c05;
+}
+
+.filterInput:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.subItem {
+  padding-left: 20px;
+}
+
+.menuItem:hover {
+  background-color: rgb(242, 108, 5);
+  color: white;
+  transform: scale(1.02);
+  transition: 0.3s, color 0.3s;
+}
+
+.active {
+  background-color: rgb(242, 108, 5);
+  color: white;
+}
+
+.icon {
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.label {
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  height: 100%;
+  padding: 12px 20px;
+}
+
+.detailsBox {
+  background-color: #273b27;
+  padding: 15px;
+  margin: 30px 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.detailsButton {
+  margin-top: 10px;
+  background-color: #f26c05;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.detailsButton:hover {
+  background-color: #d65a00;
+}
