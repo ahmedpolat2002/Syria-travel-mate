@@ -82,6 +82,7 @@ const MapWithSidebar: React.FC = () => {
     setCenter([lat, lng]);
     setSelectedLocation(null);
   };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
