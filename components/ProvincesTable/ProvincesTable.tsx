@@ -5,22 +5,12 @@ import styles from "./ProvincesTable.module.css";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useState } from "react";
-
-type Province = {
-  id: number;
-  name: string;
-  description: string;
-  latitude: number;
-  longitude: number;
-  image: string;
-  safetyStatus: "safe" | "warning" | "danger";
-  created_at: string;
-};
+import { Provinces } from "@/types/provinces";
 
 export default function ProvincesTable({
   provinces,
 }: {
-  provinces: Province[];
+  provinces: Provinces[];
 }) {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -97,7 +87,9 @@ export default function ProvincesTable({
                 </td>
                 <td>{province.latitude}</td>
                 <td>{province.longitude}</td>
-                <td>{province.created_at.split("T")[0]}</td>
+                <td>
+                  {new Date(province.created_at).toISOString().split("T")[0]}
+                </td>
                 <td>
                   <button
                     className={styles.editButton}

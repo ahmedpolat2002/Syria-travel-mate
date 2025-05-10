@@ -3,10 +3,7 @@ import ProvincesTable from "@/components/ProvincesTable/ProvincesTable";
 import { getProvinces } from "@/lib/data/provinces";
 
 export default async function ProvincesPage() {
-  const provinces = (await getProvinces()).map((province) => ({
-    ...province,
-    created_at: province.created_at.toISOString(),
-  }));
+  const provinces = await getProvinces();
 
   if (!provinces) {
     return <p>Loading provinces...</p>;
