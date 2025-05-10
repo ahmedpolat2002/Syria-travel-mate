@@ -1,7 +1,6 @@
 import ProvinceForm from "@/components/ProvincesForm/ProvinceForm";
-import React from "react";
 
-export default function page() {
+export default function AddProvincePage() {
   return (
     <div>
       <ProvinceForm />

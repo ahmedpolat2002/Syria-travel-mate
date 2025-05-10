@@ -1,18 +1,20 @@
 import EventForm from "@/components/EventForm/EventForm";
+import { getProvinces } from "@/lib/data/provinces";
 
-export default async function page() {
-  const provinces = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/provinces`
-  );
+export default function page() {
+  // const provinces = await fetch(
+  //   `${process.env.NEXT_PUBLIC_SITE_URL}/api/provinces`
+  // );
 
-  if (!provinces.ok) {
+  const provinces = getProvinces();
+
+  if (!provinces) {
     throw new Error("Failed to fetch provinces");
   }
-  const provincesData = await provinces.json();
 
   return (
     <div>
-      <EventForm provinces={provincesData} />
+      <EventForm provinces={provinces} />
     </div>
   );
 }

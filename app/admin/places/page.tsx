@@ -1,20 +1,9 @@
+// app/dashboard/places/page.tsx
 import PlacesTable from "@/components/PlacesTable/PlacesTable";
-
-async function getPlaces() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/places`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch places");
-  }
-
-  const data = await res.json();
-  return data;
-}
+import { getAllPlaces } from "@/lib/data/places";
 
 export default async function PlacesPage() {
-  const places = await getPlaces();
+  const places = getAllPlaces();
 
   return (
     <div>

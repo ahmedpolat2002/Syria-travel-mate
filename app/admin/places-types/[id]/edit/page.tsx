@@ -1,19 +1,6 @@
+// app/dashboard/types/[id]/page.tsx
 import PlaceTypeForm from "@/components/PlaceTypeForm/PlaceTypeForm";
-
-async function getPlaceType(id: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/types/${id}`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("فشل تحميل بيانات النوع");
-  }
-
-  return res.json();
-}
+import { getPlaceTypeById } from "@/lib/data/placeTypes";
 
 export default async function EditPlaceTypePage({
   params,
@@ -22,7 +9,11 @@ export default async function EditPlaceTypePage({
 }) {
   const { id } = await params;
 
-  const placeType = await getPlaceType(id);
+  const placeType = getPlaceTypeById(id);
+
+  if (!placeType) {
+    return <p>النوع غير موجود</p>;
+  }
 
   return (
     <div>

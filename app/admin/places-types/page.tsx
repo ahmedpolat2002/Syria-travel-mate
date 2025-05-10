@@ -1,19 +1,9 @@
+// app/dashboard/types/page.tsx
 import PlaceTypesTable from "@/components/PlaceTypesTable/PlaceTypesTable";
-
-async function getPlaceTypes() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/types`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("فشل تحميل أنواع الأماكن");
-  }
-
-  return res.json();
-}
+import { getAllPlaceTypes } from "@/lib/data/placeTypes";
 
 export default async function PlaceTypesPage() {
-  const placeTypes = await getPlaceTypes();
+  const placeTypes = getAllPlaceTypes();
 
   return (
     <div>

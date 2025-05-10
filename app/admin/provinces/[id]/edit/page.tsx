@@ -1,19 +1,15 @@
+// app/dashboard/provinces/[id]/page.tsx
 import ProvinceForm from "@/components/ProvincesForm/ProvinceForm";
-
-async function getProvince(id: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/provinces/${id}`
-  );
-  return res.json();
-}
+import { getProvinceById } from "@/lib/data/provinces";
 
 export default async function EditProvincePage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params; // انتظار حل Promise الخاص بـ params
-  const province = await getProvince(id);
+  const { id } = await params;
+
+  const province = getProvinceById(id);
 
   if (!province) {
     return <p>Loading province...</p>;
