@@ -5,11 +5,15 @@ import { verifyUser } from "@/lib/auth";
 // ✅ GET: هل المستخدم أعجب بالمكان؟ أو كم عدد الإعجابات؟
 export async function GET(
   req: NextRequest,
-  { params }: { params: { placeId: string } }
+  {
+    params,
+  }: {
+    params: Promise<{ placeId: string }>;
+  }
 ) {
   try {
     const db = await DB();
-    const placeId = Number(params.placeId);
+    const { placeId } = await params;
 
     // إرجاع عدد الإعجابات
     const countStmt = db.prepare(
@@ -41,7 +45,7 @@ export async function GET(
 // ✅ POST: إضافة إعجاب
 export async function POST(
   req: NextRequest,
-  { params }: { params: { placeId: string } }
+  { params }: { params: Promise<{ placeId: string }> }
 ) {
   try {
     const user = verifyUser(req);
@@ -50,7 +54,7 @@ export async function POST(
     }
 
     const db = await DB();
-    const placeId = Number(params.placeId);
+    const { placeId } = await params;
 
     // إدراج إعجاب
     const stmt = db.prepare(
@@ -72,7 +76,7 @@ export async function POST(
 // ✅ DELETE: حذف الإعجاب
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { placeId: string } }
+  { params }: { params: Promise<{ placeId: string }> }
 ) {
   try {
     const user = verifyUser(req);
@@ -81,7 +85,7 @@ export async function DELETE(
     }
 
     const db = await DB();
-    const placeId = Number(params.placeId);
+    const { placeId } = await params;
 
     const stmt = db.prepare(
       "DELETE FROM likes WHERE userId = ? AND placeId = ?"

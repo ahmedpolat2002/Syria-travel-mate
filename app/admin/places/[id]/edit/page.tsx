@@ -21,9 +21,10 @@ async function getData(id: string) {
 export default async function EditPlacePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { place, types, provinces } = await getData(params.id);
+  const { id } = await params;
+  const { place, types, provinces } = await getData(id);
 
   return (
     <div>

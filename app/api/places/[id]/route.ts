@@ -6,10 +6,12 @@ import { updateImage } from "@/lib/utils";
 // Get single place by ID with type and province names
 export async function GET(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const db = await DB();
+    const { id } = await params;
+
     const stmt = db.prepare(`
       SELECT
         places.id,
@@ -27,7 +29,7 @@ export async function GET(
       JOIN provinces ON places.provinceId = provinces.id
       WHERE places.id = ? AND places.deleted = 0
     `);
-    const place = stmt.get(params.id);
+    const place = stmt.get(id);
 
     if (!place) {
       return NextResponse.json({ error: "Place not found" }, { status: 404 });
@@ -46,7 +48,7 @@ export async function GET(
 // Update a place
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // const admin = verifyAdmin(req);
   // if (!admin)
@@ -54,7 +56,7 @@ export async function PUT(
 
   try {
     const db = await DB();
-    const id = params.id;
+    const { id } = await params;
 
     // جلب الصورة الحالية
     const current = db
@@ -106,15 +108,17 @@ export async function PUT(
 // Delete a place (soft delete)
 export async function DELETE(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // const admin = verifyAdmin(req);
   // if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const db = await DB();
+    const { id } = await params;
+
     const stmt = db.prepare("UPDATE places SET deleted = 1 WHERE id = ?");
-    const result = stmt.run(params.id);
+    const result = stmt.run(id);
 
     if (result.changes === 0) {
       return NextResponse.json({ error: "Place not found" }, { status: 404 });

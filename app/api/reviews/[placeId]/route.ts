@@ -4,17 +4,19 @@ import DB from "@/lib/db";
 
 export async function GET(
   _: NextRequest,
-  { params }: { params: { placeId: string } }
+  { params }: { params: Promise<{ placeId: string }> }
 ) {
   try {
     const db = await DB();
+    const { placeId } = await params;
+
     const stmt = db.prepare(`
       SELECT reviews.*, users.username
       FROM reviews
       JOIN users ON reviews.userId = users.id
       WHERE placeId = ?
     `);
-    const reviews = stmt.all(params.placeId);
+    const reviews = stmt.all(placeId);
 
     return NextResponse.json(reviews);
   } catch (err) {
@@ -28,7 +30,7 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { placeId: string } }
+  { params }: { params: Promise<{ placeId: string }> }
 ) {
   try {
     // const user = verifyUser(req);
@@ -39,11 +41,12 @@ export async function POST(
     const db = await DB();
     const body = await req.json();
     const { userId, rating, comment } = body;
+    const { placeId } = await params;
 
     // تحقق إن كان المستخدم كتب مراجعة من قبل
     const exists = db
       .prepare(`SELECT id FROM reviews WHERE userId = ? AND placeId = ?`)
-      .get(userId, params.placeId);
+      .get(userId, placeId);
     if (exists) {
       return NextResponse.json(
         { error: "Review already exists" },
@@ -55,7 +58,7 @@ export async function POST(
       INSERT INTO reviews (userId, placeId, rating, comment)
       VALUES (?, ?, ?, ?)
     `);
-    stmt.run(userId, params.placeId, rating, comment);
+    stmt.run(userId, placeId, rating, comment);
 
     return NextResponse.json({ success: true });
   } catch (err) {
@@ -69,7 +72,7 @@ export async function POST(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { placeId: string } }
+  { params }: { params: Promise<{ placeId: string }> }
 ) {
   try {
     // const user = verifyUser(req);
@@ -80,13 +83,14 @@ export async function PUT(
     const db = await DB();
     const body = await req.json();
     const { userId, rating, comment } = body;
+    const { placeId } = await params;
 
     const stmt = db.prepare(`
       UPDATE reviews
       SET rating = ?, comment = ?, updated_at = CURRENT_TIMESTAMP
       WHERE userId = ? AND placeId = ?
     `);
-    const result = stmt.run(rating, comment, userId, params.placeId);
+    const result = stmt.run(rating, comment, userId, placeId);
 
     if (result.changes === 0) {
       return NextResponse.json({ error: "Review not found" }, { status: 404 });
@@ -104,7 +108,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { placeId: string } }
+  { params }: { params: Promise<{ placeId: string }> }
 ) {
   try {
     // const user = verifyUser(req);
@@ -114,11 +118,12 @@ export async function DELETE(
 
     const db = await DB();
     const { userId } = await req.json();
+    const { placeId } = await params;
 
     const stmt = db.prepare(
       `DELETE FROM reviews WHERE userId = ? AND placeId = ?`
     );
-    const result = stmt.run(userId, params.placeId);
+    const result = stmt.run(userId, placeId);
 
     if (result.changes === 0) {
       return NextResponse.json({ error: "Review not found" }, { status: 404 });

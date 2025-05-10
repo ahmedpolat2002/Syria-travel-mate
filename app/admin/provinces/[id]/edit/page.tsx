@@ -10,9 +10,10 @@ async function getProvince(id: string) {
 export default async function EditProvincePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const province = await getProvince(params.id);
+  const { id } = await params; // انتظار حل Promise الخاص بـ params
+  const province = await getProvince(id);
 
   if (!province) {
     return <p>Loading province...</p>;

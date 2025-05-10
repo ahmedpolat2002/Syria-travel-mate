@@ -1,4 +1,4 @@
-import SignUpPage from "@/pages/RegisterPage/SignUpPage";
+import SignUpPage from "@/pages/registerpage";
 
 export const metadata = {
   title: "Register",

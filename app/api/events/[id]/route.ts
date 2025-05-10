@@ -5,17 +5,18 @@ import { deleteImage, updateImage } from "@/lib/utils";
 
 export async function GET(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const db = await DB();
+    const { id } = await params; // انتظار حل Promise الخاص بـ params
     const stmt = db.prepare(`
       SELECT events.*, provinces.name as provinceName
       FROM events
       JOIN provinces ON events.provinceId = provinces.id
       WHERE events.id = ? AND events.deleted = 0
     `);
-    const event = stmt.get(params.id);
+    const event = stmt.get(id);
     if (!event) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
@@ -31,7 +32,11 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  {
+    params,
+  }: {
+    params: Promise<{ id: string }>;
+  }
 ) {
   const admin = verifyAdmin(req);
   if (!admin) {
@@ -40,9 +45,7 @@ export async function PUT(
 
   try {
     const db = await DB();
-    const id = params.id;
-
-    // الحصول على مسار الصورة الحالي
+    const { id } = await params; // انتظار حل Promise الخاص بـ params
     const current = db
       .prepare("SELECT image FROM events WHERE id = ?")
       .get(id) as { image: string };
@@ -51,7 +54,6 @@ export async function PUT(
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
 
-    // تحديث الصورة (أو الاحتفاظ بها)
     const { fields, newImagePath } = await updateImage(req, current.image);
 
     const stmt = db.prepare(`
@@ -85,7 +87,11 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  {
+    params,
+  }: {
+    params: Promise<{ id: string }>;
+  }
 ) {
   const admin = verifyAdmin(req);
   if (!admin)
@@ -93,9 +99,7 @@ export async function DELETE(
 
   try {
     const db = await DB();
-    const id = params.id;
-
-    // جلب مسار الصورة الحالي
+    const { id } = await params; // انتظار حل Promise الخاص بـ params
     const getImage = db
       .prepare("SELECT image FROM events WHERE id = ? AND deleted = 0")
       .get(id) as { image?: string };
@@ -104,12 +108,10 @@ export async function DELETE(
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
 
-    // حذف الصورة من السيرفر فقط
     if (getImage.image) {
       await deleteImage(getImage.image);
     }
 
-    // الحذف الناعم: تغيير قيمة الحقل deleted إلى 1
     const stmt = db.prepare("UPDATE events SET deleted = 1 WHERE id = ?");
     stmt.run(id);
 

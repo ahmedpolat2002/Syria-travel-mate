@@ -7,11 +7,11 @@ import DB from "@/lib/db";
 // Get a place type by ID
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const db = await DB();
-    const id = params.id;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
@@ -42,7 +42,7 @@ export async function GET(
 // Update an existing place type by ID
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // const admin = verifyAdmin(req);
   // if (!admin)
@@ -51,7 +51,7 @@ export async function PUT(
   try {
     const { name } = await req.json();
 
-    const id = params.id;
+    const { id } = await params;
 
     if (!id || !name || typeof name !== "string") {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
@@ -78,7 +78,7 @@ export async function PUT(
 // Delete a place type by ID
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // const admin = verifyAdmin(req);
   // if (!admin)
@@ -86,7 +86,7 @@ export async function DELETE(
 
   try {
     const db = await DB();
-    const id = params.id;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(

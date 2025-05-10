@@ -8,11 +8,11 @@ import { deleteImage, updateImage } from "@/lib/utils";
 // Get one province
 export async function GET(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const db = await DB();
 
-  const id = params.id;
+  const { id } = await params;
 
   const province = db
     .prepare("SELECT * FROM provinces WHERE id = ? AND deleted = 0")
@@ -26,7 +26,7 @@ export async function GET(
 // Update a province
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // const admin = verifyAdmin(req);
   // if (!admin)
@@ -35,8 +35,7 @@ export async function PUT(
   try {
     const db = await DB();
 
-    const id = params.id;
-
+    const { id } = await params;
     // get current path
     const current = db
       .prepare("SELECT image FROM provinces WHERE id = ?")
@@ -80,7 +79,7 @@ export async function PUT(
 // Delete a province
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // const admin = verifyAdmin(req);
   // if (!admin)
@@ -88,8 +87,7 @@ export async function DELETE(
 
   try {
     const db = await DB();
-    const id = params.id;
-
+    const { id } = await params;
     if (!id) {
       return NextResponse.json(
         { error: "Missing or invalid id" },

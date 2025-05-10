@@ -22,8 +22,14 @@ function getProvinces() {
     });
 }
 
-export default async function page({ params }: { params: { id: string } }) {
-  const event = await getEvents(params.id);
+export default async function page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  const event = await getEvents(id);
 
   const provinces = await getProvinces();
 

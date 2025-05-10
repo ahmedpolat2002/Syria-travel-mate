@@ -18,9 +18,11 @@ async function getPlaceType(id: string) {
 export default async function EditPlaceTypePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const placeType = await getPlaceType(params.id);
+  const { id } = await params;
+
+  const placeType = await getPlaceType(id);
 
   return (
     <div>

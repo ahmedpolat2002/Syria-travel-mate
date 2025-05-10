@@ -1,5 +1,3 @@
-// import LoginPage from "@/components/LoginForm/LoginPage";
-// import SignUpPage from "../../components/SignUpForm/SignUpPage";
 import styles from "./Homepage.module.css";
 import Header from "@/components/Header/Header";
 import Hero from "@/components/Hero/Hero";
@@ -13,6 +11,7 @@ function Homepage() {
     <div>
       <div className={styles.container}>
         <Header />
+
         <Hero />
         <Booking />
         <CardsSection />

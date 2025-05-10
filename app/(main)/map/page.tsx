@@ -1,4 +1,4 @@
-import MapPage from "@/pages/Map/MapPage";
+import MapPage from "@/pages/mappage";
 import React from "react";
 
 export const metadata = {
