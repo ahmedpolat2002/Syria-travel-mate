@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import DB from "@/lib/db";
 import { updateImage } from "@/lib/utils";
-// import { verifyAdmin } from "@/lib/auth";
+import { verifyAdmin } from "@/lib/auth";
 
 // Get single place by ID with type and province names
 export async function GET(
@@ -50,9 +50,9 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // const admin = verifyAdmin(req);
-  // if (!admin)
-  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const admin = verifyAdmin(req);
+  if (!admin)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const db = await DB();
@@ -110,8 +110,9 @@ export async function DELETE(
   _: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // const admin = verifyAdmin(req);
-  // if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const admin = verifyAdmin(_);
+  if (!admin)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const db = await DB();

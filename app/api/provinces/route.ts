@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import DB from "@/lib/db";
 import { handleImageUpload } from "@/lib/utils";
-// import { verifyAdmin } from "@/lib/auth";
+import { verifyAdmin } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -9,9 +9,11 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const db = await DB();
+
     const provinces = db
       .prepare("SELECT * FROM provinces WHERE deleted = 0")
       .all();
+
     return NextResponse.json(provinces);
   } catch {
     return NextResponse.json(
@@ -23,9 +25,9 @@ export async function GET() {
 
 // Create a new province
 export async function POST(req: NextRequest) {
-  //   const admin = verifyAdmin(req);
-  //   if (!admin)
-  //     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const admin = verifyAdmin(req);
+  if (!admin)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const uploadResult = await handleImageUpload(req);

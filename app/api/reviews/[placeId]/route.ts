@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import DB from "@/lib/db";
+import { verifyUser } from "@/lib/auth";
 // import { verifyUser } from "@/lib/auth";
 
 export async function GET(
@@ -33,10 +34,10 @@ export async function POST(
   { params }: { params: Promise<{ placeId: string }> }
 ) {
   try {
-    // const user = verifyUser(req);
-    // if (!user) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
+    const user = verifyUser(req);
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const db = await DB();
     const body = await req.json();
@@ -75,10 +76,10 @@ export async function PUT(
   { params }: { params: Promise<{ placeId: string }> }
 ) {
   try {
-    // const user = verifyUser(req);
-    // if (!user) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
+    const user = verifyUser(req);
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const db = await DB();
     const body = await req.json();
@@ -111,10 +112,10 @@ export async function DELETE(
   { params }: { params: Promise<{ placeId: string }> }
 ) {
   try {
-    // const user = verifyUser(req);
-    // if (!user) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
+    const user = verifyUser(req);
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const db = await DB();
     const { userId } = await req.json();

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import DB from "@/lib/db";
-// import { verifyAdmin } from "@/lib/auth";
 import { deleteImage, updateImage } from "@/lib/utils";
+import { verifyAdmin } from "@/lib/auth";
 
 // export const dynamic = "force-dynamic";
 
@@ -28,14 +28,15 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // const admin = verifyAdmin(req);
-  // if (!admin)
-  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const admin = verifyAdmin(req);
+  if (!admin)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const db = await DB();
 
     const { id } = await params;
+
     // get current path
     const current = db
       .prepare("SELECT image FROM provinces WHERE id = ?")
@@ -81,9 +82,9 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // const admin = verifyAdmin(req);
-  // if (!admin)
-  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const admin = verifyAdmin(req);
+  if (!admin)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const db = await DB();

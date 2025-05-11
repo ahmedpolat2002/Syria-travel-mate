@@ -9,17 +9,21 @@ export async function GET(
 ) {
   try {
     const db = await DB();
-    const { id } = await params; // انتظار حل Promise الخاص بـ params
+    const { id } = await params;
+
     const stmt = db.prepare(`
       SELECT events.*, provinces.name as provinceName
       FROM events
       JOIN provinces ON events.provinceId = provinces.id
       WHERE events.id = ? AND events.deleted = 0
     `);
+
     const event = stmt.get(id);
+
     if (!event) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
+
     return NextResponse.json(event);
   } catch (err) {
     console.error("Failed to fetch event:", err);
@@ -45,7 +49,8 @@ export async function PUT(
 
   try {
     const db = await DB();
-    const { id } = await params; // انتظار حل Promise الخاص بـ params
+    const { id } = await params;
+
     const current = db
       .prepare("SELECT image FROM events WHERE id = ?")
       .get(id) as { image: string };
@@ -59,7 +64,7 @@ export async function PUT(
     const stmt = db.prepare(`
       UPDATE events SET
         title = ?, description = ?, provinceId = ?, image = ?, startDate = ?, endDate = ?,
-        latitude = ?, longitude = ?
+        latitude = ?, longitude = ?, status = ?
       WHERE id = ?
     `);
 
@@ -72,6 +77,7 @@ export async function PUT(
       fields.endDate?.[0],
       parseFloat(fields.latitude?.[0] || "0"),
       parseFloat(fields.longitude?.[0] || "0"),
+      fields.status,
       id
     );
 
@@ -99,7 +105,8 @@ export async function DELETE(
 
   try {
     const db = await DB();
-    const { id } = await params; // انتظار حل Promise الخاص بـ params
+    const { id } = await params;
+
     const getImage = db
       .prepare("SELECT image FROM events WHERE id = ? AND deleted = 0")
       .get(id) as { image?: string };

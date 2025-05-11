@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import DB from "@/lib/db";
-// import { verifyAdmin } from "@/lib/auth";
+import { verifyAdmin } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -22,9 +22,9 @@ export async function GET() {
 
 // Create a new place type
 export async function POST(req: NextRequest) {
-  // const admin = verifyAdmin(req);
-  // if (!admin)
-  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const admin = verifyAdmin(req);
+  if (!admin)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const { name } = await req.json();

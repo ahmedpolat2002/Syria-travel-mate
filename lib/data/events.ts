@@ -1,4 +1,3 @@
-// lib/data/events.ts
 import DB from "@/lib/db";
 import { Event } from "@/types/events";
 import { Provinces } from "@/types/provinces";

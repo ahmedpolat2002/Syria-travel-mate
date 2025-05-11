@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import DB from "@/lib/db";
 import { handleImageUpload } from "@/lib/utils";
-// import { verifyAdmin } from "@/lib/auth";
+import { verifyAdmin } from "@/lib/auth";
 
 export async function GET() {
   try {
     const db = await DB();
+
     const stmt = db.prepare(`
       SELECT events.*, provinces.name as provinceName
       FROM events
@@ -13,6 +14,7 @@ export async function GET() {
       WHERE events.deleted = 0
     `);
     const events = stmt.all();
+
     return NextResponse.json(events);
   } catch (err) {
     console.error("Failed to fetch events:", err);
@@ -24,9 +26,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  // const admin = verifyAdmin(req);
-  // if (!admin)
-  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const admin = verifyAdmin(req);
+  if (!admin)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const uploadResult = await handleImageUpload(req);

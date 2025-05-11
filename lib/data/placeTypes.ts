@@ -1,4 +1,3 @@
-// lib/data/placeTypes.ts
 import DB from "@/lib/db";
 import { PlaceType } from "@/types/placeTypes";
 

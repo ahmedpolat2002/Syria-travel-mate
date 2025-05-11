@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import DB from "@/lib/db";
 import { verifyUser } from "@/lib/auth";
 
-// ✅ GET: هل المستخدم أعجب بالمكان؟ أو كم عدد الإعجابات؟
+// GET: هل المستخدم أعجب بالمكان؟ أو كم عدد الإعجابات؟
 export async function GET(
   req: NextRequest,
   {
@@ -42,7 +42,7 @@ export async function GET(
   }
 }
 
-// ✅ POST: إضافة إعجاب
+// POST: إضافة إعجاب
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ placeId: string }> }
