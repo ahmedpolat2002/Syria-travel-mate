@@ -20,52 +20,30 @@ const markerIcon = new L.Icon({
 });
 
 interface Location {
+  id: string;
   name: string;
   lat: number;
   lng: number;
-  type: "مطعم" | "فندق" | "حديقة";
+  type: string;
   isGovernorate?: boolean;
 }
 
-interface Governorate {
+interface DynamicPlace {
+  id: number;
   name: string;
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
+  typeName: string;
+  provinceName: string;
 }
 
-const governorates: Governorate[] = [
-  { name: "دمشق", lat: 33.5138, lng: 36.2765 },
-  { name: "ريف دمشق", lat: 33.5167, lng: 36.8667 },
-  { name: "القنيطرة", lat: 33.1258, lng: 35.8245 },
-  { name: "درعا", lat: 32.6257, lng: 36.106 },
-  { name: "السويداء", lat: 32.704, lng: 36.5649 },
-  { name: "حمص", lat: 34.7314, lng: 36.7096 },
-  { name: "حماة", lat: 35.1318, lng: 36.754 },
-  { name: "طرطوس", lat: 34.889, lng: 35.8866 },
-  { name: "اللاذقية", lat: 35.5196, lng: 35.7915 },
-  { name: "إدلب", lat: 35.9306, lng: 36.6339 },
-  { name: "حلب", lat: 36.2021, lng: 37.1343 },
-  { name: "الرقة", lat: 35.9594, lng: 39.0078 },
-  { name: "دير الزور", lat: 35.3356, lng: 40.1406 },
-];
-
-const locationData: { [govName: string]: Location[] } = {
-  دمشق: [
-    { name: "مطعم السلام", lat: 33.5135, lng: 36.277, type: "مطعم" },
-    { name: "فندق الشام", lat: 33.5142, lng: 36.2768, type: "فندق" },
-    { name: "حديقة تشرين", lat: 33.512, lng: 36.275, type: "حديقة" },
-  ],
-  حلب: [
-    { name: "مطعم الحلابي", lat: 36.204, lng: 37.133, type: "مطعم" },
-    { name: "فندق القلعة", lat: 36.203, lng: 37.135, type: "فندق" },
-    { name: "حديقة السبيل", lat: 36.205, lng: 37.134, type: "حديقة" },
-  ],
-  حمص: [
-    { name: "مطعم البستان", lat: 34.732, lng: 36.71, type: "مطعم" },
-    { name: "فندق حمص الكبير", lat: 34.731, lng: 36.709, type: "فندق" },
-    { name: "حديقة المستقبل", lat: 34.733, lng: 36.711, type: "حديقة" },
-  ],
-};
+interface Events {
+  id: number;
+  title: string;
+  latitude: number;
+  longitude: number;
+  provinceName: string;
+}
 
 const MapWithSidebar: React.FC = () => {
   const [center, setCenter] = useState<[number, number]>([33.5138, 36.2765]);
@@ -73,6 +51,34 @@ const MapWithSidebar: React.FC = () => {
     null
   );
   const [filters, setFilters] = useState<string[]>([]);
+  const [places, setPlaces] = useState<DynamicPlace[]>([]);
+  const [events, setEvents] = useState<Events[]>([]);
+  const [filterOptions, setFilterOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const resPlaces = await fetch("/api/places");
+        const resEvents = await fetch("/api/events");
+
+        const dataPlaces = await resPlaces.json();
+        const dataEvents = await resEvents.json();
+
+        setPlaces(dataPlaces);
+        setEvents(dataEvents);
+
+        const resTypes = await fetch("/api/types");
+        const dataTypes = await resTypes.json();
+
+        const placeTypes = dataTypes.map((t: { name: string }) => t.name); // ← جلب الأنواع من الجدول مباشرة
+        const eventTypes = ["فعالية"];
+        setFilterOptions([...placeTypes, ...eventTypes]);
+      } catch (err) {
+        console.error("Failed to fetch map data:", err);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleFilterChange = (newFilters: string[]) => {
     setFilters(newFilters);
@@ -91,6 +97,7 @@ const MapWithSidebar: React.FC = () => {
           selectedLocation={selectedLocation}
           filters={filters}
           onFilterChange={handleFilterChange}
+          filterOptions={filterOptions}
         />
 
         <div className={styles.map}>
@@ -105,52 +112,62 @@ const MapWithSidebar: React.FC = () => {
               attribution="&copy; OpenStreetMap contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+            {/* ماركرات الأماكن */}
+            {places
+              .filter(
+                (place) =>
+                  filters.length === 0 || filters.includes(place.typeName)
+              )
 
-            {/* ماركرات المحافظات */}
-            {governorates.map((gov) => (
-              <Marker
-                key={gov.name}
-                position={[gov.lat, gov.lng]}
-                icon={markerIcon}
-                eventHandlers={{
-                  click: () => {
-                    setCenter([gov.lat, gov.lng]);
-                    setSelectedLocation({
-                      name: gov.name,
-                      lat: gov.lat,
-                      lng: gov.lng,
-                      type: "حديقة", // قيمة مؤقتة فقط
-                      isGovernorate: true,
-                    });
-                  },
-                }}
-              >
-                <Popup>{gov.name}</Popup>
-              </Marker>
-            ))}
+              .map((place) => (
+                <Marker
+                  key={place.id}
+                  position={[place.latitude, place.longitude]}
+                  icon={markerIcon}
+                  eventHandlers={{
+                    click: () =>
+                      setSelectedLocation({
+                        id: place.id.toString(),
+                        name: place.name,
+                        lat: place.latitude,
+                        lng: place.longitude,
+                        type: place.typeName,
+                        isGovernorate: false,
+                      }),
+                  }}
+                >
+                  <Popup>
+                    {place.name} ({place.typeName}) <br />
+                    {place.provinceName}
+                  </Popup>
+                </Marker>
+              ))}
 
-            {/* ماركرات الأماكن حسب الفلتر */}
-            {governorates.map((gov) =>
-              (locationData[gov.name] || [])
-                .filter(
-                  (loc) => filters.length === 0 || filters.includes(loc.type)
-                )
-                .map((loc) => (
-                  <Marker
-                    key={loc.name}
-                    position={[loc.lat, loc.lng]}
-                    icon={markerIcon}
-                    eventHandlers={{
-                      click: () =>
-                        setSelectedLocation({ ...loc, isGovernorate: false }),
-                    }}
-                  >
-                    <Popup>
-                      {loc.name} ({loc.type})
-                    </Popup>
-                  </Marker>
-                ))
-            )}
+            {events
+              .filter(() => filters.length === 0 || filters.includes("فعالية"))
+              .map((event) => (
+                <Marker
+                  key={`event-${event.id}`}
+                  position={[event.latitude, event.longitude]}
+                  icon={markerIcon}
+                  eventHandlers={{
+                    click: () =>
+                      setSelectedLocation({
+                        id: event.id.toString(),
+                        name: event.title,
+                        lat: event.latitude,
+                        lng: event.longitude,
+                        type: "فعالية",
+                        isGovernorate: false,
+                      }),
+                  }}
+                >
+                  <Popup>
+                    {event.title} <br />
+                    {event.provinceName}
+                  </Popup>
+                </Marker>
+              ))}
           </MapContainer>
         </div>
       </div>

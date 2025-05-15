@@ -5,10 +5,10 @@ import Footer from "@/components/Footer/Footer";
 
 async function getPlaceData(id: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/places/${id}`
-    // {
-    //   next: { revalidate: 10 }, // ISR
-    // }
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/places/${id}`,
+    {
+      next: { revalidate: 10 }, // ISR
+    }
   );
   if (!res.ok) throw new Error("Failed to fetch place");
 
