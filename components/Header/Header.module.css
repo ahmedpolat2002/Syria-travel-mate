@@ -1,118 +1,159 @@
 .header {
+  background-color: var(--color-dark--1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f4efe7;
-  padding: 10px 0px;
-  font-family: Arial, sans-serif;
-  width: 100%;
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 1000;
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.userName {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-right: 20px;
-  color: rgb(242, 108, 5);
+.logo h1 {
+  margin: 0;
+  color: var(--color-brand--1);
+  font-size: 1.8rem;
 }
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.logoIcon {
-  color: rgb(242, 108, 5);
-}
-
-.logoText {
-  color: black;
-}
-
 .nav {
   display: flex;
-  gap: 50px;
+  align-items: center;
+}
+.nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.navItem {
+.nav li {
+  margin-left: 2rem;
+}
+
+.nav a {
+  color: var(--color-light--2);
   text-decoration: none;
-  color: black;
-  font-size: 20px;
-  font-weight: 400;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-weight: 500;
+  transition: color 0.3s;
 }
 
-.active {
-  color: rgb(242, 108, 5);
-  font-weight: bold;
+.nav a:hover {
+  color: var(--color-brand--1);
 }
 
-.searchBox {
+.buttonGroup {
   display: flex;
   align-items: center;
-  background-color: white;
-  padding: 8px 15px;
-  border-radius: 30px;
-  border: 1px solid #ddd;
-  width: 220px;
-  background-color: transparent;
-  border: solid 2px rgb(217 217 217);
+  margin-left: 2rem;
 }
 
-.searchInput {
+.langButton,
+.authButton {
+  background-color: var(--color-brand--2);
+  color: white;
   border: none;
-  outline: none;
-  flex: 1;
-  font-size: 0.95rem;
-  background-color: transparent;
-}
-
-.searchIcon {
-  color: rgb(242, 108, 5);
-}
-
-.searchInput::placeholder {
-  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .authButton {
-  background-color: transparent;
-  border: 1px solid #ccc;
-  padding: 6px 12px;
-  margin-left: 10px;
-  cursor: pointer;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  color: rgb(242, 108, 5);
-  transition: all 0.2s;
+  background-color: var(--color-dark--2);
+  margin-right: 1rem;
 }
 
 .authButton:hover {
-  background-color: #f3eadb;
+  background-color: var(--color-brand--1);
 }
 
-.logoutButton {
-  background-color: rgb(242, 108, 5);
-  color: white;
-  padding: 6px 12px;
+.langButton:hover {
+  background-color: var(--color-brand--1);
+}
+
+.menuToggle {
+  display: none;
+  background: none;
   border: none;
-  border-radius: 6px;
+  font-size: 1.5rem;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 0.9rem;
-  transition: background-color 0.3s;
+  color: var(--color-light--2);
 }
 
-.logoutButton:hover {
-  background-color: rgb(217, 89, 0);
-  transition: background-color 0.3s;
+/* RTL support */
+:global([dir="rtl"]) .nav li {
+  margin-left: 0;
+  margin-right: 2rem;
+}
+
+:global([dir="rtl"]) .buttonGroup {
+  margin-left: 0;
+  margin-right: 2rem;
+}
+
+:global([dir="rtl"]) .authButton {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .menuToggle {
+    display: block;
+  }
+
+  .nav {
+    position: fixed;
+    top: 70px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background-color: var(--color-dark--1);
+    flex-direction: column;
+    padding: 2rem;
+    transition: left 0.3s ease;
+  }
+
+  .nav.active {
+    left: 0;
+  }
+
+  .nav ul {
+    flex-direction: column;
+  }
+
+  .nav li {
+    margin: 1rem 0;
+  }
+
+  .buttonGroup {
+    margin: 1rem 0;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .authButton,
+  .langButton {
+    margin: 0;
+  }
+
+  /* RTL support for mobile */
+  :global([dir="rtl"]) .nav {
+    left: auto;
+    right: -100%;
+  }
+
+  :global([dir="rtl"]) .nav.active {
+    left: auto;
+    right: 0;
+  }
 }

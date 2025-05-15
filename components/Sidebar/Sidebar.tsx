@@ -28,6 +28,7 @@ export default function Sidebar() {
     { label: "أنواع الأماكن", icon: <FiList />, path: "/admin/places-types" },
     { label: "الفعاليات", icon: <FiCalendar />, path: "/admin/events" },
     { label: "التقييمات", icon: <FiStar />, path: "/admin/reviews" },
+    { label: "جدول التقييمات", icon: <FiStar />, path: "/admin/reviews/table" },
     { label: "الإعدادات", icon: <FiSettings />, path: "/admin/settings" },
   ];
 

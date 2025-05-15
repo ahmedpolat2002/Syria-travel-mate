@@ -38,10 +38,11 @@ export async function POST(
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const userId = user.id;
 
     const db = await DB();
     const body = await req.json();
-    const { userId, rating, comment } = body;
+    const { rating, comment } = body;
     const { placeId } = await params;
 
     // تحقق إن كان المستخدم كتب مراجعة من قبل
@@ -80,10 +81,11 @@ export async function PUT(
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const userId = user.id;
 
     const db = await DB();
     const body = await req.json();
-    const { userId, rating, comment } = body;
+    const { rating, comment } = body;
     const { placeId } = await params;
 
     const stmt = db.prepare(`
@@ -116,9 +118,9 @@ export async function DELETE(
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const userId = user.id;
 
     const db = await DB();
-    const { userId } = await req.json();
     const { placeId } = await params;
 
     const stmt = db.prepare(
