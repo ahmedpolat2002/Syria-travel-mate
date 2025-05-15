@@ -1,0 +1,108 @@
+.section {
+  padding: 5rem 2rem;
+  background-color: var(--color-dark--0);
+  color: var(--color-light--2);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionTitle h2 {
+  font-size: 2.5rem;
+  color: var(--color-brand--1);
+  margin-bottom: 1rem;
+}
+
+.sectionTitle p {
+  color: var(--color-light--1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.destinationsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.destinationCard {
+  background-color: var(--color-dark--1);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.destinationCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.cardImage {
+  height: 250px;
+  overflow: hidden;
+}
+
+.cardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.destinationCard:hover .cardImage img {
+  transform: scale(1.1);
+}
+
+.cardContent {
+  padding: 1.5rem;
+}
+
+.cardContent h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-brand--1);
+}
+
+.cardContent p {
+  color: var(--color-light--1);
+  margin-bottom: 1rem;
+}
+
+.cardButton {
+  display: inline-block;
+  background-color: var(--color-brand--2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.cardButton:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .destinationsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .destinationsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sectionTitle h2 {
+    font-size: 2rem;
+  }
+}

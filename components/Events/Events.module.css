@@ -1,0 +1,132 @@
+.section {
+  padding: 5rem 2rem;
+  background-color: var(--color-dark--1);
+  color: var(--color-light--2);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionTitle h2 {
+  font-size: 2.5rem;
+  color: var(--color-brand--1);
+  margin-bottom: 1rem;
+}
+
+.sectionTitle p {
+  color: var(--color-light--1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.eventsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.eventCard {
+  background-color: var(--color-dark--2);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.eventCard:hover {
+  transform: translateY(-5px);
+}
+
+.cardImage {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.cardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.eventDate {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: var(--color-brand--2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.cardContent {
+  padding: 1.5rem;
+}
+
+.cardContent h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-brand--1);
+}
+
+.cardContent p {
+  color: var(--color-light--1);
+  margin-bottom: 1rem;
+}
+
+.eventMeta {
+  display: flex;
+  align-items: center;
+  color: var(--color-light--1);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.eventMeta > div {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.eventMeta svg {
+  margin-right: 0.5rem;
+}
+
+.cardButton {
+  display: inline-block;
+  background-color: var(--color-brand--2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.cardButton:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .eventsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .eventsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sectionTitle h2 {
+    font-size: 2rem;
+  }
+}

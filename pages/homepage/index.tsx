@@ -1,25 +1,24 @@
-import styles from "./Homepage.module.css";
 import Header from "@/components/Header/Header";
-import Hero from "@/components/Hero/Hero";
-import Booking from "@/components/Booking/Booking";
-import CardsSection from "@/components/card/CardsSection";
-import EventSection from "@/components/EventSlider/EventSection";
+import Home from "@/components/Home/Home";
+import Destinations from "@/components/Destinations/Destinations";
+import Events from "@/components/Events/Events";
+import About from "@/components/About/About";
+import Contact from "@/components/Contact/Contact";
 import Footer from "@/components/Footer/Footer";
 
 function Homepage() {
   return (
-    <div>
-      <div className={styles.container}>
-        <Header />
-
-        <Hero />
-        <Booking />
-        <CardsSection />
-        <EventSection />
-
-        <Footer />
-      </div>
-    </div>
+    <>
+      <Header />
+      <main>
+        <Home />
+        <Destinations />
+        <Events />
+        <About />
+        <Contact />
+      </main>
+      <Footer />
+    </>
   );
 }
 

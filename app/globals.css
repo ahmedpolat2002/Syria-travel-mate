@@ -83,13 +83,13 @@ body {
   }
 } */
 
-.card {
+/* .card {
   padding: 2em;
 }
 
 .read-the-docs {
   color: #888;
-}
+} */
 
 /* Global styles for TravelMate website */
 
@@ -100,7 +100,7 @@ body {
   --color-dark--1: #2d3439;
   --color-dark--2: #42484d;
   --color-light--1: #aaa;
-  --color-light--2: #ececec;
+  --color-light--2: #fafafa;
   --color-light--3: #d6dee0;
 
   /* Mapping to our application */

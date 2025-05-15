@@ -1,0 +1,5 @@
+.pageContainer {
+  /* padding: 2rem 0; */
+  background-color: var(--color-light--3);
+  min-height: 100vh;
+}
