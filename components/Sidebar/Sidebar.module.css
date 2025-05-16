@@ -5,8 +5,8 @@
   transition: width 0.3s ease;
   overflow: hidden;
   padding-top: 20px;
-  margin-right: 20px;
   box-shadow: 1px 0 1px rgba(0, 0, 0, 0.1);
+  direction: rtl;
 }
 
 .closed {
@@ -14,6 +14,9 @@
 }
 
 .menuButton {
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
   cursor: pointer;
   color: rgb(242, 108, 5);
   font-size: 24px;
@@ -29,6 +32,7 @@
 .menuItem {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   color: rgb(208, 217, 203);
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
@@ -46,7 +50,10 @@
 
 .icon {
   font-size: 20px;
-  margin-right: 10px;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .label {

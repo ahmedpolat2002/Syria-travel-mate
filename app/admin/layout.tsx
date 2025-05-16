@@ -1,5 +1,5 @@
-import Sidebar from "@/components/Sidebar/Sidebar";
 import React, { Suspense } from "react";
+import Sidebar from "@/components/Sidebar/Sidebar";
 
 export const metadata = {
   title: "Admin Dashboard",
@@ -12,17 +12,19 @@ export default function layout({ children }: { children: React.ReactNode }) {
       style={{
         display: "flex",
         height: "100vh",
+        // gap: 10,
       }}
     >
-      <Sidebar />
       <div
         style={{
-          margin: 10,
+          paddingRight: 10,
           flex: 1,
+          overflowY: "auto",
         }}
       >
         <Suspense>{children}</Suspense>
       </div>
+      <Sidebar />
     </div>
   );
 }

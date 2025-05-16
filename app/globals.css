@@ -115,12 +115,15 @@ body {
   --gray: var(--color-light--1);
   --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
+
+  --font-ibm-arabic: "IBM Plex Sans Arabic", sans-serif;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-weight: 600;
 }
 
 html {
@@ -128,7 +131,7 @@ html {
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-ibm-arabic);
   line-height: 1.6;
   color: var(--text-color);
   overflow-x: hidden;
