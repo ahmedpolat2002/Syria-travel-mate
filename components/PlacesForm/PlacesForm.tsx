@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./PlacesForm.module.css";
 import { toast } from "react-hot-toast";
+import dynamic from "next/dynamic";
+const LocationPickerMap = dynamic(
+  () => import("../LocationPickerMap/LocationPickerMap"),
+  { ssr: false }
+);
 
 type Place = {
   id?: number;
@@ -46,9 +51,17 @@ export default function PlaceForm({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  const [latitude, setLatitude] = useState<number | null>(
+    place?.latitude ?? null
+  );
+  const [longitude, setLongitude] = useState<number | null>(
+    place?.longitude ?? null
+  );
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -109,113 +122,138 @@ export default function PlaceForm({
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <h2>{place ? "تعديل مكان" : "إضافة مكان جديد"}</h2>
+    <>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <h2>{place ? "تعديل مكان" : "إضافة مكان جديد"}</h2>
 
-      <div className={styles.grid}>
-        <div>
-          <label>الاسم</label>
-          <input
-            type="text"
-            {...register("name", { required: "الاسم مطلوب" })}
-          />
-          {errors.name && (
-            <span className={styles.error}>{errors.name.message}</span>
-          )}
+        <div className={styles.grid}>
+          <div>
+            <label>الاسم</label>
+            <input
+              type="text"
+              {...register("name", { required: "الاسم مطلوب" })}
+            />
+            {errors.name && (
+              <span className={styles.error}>{errors.name.message}</span>
+            )}
+          </div>
+
+          <div>
+            <label>الوصف</label>
+            <textarea
+              {...register("description", { required: "الوصف مطلوب" })}
+            />
+            {errors.description && (
+              <span className={styles.error}>{errors.description.message}</span>
+            )}
+          </div>
+
+          <div>
+            <label>خط العرض</label>
+            <input
+              type="number"
+              step="any"
+              {...register("latitude", { required: "خط العرض مطلوب" })}
+            />
+            {errors.latitude && (
+              <span className={styles.error}>{errors.latitude.message}</span>
+            )}
+          </div>
+
+          <div>
+            <label>خط الطول</label>
+            <input
+              type="number"
+              step="any"
+              {...register("longitude", { required: "خط الطول مطلوب" })}
+            />
+            {errors.longitude && (
+              <span className={styles.error}>{errors.longitude.message}</span>
+            )}
+          </div>
+
+          <div>
+            <label>حالة الأمان</label>
+            <select
+              {...register("safetyStatus", { required: "حالة الأمان مطلوبة" })}
+            >
+              <option value="safe">آمن</option>
+              <option value="warning">تحذير</option>
+              <option value="danger">خطر</option>
+            </select>
+            {errors.safetyStatus && (
+              <span className={styles.error}>
+                {errors.safetyStatus.message}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <label>النوع</label>
+            <select {...register("typeId", { required: "النوع مطلوب" })}>
+              <option value="">اختر النوع</option>
+              {types.map((type) => (
+                <option key={type.id} value={type.id}>
+                  {type.name}
+                </option>
+              ))}
+            </select>
+            {errors.typeId && (
+              <span className={styles.error}>{errors.typeId.message}</span>
+            )}
+          </div>
+
+          <div>
+            <label>المحافظة</label>
+            <select
+              {...register("provinceId", { required: "المحافظة مطلوبة" })}
+            >
+              <option value="">اختر المحافظة</option>
+              {provinces.map((province) => (
+                <option key={province.id} value={province.id}>
+                  {province.name}
+                </option>
+              ))}
+            </select>
+            {errors.provinceId && (
+              <span className={styles.error}>{errors.provinceId.message}</span>
+            )}
+          </div>
+
+          <div>
+            <label>الصورة</label>
+            <input type="file" accept="image/*" {...register("image")} />
+          </div>
         </div>
 
-        <div>
-          <label>الوصف</label>
-          <textarea {...register("description", { required: "الوصف مطلوب" })} />
-          {errors.description && (
-            <span className={styles.error}>{errors.description.message}</span>
-          )}
-        </div>
+        {place?.image && (
+          <div className={styles.oldImage}>
+            <p>الصورة الحالية:</p>
+            <img src={place.image} alt={place.name} />
+          </div>
+        )}
 
-        <div>
-          <label>خط العرض</label>
-          <input
-            type="number"
-            step="any"
-            {...register("latitude", { required: "خط العرض مطلوب" })}
-          />
-          {errors.latitude && (
-            <span className={styles.error}>{errors.latitude.message}</span>
-          )}
-        </div>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={loading}
+        >
+          {loading ? "جاري المعالجة..." : place ? "تحديث" : "إضافة"}
+        </button>
+      </form>
 
-        <div>
-          <label>خط الطول</label>
-          <input
-            type="number"
-            step="any"
-            {...register("longitude", { required: "خط الطول مطلوب" })}
-          />
-          {errors.longitude && (
-            <span className={styles.error}>{errors.longitude.message}</span>
-          )}
-        </div>
+      <LocationPickerMap
+        onSelect={(lat, lng) => {
+          setLatitude(lat);
+          setLongitude(lng);
 
-        <div>
-          <label>حالة الأمان</label>
-          <select
-            {...register("safetyStatus", { required: "حالة الأمان مطلوبة" })}
-          >
-            <option value="safe">آمن</option>
-            <option value="warning">تحذير</option>
-            <option value="danger">خطر</option>
-          </select>
-          {errors.safetyStatus && (
-            <span className={styles.error}>{errors.safetyStatus.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label>النوع</label>
-          <select {...register("typeId", { required: "النوع مطلوب" })}>
-            <option value="">اختر النوع</option>
-            {types.map((type) => (
-              <option key={type.id} value={type.id}>
-                {type.name}
-              </option>
-            ))}
-          </select>
-          {errors.typeId && (
-            <span className={styles.error}>{errors.typeId.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label>المحافظة</label>
-          <select {...register("provinceId", { required: "المحافظة مطلوبة" })}>
-            <option value="">اختر المحافظة</option>
-            {provinces.map((province) => (
-              <option key={province.id} value={province.id}>
-                {province.name}
-              </option>
-            ))}
-          </select>
-          {errors.provinceId && (
-            <span className={styles.error}>{errors.provinceId.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label>الصورة</label>
-          <input type="file" accept="image/*" {...register("image")} />
-        </div>
-      </div>
-
-      {place?.image && (
-        <div className={styles.oldImage}>
-          <p>الصورة الحالية:</p>
-          <img src={place.image} alt={place.name} />
-        </div>
-      )}
-
-      <button type="submit" className={styles.submitButton} disabled={loading}>
-        {loading ? "جاري المعالجة..." : place ? "تحديث" : "إضافة"}
-      </button>
-    </form>
+          setValue("latitude", lat);
+          setValue("longitude", lng);
+        }}
+        initialPosition={
+          latitude && longitude ? [latitude, longitude] : undefined
+        }
+      />
+    </>
   );
 }

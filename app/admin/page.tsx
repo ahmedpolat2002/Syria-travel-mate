@@ -183,8 +183,9 @@ export default function AdminDashboard() {
 
   const formatMonthLabel = (month: string): string => {
     if (!month) return "";
-    const [year, monthNum] = month.split("-") as [string, string];
-    return `${monthNum}/${year.slice(2)}`;
+    const [year, monthNum] = month.split("-");
+    const date = new Date(`${year}-${monthNum}-01`);
+    return date.toLocaleString("en-US", { month: "short", year: "numeric" }); // "May 2025"
   };
 
   return (

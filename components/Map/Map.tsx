@@ -19,6 +19,14 @@ const markerIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
+// أيقونة المحافظة
+const governorateIcon = new L.Icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/535/535239.png",
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -30],
+});
+
 interface Location {
   id: string;
   name: string;
@@ -53,7 +61,36 @@ const MapWithSidebar: React.FC = () => {
   const [filters, setFilters] = useState<string[]>([]);
   const [places, setPlaces] = useState<DynamicPlace[]>([]);
   const [events, setEvents] = useState<Events[]>([]);
+  const [governorates, setGovernorates] = useState<Location[]>([]);
   const [filterOptions, setFilterOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchGovernorates = async () => {
+      try {
+        const res = await fetch("/api/provinces");
+        const data = await res.json();
+
+        interface Province {
+          id: number;
+          name: string;
+          latitude: number;
+          longitude: number;
+        }
+        const formatted = data.map((item: Province) => ({
+          id: item.id.toString(),
+          name: item.name,
+          lat: item.latitude,
+          lng: item.longitude,
+          type: "محافظة",
+          isGovernorate: true,
+        }));
+        setGovernorates(formatted);
+      } catch (err) {
+        console.error("Failed to fetch provinces:", err);
+      }
+    };
+    fetchGovernorates();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,6 +135,7 @@ const MapWithSidebar: React.FC = () => {
           filters={filters}
           onFilterChange={handleFilterChange}
           filterOptions={filterOptions}
+          governorates={governorates}
         />
 
         <div className={styles.map}>
@@ -112,7 +150,20 @@ const MapWithSidebar: React.FC = () => {
               attribution="&copy; OpenStreetMap contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {/* ماركرات الأماكن */}
+
+            {governorates.map((gov) => (
+              <Marker
+                key={`gov-${gov.id}`}
+                position={[gov.lat, gov.lng]}
+                icon={governorateIcon}
+                eventHandlers={{
+                  click: () => setSelectedLocation(gov),
+                }}
+              >
+                <Popup>{gov.name} (محافظة)</Popup>
+              </Marker>
+            ))}
+
             {places
               .filter(
                 (place) =>

@@ -34,20 +34,10 @@ interface PlaceDetailsProps {
 }
 
 const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place }) => {
-  const handleRatingChange = (newRating: number) => {
-    console.log(`Rating changed to ${newRating}`);
-    // Here you would typically update the rating in your backend
-  };
-
-  // const handleLikeChange = (liked: boolean) => {
-  //   console.log(`Place ${liked ? "liked" : "unliked"}`);
-  //   // Here you would typically update the like status in your backend
+  // const handleAddComment = (comment: { username: string; text: string }) => {
+  //   console.log("New comment added:", comment);
+  //   // Here you would typically send the new comment to your backend
   // };
-
-  const handleAddComment = (comment: { username: string; text: string }) => {
-    console.log("New comment added:", comment);
-    // Here you would typically send the new comment to your backend
-  };
 
   return (
     <div className={styles.placeDetails}>
@@ -79,10 +69,7 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place }) => {
         </div>
 
         <div className={styles.ratingSection}>
-          <StarRating
-            initialRating={place.rating}
-            onChange={handleRatingChange}
-          />
+          <StarRating initialRating={place.rating} readOnly />
           <LikeButton placeId={place.id} />
         </div>
 
@@ -93,7 +80,7 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place }) => {
 
         <Comments
           initialComments={place.comments}
-          onAddComment={handleAddComment}
+          // onAddComment={handleAddComment}
           placeId={place.id}
         />
       </div>

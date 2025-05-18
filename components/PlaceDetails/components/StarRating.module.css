@@ -20,3 +20,14 @@
   font-size: 0.9rem;
   color: var(--color-dark--2);
 }
+
+/* ⭐ عند التقييم للقراءة فقط */
+.readOnly .star {
+  cursor: default; /* لا يظهر شكل اليد */
+}
+
+.ratingText {
+  margin-left: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}

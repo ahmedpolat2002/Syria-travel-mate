@@ -27,7 +27,8 @@ const StarRating: React.FC<StarRatingProps> = ({
   };
 
   return (
-    <div className={styles.starRating}>
+    <div className={`${styles.starRating} ${readOnly ? styles.readOnly : ""}`}>
+      {" "}
       {[...Array(totalStars)].map((_, index) => {
         const starValue = index + 1;
         return (

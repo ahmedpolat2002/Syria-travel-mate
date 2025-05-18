@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   FaMapMarkerAlt,
   FaPhoneAlt,
@@ -14,16 +13,13 @@ import {
 import styles from "./Footer.module.css";
 
 const Footer: React.FC = () => {
-  const { t } = useTranslation();
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real application, you would send this to a server
     console.log("Newsletter subscription:", email);
     setEmail("");
-    // Show success message (in a real app)
-    alert(t("newsletterSuccess"));
+    alert("Thank you for subscribing to our newsletter!"); // رسالة نجاح
   };
 
   return (
@@ -35,37 +31,40 @@ const Footer: React.FC = () => {
               <h2>TravelMate</h2>
             </div>
             <div className={styles.footerAbout}>
-              <p>{t("footerAbout")}</p>
+              <p>
+                Your trusted travel companion, helping you discover amazing
+                places and unforgettable experiences.
+              </p>
             </div>
           </div>
 
           <div className={styles.footerColumn}>
-            <h3>{t("quickLinks")}</h3>
+            <h3>Quick Links</h3>
             <div className={styles.footerLinks}>
               <ul>
                 <li>
                   <a href="#home">
-                    <FaChevronRight /> {t("home")}
+                    <FaChevronRight /> Home
                   </a>
                 </li>
                 <li>
                   <a href="#destinations">
-                    <FaChevronRight /> {t("destinations")}
+                    <FaChevronRight /> Destinations
                   </a>
                 </li>
                 <li>
                   <a href="#events">
-                    <FaChevronRight /> {t("events")}
+                    <FaChevronRight /> Events
                   </a>
                 </li>
                 <li>
                   <a href="#about">
-                    <FaChevronRight /> {t("about")}
+                    <FaChevronRight /> About
                   </a>
                 </li>
                 <li>
                   <a href="#contact">
-                    <FaChevronRight /> {t("contact")}
+                    <FaChevronRight /> Contact
                   </a>
                 </li>
               </ul>
@@ -73,11 +72,11 @@ const Footer: React.FC = () => {
           </div>
 
           <div className={styles.footerColumn}>
-            <h3>{t("contactInfo")}</h3>
+            <h3>Contact Info</h3>
             <div className={styles.footerContact}>
               <p>
                 <FaMapMarkerAlt />
-                {t("addressLine1")}, {t("addressLine2")}
+                123 Main Street, Damascus, Syria
               </p>
               <p>
                 <FaPhoneAlt />
@@ -102,13 +101,13 @@ const Footer: React.FC = () => {
           </div>
 
           <div className={styles.footerColumn}>
-            <h3>{t("newsletter")}</h3>
+            <h3>Newsletter</h3>
             <div className={styles.footerNewsletter}>
-              <p>{t("newsletterText")}</p>
+              <p>Subscribe to our newsletter to get the latest updates.</p>
               <form onSubmit={handleSubmit} className={styles.newsletterForm}>
                 <input
                   type="email"
-                  placeholder={t("emailPlaceholder")}
+                  placeholder="Enter your email"
                   className={styles.newsletterInput}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -124,8 +123,7 @@ const Footer: React.FC = () => {
 
         <div className={styles.footerBottom}>
           <p>
-            &copy; {new Date().getFullYear()} TravelMate.{" "}
-            {t("allRightsReserved")}
+            &copy; {new Date().getFullYear()} TravelMate. All rights reserved.
           </p>
         </div>
       </div>

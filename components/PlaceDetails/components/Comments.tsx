@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import StarRating from "./StarRating"; // تأكد من المسار
+import StarRating from "./StarRating";
 import { FaPaperPlane, FaStar, FaUser } from "react-icons/fa";
-import styles from "./Comments.module.css"; // تأكد من المسار
-
+import styles from "./Comments.module.css";
 interface Comment {
   id: string;
   username: string;
