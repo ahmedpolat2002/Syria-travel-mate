@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
               </p>
               <p>
                 <FaPhoneAlt />
-                +963 11 234 5678
+                +90 531 772 35 82
               </p>
               <p>
                 <FaEnvelope />

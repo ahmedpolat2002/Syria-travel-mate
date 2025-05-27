@@ -1,57 +1,40 @@
 "use client";
-import React from "react";
-import { FaCalendarAlt, FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import styles from "./Events.module.css";
+import Image from "next/image";
 import ImagePlaceholder from "../common/ImagePlaceholder";
 
-// In a real application, these would come from an API or CMS
-const events = [
-  {
-    id: 1,
-    title: "Damascus International Fair",
-    titleAr: "معرض دمشق الدولي",
-    description:
-      "The largest trade fair in Syria showcasing local and international products and services.",
-    descriptionAr:
-      "أكبر معرض تجاري في سوريا يعرض المنتجات والخدمات المحلية والدولية.",
-    date: "2025-08-15",
-    time: "10:00 AM - 8:00 PM",
-    location: "Damascus Fairgrounds",
-    locationAr: "أرض المعارض في دمشق",
-    image: "/src/assets/damascus-fair.jpg",
-  },
-  {
-    id: 2,
-    title: "Aleppo Cultural Festival",
-    titleAr: "مهرجان حلب الثقافي",
-    description:
-      "A celebration of Syrian culture with music, dance, art exhibitions, and traditional food.",
-    descriptionAr:
-      "احتفال بالثقافة السورية مع الموسيقى والرقص والمعارض الفنية والطعام التقليدي.",
-    date: "2025-09-05",
-    time: "4:00 PM - 11:00 PM",
-    location: "Aleppo Citadel",
-    locationAr: "قلعة حلب",
-    image: "/src/assets/aleppo-festival.jpg",
-  },
-  {
-    id: 3,
-    title: "Latakia Summer Festival",
-    titleAr: "مهرجان اللاذقية الصيفي",
-    description:
-      "Beach activities, water sports, concerts, and entertainment on the beautiful Mediterranean coast.",
-    descriptionAr:
-      "أنشطة شاطئية ورياضات مائية وحفلات موسيقية وترفيه على ساحل البحر المتوسط الجميل.",
-    date: "2025-07-20",
-    time: "11:00 AM - 10:00 PM",
-    location: "Latakia Corniche",
-    locationAr: "كورنيش اللاذقية",
-    image: "/src/assets/latakia-festival.jpg",
-  },
-];
+type Event = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  startDate: string;
+  endDate: string;
+  provinceName: string;
+};
 
 const Events: React.FC = () => {
-  // Format date for display
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await fetch("/api/events/upcoming");
+        const data = await res.json();
+        setEvents(data);
+      } catch (err) {
+        console.error("Failed to fetch events:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat("en-US", {
@@ -66,44 +49,63 @@ const Events: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.sectionTitle}>
           <h2>Upcoming Events</h2>
-          <p>Explore the rich history, culture, and natural beauty of Syria</p>
+          <p>Explore the most anticipated cultural activities</p>
         </div>
 
         <div className={styles.eventsGrid}>
-          {events.map((event) => (
-            <div key={event.id} className={styles.eventCard}>
-              <div className={styles.cardImage}>
-                <ImagePlaceholder text={event.title} height="200px" />
-                <div className={styles.eventDate}>{formatDate(event.date)}</div>
-              </div>
-              <div className={styles.cardContent}>
-                <h3>{event.title}</h3>
-                <p>{event.description}</p>
-
-                <div className={styles.eventMeta}>
-                  <div>
-                    <FaCalendarAlt />
-                    {formatDate(event.date)}
-                  </div>
-                  <div>
-                    <FaClock />
-                    {event.time}
+          {loading ? (
+            <p>Loading...</p>
+          ) : events.length === 0 ? (
+            <p>No upcoming events found.</p>
+          ) : (
+            events.map((event) => (
+              <div key={event.id} className={styles.eventCard}>
+                <div className={styles.cardImage}>
+                  {event.image ? (
+                    <Image
+                      src={event.image}
+                      alt={event.title}
+                      width={400}
+                      height={200}
+                      style={{
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "200px",
+                      }}
+                    />
+                  ) : (
+                    <ImagePlaceholder text={event.title} height="200px" />
+                  )}
+                  <div className={styles.eventDate}>
+                    {formatDate(event.startDate)}
                   </div>
                 </div>
+                <div className={styles.cardContent}>
+                  <h3>{event.title}</h3>
+                  <p>{event.description}</p>
 
-                <div className={styles.eventMeta}>
-                  <div>
-                    <FaMapMarkerAlt />
-                    {event.location}
+                  <div className={styles.eventMeta}>
+                    {/* <div>
+                      <FaCalendarAlt />
+                      {formatDate(event.startDate)}
+                    </div> */}
+                    <div>
+                      <FaClock />
+                      {event.startDate} → {event.endDate}
+                    </div>
+                    <div>
+                      <FaMapMarkerAlt />
+                      {event.provinceName}
+                    </div>
                   </div>
-                </div>
 
-                <a href="#" className={styles.cardButton}>
-                  Register Now
-                </a>
+                  <a href={`/events/${event.id}`} className={styles.cardButton}>
+                    View Details
+                  </a>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </section>

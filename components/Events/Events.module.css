@@ -80,14 +80,18 @@
 .cardContent p {
   color: var(--color-light--1);
   margin-bottom: 1rem;
+  width: 200px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* عدد الأسطر المسموح بها */
+  line-clamp: 1; /* Standard property for compatibility */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .eventMeta {
-  display: flex;
   align-items: center;
   color: var(--color-light--1);
   font-size: 0.9rem;
-  margin-bottom: 1rem;
 }
 
 .eventMeta > div {
@@ -108,6 +112,7 @@
   border-radius: 4px;
   text-decoration: none;
   transition: background-color 0.3s;
+  margin-top: 1rem;
 }
 
 .cardButton:hover {
@@ -125,7 +130,7 @@
   .eventsGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .sectionTitle h2 {
     font-size: 2rem;
   }

@@ -74,6 +74,12 @@
 .cardContent p {
   color: var(--color-light--1);
   margin-bottom: 1rem;
+  width: 200px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* عدد الأسطر المسموح بها */
+  line-clamp: 1; /* Standard property for compatibility */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .cardButton {
@@ -101,7 +107,7 @@
   .destinationsGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .sectionTitle h2 {
     font-size: 2rem;
   }

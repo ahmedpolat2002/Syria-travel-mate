@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import DB from "@/lib/db";
 import { handleImageUpload } from "@/lib/utils";
 import { verifyAdmin } from "@/lib/auth";
+import { updateExpiredEventsStatus } from "@/lib/eventsStatusUpdater";
 
 export async function GET() {
   try {
     const db = await DB();
+
+    await updateExpiredEventsStatus();
 
     const stmt = db.prepare(`
       SELECT events.*, provinces.name as provinceName
