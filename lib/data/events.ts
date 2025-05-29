@@ -24,6 +24,37 @@ export function getEventById(id: string): Event | null {
     .get(id) as Event | null;
 }
 
+export async function getEventDetailsById(id: string) {
+  const db = DB();
+
+  const stmt = db.prepare(`
+    SELECT 
+      events.*, 
+      provinces.name AS provinceName 
+    FROM events
+    JOIN provinces ON events.provinceId = provinces.id
+    WHERE events.id = ? AND events.deleted = 0
+  `);
+
+  const event = stmt.get(id) as (Event & { provinceName: string }) | undefined;
+
+  if (!event) return null;
+
+  return {
+    id: event.id,
+    title: event.title,
+    description: event.description,
+    provinceId: event.provinceId,
+    provinceName: event.provinceName,
+    image: event.image,
+    startDate: event.startDate,
+    endDate: event.endDate,
+    latitude: event.latitude,
+    longitude: event.longitude,
+    status: event.status || "active", // افتراض الحالة النشطة إذا لم تكن محددة
+  };
+}
+
 export function getProvinces(): Provinces[] {
   const db = DB();
   return db

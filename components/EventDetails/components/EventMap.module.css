@@ -1,0 +1,28 @@
+.wrapper :global(.leaflet-control-attribution) {
+  display: none !important;
+}
+
+.wrapper :global(.leaflet-control-zoom) {
+  background: #f26c05;
+  border: 1px solid #666;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+
+.wrapper :global(.leaflet-control-zoom-in),
+.wrapper :global(.leaflet-control-zoom-out) {
+  background-color: #f26c05;
+  color: rgb(208, 217, 203);
+  font-size: 1.2rem;
+  padding: 4px 6px;
+  border: none;
+}
+
+.wrapper :global(.leaflet-control-zoom-in:hover),
+.wrapper :global(.leaflet-control-zoom-out:hover) {
+  background-color: rgb(208, 217, 203);
+  color: #f26c05;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}

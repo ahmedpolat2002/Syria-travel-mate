@@ -2,6 +2,7 @@
   padding: 5rem 2rem;
   background-color: var(--color-dark--0);
   color: var(--color-light--2);
+  direction: rtl; /* Support for RTL languages */
 }
 
 .container {
@@ -56,13 +57,13 @@
 .featureIcon {
   background-color: var(--color-dark--2);
   color: var(--color-brand--2);
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 1rem;
+  margin-left: 1rem;
   flex-shrink: 0;
 }
 
@@ -81,11 +82,12 @@
   .container {
     flex-direction: column;
   }
-  
-  .imageContainer, .content {
+
+  .imageContainer,
+  .content {
     width: 100%;
   }
-  
+
   .sectionTitle h2 {
     font-size: 2rem;
   }

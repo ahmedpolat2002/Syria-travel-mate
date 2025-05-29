@@ -9,6 +9,7 @@ export async function GET() {
     const total = db.prepare("SELECT COUNT(*) as count FROM reviews").get() as {
       count: number;
     };
+
     const average = db
       .prepare("SELECT AVG(rating) as avg FROM reviews")
       .get() as { avg: number };

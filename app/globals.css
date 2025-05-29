@@ -43,7 +43,7 @@ a {
 
 body {
   background-color: #f4efe7;
-  font-family: Arial, sans-serif;
+  /* font-family: Arial, sans-serif; */
   margin: 0;
   padding: 0;
 }
@@ -101,7 +101,7 @@ body {
   --color-dark--2: #42484d;
   --color-light--1: #aaa;
   --color-light--2: #fafafa;
-  --color-light--3: #d6dee0;
+  --color-light--3: #bfc7c9;
 
   /* Mapping to our application */
   --primary-color: var(--color-brand--2);
@@ -138,9 +138,9 @@ body {
 }
 
 /* RTL support */
-[dir="rtl"] body {
+/* [dir="rtl"] body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif, "Arial";
-}
+} */
 
 a {
   text-decoration: none;

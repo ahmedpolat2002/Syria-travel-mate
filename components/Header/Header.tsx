@@ -107,7 +107,7 @@ const Header = () => {
                 onClick={handleLogout}
                 disabled={loading}
               >
-                {loading ? "جارٍ تسجيل الخروج..." : "تسجيل الخروج"}
+                {loading ? "...جارٍ تسجيل الخروج" : "تسجيل الخروج"}
               </button>
             )}
           </div>

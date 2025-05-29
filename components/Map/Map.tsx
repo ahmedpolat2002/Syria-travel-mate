@@ -1,6 +1,14 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  CircleMarker,
+  // Tooltip,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import styles from "./Map.module.css";
 import L from "leaflet";
@@ -19,9 +27,9 @@ const markerIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-// أيقونة المحافظة
+// أيقونة المحافظة https://icons8.com/icon/13800/location
 const governorateIcon = new L.Icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/535/535239.png",
+  iconUrl: "https://img.icons8.com/?size=200&id=13800&format=png&color=dddddd",
   iconSize: [32, 32],
   iconAnchor: [16, 32],
   popupAnchor: [0, -30],
@@ -43,6 +51,7 @@ interface DynamicPlace {
   longitude: number;
   typeName: string;
   provinceName: string;
+  safetyStatus: "safe" | "warning" | "danger";
 }
 
 interface Events {
@@ -52,6 +61,13 @@ interface Events {
   longitude: number;
   provinceName: string;
 }
+
+const dangerOptions = { color: "red", fillColor: "red", fillOpacity: 0.5 };
+const warningOptions = {
+  color: "orange",
+  fillColor: "orange",
+  fillOpacity: 0.5,
+};
 
 const MapWithSidebar: React.FC = () => {
   const [center, setCenter] = useState<[number, number]>([33.5138, 36.2765]);
@@ -141,7 +157,7 @@ const MapWithSidebar: React.FC = () => {
         <div className={styles.map}>
           <MapContainer
             center={center}
-            zoom={13}
+            zoom={8}
             scrollWheelZoom={true}
             style={{ height: "100%", width: "100%" }}
           >
@@ -169,30 +185,62 @@ const MapWithSidebar: React.FC = () => {
                 (place) =>
                   filters.length === 0 || filters.includes(place.typeName)
               )
+              .map((place) => {
+                const isDanger = place.safetyStatus === "danger";
+                const isWarning = place.safetyStatus === "warning";
 
-              .map((place) => (
-                <Marker
-                  key={place.id}
-                  position={[place.latitude, place.longitude]}
-                  icon={markerIcon}
-                  eventHandlers={{
-                    click: () =>
-                      setSelectedLocation({
-                        id: place.id.toString(),
-                        name: place.name,
-                        lat: place.latitude,
-                        lng: place.longitude,
-                        type: place.typeName,
-                        isGovernorate: false,
-                      }),
-                  }}
-                >
-                  <Popup>
-                    {place.name} ({place.typeName}) <br />
-                    {place.provinceName}
-                  </Popup>
-                </Marker>
-              ))}
+                // إظهار الدوائر لـ danger و warning
+                if (isDanger || isWarning) {
+                  return (
+                    <CircleMarker
+                      key={`circle-${place.id}`}
+                      center={[place.latitude, place.longitude]}
+                      pathOptions={isDanger ? dangerOptions : warningOptions}
+                      radius={15}
+                      eventHandlers={{
+                        click: () =>
+                          setSelectedLocation({
+                            id: place.id.toString(),
+                            name: place.name,
+                            lat: place.latitude,
+                            lng: place.longitude,
+                            type: place.typeName,
+                            isGovernorate: false,
+                          }),
+                      }}
+                    >
+                      <Popup>
+                        {place.name} ({place.typeName})
+                      </Popup>
+                    </CircleMarker>
+                  );
+                }
+
+                // باقي الحالات تعرض كمؤشر عادي
+                return (
+                  <Marker
+                    key={place.id}
+                    position={[place.latitude, place.longitude]}
+                    icon={markerIcon}
+                    eventHandlers={{
+                      click: () =>
+                        setSelectedLocation({
+                          id: place.id.toString(),
+                          name: place.name,
+                          lat: place.latitude,
+                          lng: place.longitude,
+                          type: place.typeName,
+                          isGovernorate: false,
+                        }),
+                    }}
+                  >
+                    <Popup>
+                      {place.name} ({place.typeName}) <br />
+                      {place.provinceName}
+                    </Popup>
+                  </Marker>
+                );
+              })}
 
             {events
               .filter(() => filters.length === 0 || filters.includes("فعالية"))

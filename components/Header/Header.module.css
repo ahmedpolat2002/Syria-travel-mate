@@ -68,6 +68,7 @@
 .authButton {
   background-color: var(--color-dark--2);
   margin-right: 1rem;
+  font-family: var(--font-ibm-arabic);
 }
 
 .authButton:hover {

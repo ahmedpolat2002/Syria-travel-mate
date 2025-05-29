@@ -13,16 +13,19 @@ const About: React.FC = () => {
 
         <div className={styles.content}>
           <div className={styles.sectionTitle}>
-            <h2>About Us</h2>
-            <p>
+            <h2>حول TravelMate دليلك لاستكشاف سوريا</h2>
+            {/* <p>
               Explore the rich history, culture, and natural beauty of Syria
-            </p>
+            </p> */}
           </div>
 
           <p>
-            TravelMate is your ultimate guide to exploring Syria&apos;s rich
-            cultural heritage and beautiful destinations. Join us on a journey
-            through this historic land.
+            TravelMate هو موقع إلكتروني يهدف إلى توفير تجربة فريدة من نوعها
+            للمسافرين الذين يرغبون في استكشاف سوريا. نحن نقدم معلومات شاملة عن
+            الأماكن السياحية، الفعاليات الثقافية، والأنشطة المتنوعة التي يمكن
+            للزوار الاستمتاع بها. هدفنا هو تعزيز السياحة في سوريا من خلال تقديم
+            محتوى موثوق ومفيد يساعد الزوار على اكتشاف جمال هذا البلد الغني
+            بالتاريخ والثقافة.
           </p>
 
           <div className={styles.features}>
@@ -31,10 +34,10 @@ const About: React.FC = () => {
                 <FaMapMarkedAlt size={20} />
               </div>
               <div className={styles.featureText}>
-                <h3>Expert Guides</h3>
+                <h3>دليل سياحي شامل</h3>
                 <p>
-                  Our team of local guides is passionate about sharing the rich
-                  history and culture of Syria with visitors.
+                  يتمتع فريق المرشدين المحليين لدينا بشغف كبير بمشاركة التاريخ
+                  والثقافة الغنية لسوريا مع الزوار.
                 </p>
               </div>
             </div>
@@ -44,10 +47,10 @@ const About: React.FC = () => {
                 <FaUserFriends size={20} />
               </div>
               <div className={styles.featureText}>
-                <h3>Personalized Experience</h3>
+                <h3>تجربة شخصية</h3>
                 <p>
-                  Our team of local guides is passionate about sharing the rich
-                  history and culture of Syria with visitors.
+                  نحن نقدم تجارب سياحية مصممة خصيصًا لتلبية احتياجات كل زائر،
+                  سواء كنت تبحث عن المغامرة أو الاسترخاء.
                 </p>
               </div>
             </div>
@@ -57,10 +60,10 @@ const About: React.FC = () => {
                 <FaShieldAlt size={20} />
               </div>
               <div className={styles.featureText}>
-                <h3>Safety First</h3>
+                <h3>أمان وموثوقية</h3>
                 <p>
-                  Our team of local guides is passionate about sharing the rich
-                  history and culture of Syria with visitors.
+                  نحن نضمن سلامتك وراحتك خلال رحلتك، حيث نقدم معلومات دقيقة
+                  ومحدثة عن الوجهات والفعاليات.
                 </p>
               </div>
             </div>

@@ -16,7 +16,7 @@ interface Place {
   governorate: string;
   type: string;
   description: string;
-  isSafe: boolean;
+  safetyStatus: "safe" | "warning" | "danger";
   rating: number;
   likes: number;
   imageUrl: string;
@@ -64,7 +64,7 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place }) => {
               <FaBuilding />
               <span>{place.type}</span>
             </div>
-            <SafetyStatus isSafe={place.isSafe} />
+            <SafetyStatus safetyStatus={place.safetyStatus} />
           </div>
         </div>
 
@@ -74,7 +74,7 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place }) => {
         </div>
 
         <div className={styles.description}>
-          <h2>Description</h2>
+          <h2>الوصف:</h2>
           <p>{place.description}</p>
         </div>
 

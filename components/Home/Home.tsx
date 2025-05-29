@@ -22,10 +22,15 @@ const Home: React.FC = () => {
         <div className={styles.overlay}></div>
       </div>
       <div className={styles.heroContent}>
-        <h1>Discover the Beauty of Syria</h1>
-        <p>Explore the rich history, culture, and natural beauty of Syria</p>
+        <h1>اكتشف جمال سوريا</h1>
+        <p>
+          استمتع بتجربة فريدة من نوعها في استكشاف الأماكن السياحية والفعاليات
+          الثقافية والتاريخية في سوريا
+          <br />
+          انطلق في رحلة لا تُنسى عبر تاريخ وثقافة هذا البلد الرائع
+        </p>
         <button onClick={handleExploreClick} className={styles.heroButton}>
-          Explore
+          استكشف الآن
         </button>
       </div>
     </section>

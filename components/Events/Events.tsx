@@ -48,15 +48,23 @@ const Events: React.FC = () => {
     <section id="events" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.sectionTitle}>
-          <h2>Upcoming Events</h2>
-          <p>Explore the most anticipated cultural activities</p>
+          <h2>الفعاليات الثقافية القادمة</h2>
+          <p>
+            استكشف الفعاليات الثقافية والفنية القادمة في سوريا
+            <br />
+            تعرف على المهرجانات والمعارض والحفلات الموسيقية التي ستقام قريباً
+            <br />
+            وشارك في الاحتفالات الثقافية المتنوعة
+          </p>
         </div>
 
         <div className={styles.eventsGrid}>
           {loading ? (
-            <p>Loading...</p>
+            <p>...جاري تحميل الفعاليات الثقافية القادمة</p>
           ) : events.length === 0 ? (
-            <p>No upcoming events found.</p>
+            <p>
+              .لا توجد فعاليات ثقافية قادمة في الوقت الحالي. يرجى التحقق لاحقاً
+            </p>
           ) : (
             events.map((event) => (
               <div key={event.id} className={styles.eventCard}>
@@ -91,7 +99,7 @@ const Events: React.FC = () => {
                     </div> */}
                     <div>
                       <FaClock />
-                      {event.startDate} → {event.endDate}
+                      {event.startDate} ← {event.endDate}
                     </div>
                     <div>
                       <FaMapMarkerAlt />
@@ -100,7 +108,7 @@ const Events: React.FC = () => {
                   </div>
 
                   <a href={`/events/${event.id}`} className={styles.cardButton}>
-                    View Details
+                    اكتشف المزيد
                   </a>
                 </div>
               </div>

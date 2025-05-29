@@ -40,7 +40,7 @@ const PlaceDetailsPage = async ({
     governorate: place.provinceName,
     type: place.typeName,
     description: place.description,
-    isSafe: place.safetyStatus === "safe",
+    safetyStatus: place.safetyStatus, // 'safe' | 'warning' | 'danger'
     rating: averageRating,
     likes: 0, // أضف لاحقًا دالة getLikesCount(placeId)
     imageUrl: `${place.image}`,

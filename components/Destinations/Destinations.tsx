@@ -39,8 +39,12 @@ const Destinations: React.FC = () => {
     <section id="destinations" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.sectionTitle}>
-          <h2>Most Liked Places</h2>
-          <p>Explore the most loved destinations by visitors</p>
+          <h2>الأماكن الأكثر إعجاباً لدى الزوار</h2>
+          <p>
+            استكشف الأماكن الأكثر شعبية في سوريا والعالم والتي حازت على إعجاب
+            الزوار
+            <br /> اكتشف جمالها وتاريخها وثقافتها من خلال تجاربهم
+          </p>
         </div>
 
         <div className={styles.destinationsGrid}>
@@ -72,13 +76,13 @@ const Destinations: React.FC = () => {
                   <h3>{place.name}</h3>
                   <p>{place.description}</p>
                   <p>
-                    <strong>Likes:</strong> {place.likeCount}
+                    <strong>الاعجابات: </strong> {place.likeCount}
                   </p>
                   <Link
                     href={`/places/${place.id}`}
                     className={styles.cardButton}
                   >
-                    Learn More
+                    اكتشف المزيد
                   </Link>
                 </div>
               </div>

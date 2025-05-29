@@ -1,30 +1,43 @@
 "use client";
 import React from "react";
-import { FaShieldAlt, FaExclamationTriangle } from "react-icons/fa";
+import {
+  FaShieldAlt,
+  FaExclamationTriangle,
+  FaTimesCircle,
+} from "react-icons/fa";
 import styles from "./SafetyStatus.module.css";
 
 interface SafetyStatusProps {
-  isSafe: boolean;
+  safetyStatus: "safe" | "warning" | "danger";
 }
 
-const SafetyStatus: React.FC<SafetyStatusProps> = ({ isSafe }) => {
+const SafetyStatus: React.FC<SafetyStatusProps> = ({ safetyStatus }) => {
+  let icon;
+  let label;
+  let statusClass;
+
+  switch (safetyStatus) {
+    case "safe":
+      icon = <FaShieldAlt className={styles.icon} />;
+      label = "آمن";
+      statusClass = styles.safe;
+      break;
+    case "warning":
+      icon = <FaExclamationTriangle className={styles.icon} />;
+      label = "توخَّ الحذر";
+      statusClass = styles.warning;
+      break;
+    case "danger":
+      icon = <FaTimesCircle className={styles.icon} />;
+      label = "خطير";
+      statusClass = styles.danger;
+      break;
+  }
+
   return (
-    <div
-      className={`${styles.safetyStatus} ${
-        isSafe ? styles.safe : styles.unsafe
-      }`}
-    >
-      {isSafe ? (
-        <>
-          <FaShieldAlt className={styles.icon} />
-          <span>Safe</span>
-        </>
-      ) : (
-        <>
-          <FaExclamationTriangle className={styles.icon} />
-          <span>Unsafe</span>
-        </>
-      )}
+    <div className={`${styles.safetyStatus} ${statusClass}`}>
+      {icon}
+      <span>{label}</span>
     </div>
   );
 };

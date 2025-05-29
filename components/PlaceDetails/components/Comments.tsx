@@ -32,6 +32,10 @@ const Comments: React.FC<CommentsProps> = ({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
   const [editRating, setEditRating] = useState(0);
+  const [message, setMessage] = useState<string | null>(null);
+  const [messageType, setMessageType] = useState<"success" | "error" | null>(
+    null
+  );
 
   useEffect(() => {
     fetch("/api/users/me")
@@ -44,8 +48,18 @@ const Comments: React.FC<CommentsProps> = ({
       .catch((err) => console.error("Failed to fetch user:", err));
   }, []);
 
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(null);
+        setMessageType(null);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   const handleDelete = async (commentId: string) => {
-    if (!confirm("Are you sure you want to delete this comment?")) return;
+    if (!confirm("هل أنت متأكد أنك تريد حذف هذا التعليق؟")) return;
 
     try {
       const res = await fetch(`/api/reviews/${placeId}`, {
@@ -53,13 +67,17 @@ const Comments: React.FC<CommentsProps> = ({
       });
 
       if (!res.ok) {
-        alert("Failed to delete comment");
+        setMessage("فشل في حذف التعليق");
+        setMessageType("error");
         return;
       }
 
       setComments(comments.filter((c) => c.id !== commentId));
-    } catch (error) {
-      console.error("Failed to delete comment:", error);
+      setMessage("تم حذف التعليق بنجاح");
+      setMessageType("success");
+    } catch {
+      setMessage("حدث خطأ أثناء حذف التعليق");
+      setMessageType("error");
     }
   };
 
@@ -81,7 +99,8 @@ const Comments: React.FC<CommentsProps> = ({
       });
 
       if (!res.ok) {
-        alert("Failed to update comment");
+        setMessage("فشل في تعديل التعليق");
+        setMessageType("error");
         return;
       }
 
@@ -93,6 +112,8 @@ const Comments: React.FC<CommentsProps> = ({
       setEditingId(null);
       setEditText("");
       setEditRating(0);
+      setMessage("تم تعديل التعليق بنجاح");
+      setMessageType("success");
     } catch (error) {
       console.error("Failed to update comment:", error);
     }
@@ -113,7 +134,8 @@ const Comments: React.FC<CommentsProps> = ({
 
       if (!res.ok) {
         const data = await res.json();
-        alert(data.error || "Failed to add review");
+        setMessage(data.error || "حدث خطأ أثناء إضافة التعليق");
+        setMessageType("error");
         return;
       }
 
@@ -132,6 +154,8 @@ const Comments: React.FC<CommentsProps> = ({
       if (onAddComment) {
         onAddComment(newComment);
       }
+      setMessage("تمت إضافة التعليق بنجاح");
+      setMessageType("success");
     } catch (error) {
       console.error("Failed to add comment:", error);
     }
@@ -149,32 +173,42 @@ const Comments: React.FC<CommentsProps> = ({
 
   return (
     <div className={styles.commentsSection}>
+      {message && (
+        <div
+          className={`${styles.message} ${
+            messageType === "error" ? styles.error : styles.success
+          }`}
+        >
+          {message}
+        </div>
+      )}
+
       {user ? (
         <form onSubmit={handleSubmit} className={styles.commentForm}>
           <div className={styles.formGroup}>
-            <h3 className={styles.commentsTitle}>Add Your Review</h3>
+            <h3 className={styles.commentsTitle}>أضف تقييمك</h3>
             <div style={{ margin: "10px 0" }}>
               <StarRating initialRating={rating} onChange={setRating} />
             </div>
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Add your comment..."
+              placeholder="أكتب تعليقك هنا..."
               className={styles.commentInput}
               required
             />
           </div>
           <button type="submit" className={styles.submitButton}>
-            <FaPaperPlane /> Post Comment
+            إرسال <FaPaperPlane />
           </button>
         </form>
       ) : (
         <p className={styles.noComments}>
-          You must be logged in to add a comment.
+          أنت بحاجة إلى تسجيل الدخول لإضافة تعليق.
         </p>
       )}
 
-      <h3 className={styles.commentsTitle}>Comments</h3>
+      <h3 className={styles.commentsTitle}>التعليقات</h3>
       <div className={styles.commentsList}>
         {comments.map((c) => (
           <div key={c.id} className={styles.comment}>
@@ -199,16 +233,18 @@ const Comments: React.FC<CommentsProps> = ({
                   onChange={(e) => setEditText(e.target.value)}
                   className={styles.commentInput}
                 />
-                <button type="submit" className={styles.submitButton}>
-                  Save
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setEditingId(null)}
-                  className={styles.cancelButton}
-                >
-                  Cancel
-                </button>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button type="submit" className={styles.submitButton}>
+                    حفظ
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditingId(null)}
+                    className={styles.cancelButton}
+                  >
+                    إلغاء
+                  </button>
+                </div>
               </form>
             ) : (
               <div className={styles.commentText}>
@@ -226,13 +262,13 @@ const Comments: React.FC<CommentsProps> = ({
                       onClick={() => handleEdit(c)}
                       className={styles.editBtn}
                     >
-                      Edit
+                      تعديل
                     </button>
                     <button
                       onClick={() => handleDelete(c.id)}
                       className={styles.deleteBtn}
                     >
-                      Delete
+                      حذف
                     </button>
                   </div>
                 )}
