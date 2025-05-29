@@ -26,8 +26,9 @@ Then open [http://localhost:3000](http://localhost:3000) in your browser.
 - `app/` - Main application pages and components
 - `app/api` - Contains API route handlers for server-side logic and data fetching.
 - `app/admin` - Includes admin dashboard pages and components for managing site content.
-- `public/` - Static assets (images, icons, etc.).
-- `styles/` - Global and component styles.
+- `app/(main)` - Contains the main user-facing pages and components, such as the homepage, destination listings, and travel guides.
+- `app/(auth)` - Handles authentication-related pages and logic, including login, registration, and user account management.
+- `public/` - Static assets (images, icons, etc.) and uploaded images.
 
 ## Technologies Used
 
