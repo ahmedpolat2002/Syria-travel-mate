@@ -58,8 +58,11 @@ const Contact: React.FC = () => {
     <section id="contact" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.sectionTitle}>
-          <h2>Contact Us</h2>
-          <p>Get in touch with us for any inquiries or questions</p>
+          <h2>تواصل معنا</h2>
+          <p>
+            إذا كان لديك أي استفسارات أو تحتاج إلى مساعدة، لا تتردد في التواصل
+            معنا. نحن هنا لمساعدتك في كل ما تحتاجه.
+          </p>
         </div>
 
         <div className={styles.contactWrapper}>

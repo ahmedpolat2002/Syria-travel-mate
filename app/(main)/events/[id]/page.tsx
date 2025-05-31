@@ -1,8 +1,39 @@
 import React from "react";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import { getEventDetailsById } from "@/lib/data/events";
 import EventDetails from "@/components/EventDetails/EventDetails";
+import { notFound } from "next/navigation";
+import { getEventDetailsById } from "@/lib/data/events";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<{ title: string; description: string }> {
+  const { id } = await params;
+  const event = await getEventDetailsById(id);
+
+  if (!event) {
+    notFound();
+  }
+
+  const start = new Date(event.startDate).toLocaleDateString("ar-SY", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const end = new Date(event.endDate).toLocaleDateString("ar-SY", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return {
+    title: `فعالية ${event.title} في ${event.provinceName}`,
+    description: `تفاصيل فعالية "${event.title}" المقامة في ${event.provinceName}، من ${start} إلى ${end}. ${event.description}`,
+  };
+}
 
 const EventDetailsPage = async ({
   params,

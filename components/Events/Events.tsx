@@ -4,6 +4,7 @@ import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import styles from "./Events.module.css";
 import Image from "next/image";
 import ImagePlaceholder from "../common/ImagePlaceholder";
+import Link from "next/link";
 
 type Event = {
   id: number;
@@ -107,9 +108,12 @@ const Events: React.FC = () => {
                     </div>
                   </div>
 
-                  <a href={`/events/${event.id}`} className={styles.cardButton}>
+                  <Link
+                    href={`/events/${event.id}`}
+                    className={styles.cardButton}
+                  >
                     اكتشف المزيد
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))

@@ -76,7 +76,8 @@
   color: var(--color-brand--1);
 }
 
-.contactText p, .contactText a {
+.contactText p,
+.contactText a {
   color: var(--color-light--1);
   text-decoration: none;
 }
@@ -167,7 +168,7 @@
   .contactWrapper {
     grid-template-columns: 1fr;
   }
-  
+
   .sectionTitle h2 {
     font-size: 2rem;
   }

@@ -2,8 +2,26 @@ import React from "react";
 import PlaceDetails from "@/components/PlaceDetails/PlaceDetails";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-
 import { getPlaceDetailsById, getReviewsByPlaceId } from "@/lib/data/places";
+import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<{ title: string; description: string }> {
+  const { id } = await params;
+  const place = await getPlaceDetailsById(id);
+
+  if (!place) {
+    notFound();
+  }
+
+  return {
+    title: `${place.name} في ${place.provinceName}`,
+    description: `${place.name} يقع في محافظة ${place.provinceName}، ${place.description}.`,
+  };
+}
 
 const PlaceDetailsPage = async ({
   params,
