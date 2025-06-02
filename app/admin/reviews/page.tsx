@@ -49,7 +49,9 @@ export default function ReviewsStatsPage() {
 
       {average !== null && (
         <div style={{ textAlign: "center", marginBottom: "1rem" }}>
-          <h3 style={{ marginBottom: "0.5rem", color: "#444" }}>
+          <h3
+            style={{ marginBottom: "0.5rem", color: "var(--color-light--2)" }}
+          >
             متوسط التقييم العام: ⭐ {average.toFixed(2)}
           </h3>
         </div>
@@ -59,7 +61,7 @@ export default function ReviewsStatsPage() {
         <div className={styles.chartBox}>
           <h3>عدد المراجعات حسب التقييم</h3>
           <p className={styles.description}>
-            هذا المخطط يعرض عدد المراجعات التي تم إدخالها لكل تقييم من 1 إلى 5.
+            هذا المخطط يعرض عدد المراجعات التي تم إدخالها لكل تقييم من 1 إلى 5
           </p>
           {data.length === 0 ? (
             <p>لا توجد بيانات لعرضها</p>
@@ -69,7 +71,7 @@ export default function ReviewsStatsPage() {
                 <XAxis dataKey="rating" />
                 <YAxis allowDecimals={false} tickMargin={10} />
                 <Tooltip />
-                <Bar dataKey="count" fill="#8884d8" />
+                <Bar dataKey="count" fill="#00c46a" />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -78,7 +80,7 @@ export default function ReviewsStatsPage() {
         <div className={styles.chartBox}>
           <h3>النسبة المئوية لكل تقييم</h3>
           <p className={styles.description}>
-            يوضح هذا الرسم النسبة المئوية لكل تقييم من إجمالي عدد المراجعات.
+            يوضح هذا الرسم النسبة المئوية لكل تقييم من إجمالي عدد المراجعات
           </p>
           {data.length === 0 ? (
             <p>لا توجد بيانات لعرضها</p>

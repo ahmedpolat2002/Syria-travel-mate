@@ -9,14 +9,14 @@
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--color-light--2);
   text-align: center;
 }
 
 .charts {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -25,7 +25,7 @@
   }
 
   .container {
-    padding: 2rem;
+    padding: 1rem;
   }
 
   .heading {
@@ -34,10 +34,10 @@
 }
 
 .chartBox {
-  background-color: rgb(255, 255, 255);
+  background-color: var(--color-dark--1);
   padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 100%;
 }
@@ -45,19 +45,19 @@
 .chartBox h3 {
   margin-bottom: 0.75rem;
   font-size: 1rem;
-  color: #555;
+  color: var(--color-light--2);
   text-align: center;
 }
 
 .description {
-  color: #666;
+  color: red;
   font-size: 0.85rem;
   margin-bottom: 0.75rem;
   text-align: center;
 }
 
 .chartBox p {
-  color: #666;
+  color: var(--color-light--3);
   font-size: 0.85rem;
   text-align: center;
   margin: 0.5rem 0;
@@ -65,7 +65,7 @@
 
 @media (min-width: 768px) {
   .chartBox {
-    padding: 1rem 1.5rem;
+    padding: 1rem;
   }
 
   .chartBox h3 {
@@ -85,26 +85,26 @@
 
 @media (min-width: 1024px) {
   .charts {
-    gap: 2rem;
+    gap: 1rem;
   }
 
   .chartBox {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 }
 
 .topPlaces {
-  background-color: #f4f4f4;
-  margin-top: 2rem;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  background-color: var(--color-dark--1);
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.1);
 }
 
 .topPlaces h3 {
   text-align: center;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--color-light--2);
 }
 
 .topPlaces ul {
@@ -115,7 +115,7 @@
 
 .topPlaces li {
   margin-bottom: 0.5rem;
-  color: #555;
+  color: var(--color-light--3);
 }
 
 @media (max-width: 768px) {
