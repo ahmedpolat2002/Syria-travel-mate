@@ -1,9 +1,10 @@
 "use client";
 
+import styles from "./Sidebar.module.css";
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import styles from "./Sidebar.module.css";
 import {
   FiHome,
   FiMapPin,
@@ -12,7 +13,6 @@ import {
   FiCalendar,
   FiStar,
   FiSettings,
-  FiMenu,
 } from "react-icons/fi";
 import { LuLayoutDashboard } from "react-icons/lu";
 
@@ -29,15 +29,30 @@ const menuItems = [
 ];
 
 export default function Sidebar() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
   return (
     <div
       className={`${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}
     >
-      <div className={styles.menuButton} onClick={() => setIsOpen(!isOpen)}>
-        <FiMenu />
+      <div className={styles.header} onClick={() => setIsOpen(!isOpen)}>
+        <div className={styles.logoBox}>
+          <div className={styles.menuButton}>
+            <Image
+              src="/icon.png"
+              alt="Logo"
+              width={40}
+              height={40}
+              style={{ marginLeft: "10px" }}
+            />
+          </div>
+          {isOpen && (
+            <div className={styles.logoText}>
+              <span className={styles.brand}>TravelMate</span>
+            </div>
+          )}
+        </div>
       </div>
       <ul className={styles.menuList}>
         {menuItems.map((item) => (
@@ -47,7 +62,7 @@ export default function Sidebar() {
               pathname === item.path ? styles.active : ""
             }`}
           >
-            <Link href={item.path} className={`${styles.link}`}>
+            <Link href={item.path} className={styles.link}>
               <span className={styles.icon}>{item.icon}</span>
               {isOpen && <span className={styles.label}>{item.label}</span>}
             </Link>

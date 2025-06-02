@@ -229,15 +229,57 @@ export default function AdminDashboard() {
               margin={{ top: 20, right: 20, left: 20, bottom: 50 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" angle={90} textAnchor="end" height={60} />
+              <XAxis
+                dataKey="name"
+                angle={90}
+                textAnchor="end"
+                height={60}
+                tick={{ fill: "#fff" }}
+              />
               <YAxis
                 allowDecimals={false}
                 // domain={[0, Math.max(...totalData.map((item) => item.value))]}
                 // tickFormatter={(value) => value.toLocaleString("ar-EG")}
                 tickMargin={10} // Add space between Y-axis and numbers
+                tick={{ fill: "#fff" }}
               />
               <Tooltip formatter={(value) => [value, "العدد"]} />
-              <Bar dataKey="value" fill="#8884d8" radius={[10, 10, 0, 0]} />
+              <Bar dataKey="value" fill="#00c46a" radius={[10, 10, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </section>
+
+        {/* مخطط Bar - الأماكن حسب المحافظة */}
+        <section className={styles.chartSection}>
+          <h2 className={styles.chartTitle}>توزيع الأماكن حسب المحافظة</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+              data={provinceData}
+              layout="vertical"
+              margin={{ top: 20, right: 0, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                type="number"
+                allowDecimals={false}
+                tick={{ fill: "#fff" }}
+              />
+              <YAxis
+                dataKey="name"
+                type="category"
+                width={100}
+                tickMargin={80}
+                tick={{ fill: "#fff" }}
+              />
+              <Tooltip formatter={(value) => [value, "عدد الأماكن"]} />
+              <Bar dataKey="value" fill="#ffb545" radius={[0, 10, 10, 0]}>
+                {provinceData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </section>
@@ -257,8 +299,10 @@ export default function AdminDashboard() {
                 textAnchor="end"
                 height={60}
                 tickFormatter={formatMonthLabel}
+                tick={{ fill: "#fff" }}
               />
               <YAxis
+                tick={{ fill: "#fff" }}
                 allowDecimals={false}
                 tickMargin={10} // Add space between Y-axis and numbers
               />
@@ -267,13 +311,13 @@ export default function AdminDashboard() {
               <Area
                 type="monotone"
                 dataKey="أماكن"
-                fill="#8884d8"
-                stroke="#8884d8"
+                fill="#00c46a"
+                stroke="#00c46a"
               />
               <Line
                 type="monotone"
                 dataKey="مستخدمين"
-                stroke="#ff7300"
+                stroke="#ffb545"
                 strokeWidth={2}
               />
             </ComposedChart>
@@ -292,8 +336,9 @@ export default function AdminDashboard() {
                 cx="50%"
                 cy="50%"
                 outerRadius={100}
-                fill="#82ca9d"
-                label={(entry) => `${entry.name} (${entry.value})`}
+                // fill="#82ca9d"
+                // stroke="#fff"
+                label={(entry) => `(${entry.value})`}
               >
                 {pieData.map((entry, index) => (
                   <Cell
@@ -308,36 +353,6 @@ export default function AdminDashboard() {
               />
               <Legend layout="vertical" verticalAlign="bottom" align="right" />
             </PieChart>
-          </ResponsiveContainer>
-        </section>
-
-        {/* مخطط Bar - الأماكن حسب المحافظة */}
-        <section className={styles.chartSection}>
-          <h2 className={styles.chartTitle}>توزيع الأماكن حسب المحافظة</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-              data={provinceData}
-              layout="vertical"
-              margin={{ top: 20, right: 0, left: 0, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" allowDecimals={false} />
-              <YAxis
-                dataKey="name"
-                type="category"
-                width={100}
-                tickMargin={80}
-              />
-              <Tooltip formatter={(value) => [value, "عدد الأماكن"]} />
-              <Bar dataKey="value" fill="#82ca9d" radius={[0, 10, 10, 0]}>
-                {provinceData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
           </ResponsiveContainer>
         </section>
 
@@ -356,13 +371,18 @@ export default function AdminDashboard() {
                 textAnchor="end"
                 height={60}
                 tickFormatter={formatMonthLabel}
+                tick={{ fill: "#fff" }}
               />
-              <YAxis allowDecimals={false} tickMargin={10} />
+              <YAxis
+                allowDecimals={false}
+                tickMargin={10}
+                tick={{ fill: "#fff" }}
+              />
               <Tooltip labelFormatter={formatMonthLabel} />
               <Line
                 type="monotone"
                 dataKey="عدد_الأماكن"
-                stroke="#ff7300"
+                stroke="#ffb545"
                 strokeWidth={2}
                 activeDot={{ r: 8 }}
               />
@@ -385,13 +405,18 @@ export default function AdminDashboard() {
                 textAnchor="end"
                 height={60}
                 tickFormatter={formatMonthLabel}
+                tick={{ fill: "#fff" }}
               />
-              <YAxis allowDecimals={false} tickMargin={10} />
+              <YAxis
+                allowDecimals={false}
+                tickMargin={10}
+                tick={{ fill: "#fff" }}
+              />
               <Tooltip labelFormatter={formatMonthLabel} />
               <Line
                 type="monotone"
                 dataKey="عدد_المستخدمين"
-                stroke="#8884d8"
+                stroke="#00c46a"
                 strokeWidth={2}
                 activeDot={{ r: 8 }}
               />
@@ -410,12 +435,12 @@ export default function AdminDashboard() {
                 nameKey="name"
                 cx="50%"
                 cy="50%"
-                outerRadius={100}
+                outerRadius={120}
                 fill="#82ca9d"
-                label={(entry) => `${entry.name} (${entry.value})`}
+                label={(entry) => `(${entry.value})`}
               >
-                <Cell fill="#4CAF50" />
-                <Cell fill="#F44336" />
+                <Cell fill="#00c46a" />
+                <Cell fill="#E74C3C" />
               </Pie>
               <Tooltip formatter={(value, name) => [value, name]} />
               <Legend />

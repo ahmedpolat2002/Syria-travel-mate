@@ -42,7 +42,7 @@ a {
 } */
 
 body {
-  background-color: #f4efe7;
+  background-color: var(--color-dark--0);
   /* font-family: Arial, sans-serif; */
   margin: 0;
   padding: 0;
@@ -102,6 +102,7 @@ body {
   --color-light--1: #aaa;
   --color-light--2: #fafafa;
   --color-light--3: #bfc7c9;
+  --color-darksidebar--3: #2d3439;
 
   /* Mapping to our application */
   --primary-color: var(--color-brand--2);

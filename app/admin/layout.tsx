@@ -17,7 +17,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
     >
       <div
         style={{
-          paddingRight: 10,
+          // paddingRight: 10,
           flex: 1,
           overflowY: "auto",
         }}
