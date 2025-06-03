@@ -240,7 +240,7 @@ export default function AdminDashboard() {
                 allowDecimals={false}
                 // domain={[0, Math.max(...totalData.map((item) => item.value))]}
                 // tickFormatter={(value) => value.toLocaleString("ar-EG")}
-                tickMargin={10} // Add space between Y-axis and numbers
+                tickMargin={30} // Add space between Y-axis and numbers
                 tick={{ fill: "#fff" }}
               />
               <Tooltip formatter={(value) => [value, "العدد"]} />
@@ -268,7 +268,7 @@ export default function AdminDashboard() {
                 dataKey="name"
                 type="category"
                 width={100}
-                tickMargin={80}
+                tickMargin={60}
                 tick={{ fill: "#fff" }}
               />
               <Tooltip formatter={(value) => [value, "عدد الأماكن"]} />
@@ -304,7 +304,7 @@ export default function AdminDashboard() {
               <YAxis
                 tick={{ fill: "#fff" }}
                 allowDecimals={false}
-                tickMargin={10} // Add space between Y-axis and numbers
+                tickMargin={30} // Add space between Y-axis and numbers
               />
               <Tooltip labelFormatter={formatMonthLabel} />
               <Legend />
@@ -375,7 +375,7 @@ export default function AdminDashboard() {
               />
               <YAxis
                 allowDecimals={false}
-                tickMargin={10}
+                tickMargin={20}
                 tick={{ fill: "#fff" }}
               />
               <Tooltip labelFormatter={formatMonthLabel} />
@@ -409,7 +409,7 @@ export default function AdminDashboard() {
               />
               <YAxis
                 allowDecimals={false}
-                tickMargin={10}
+                tickMargin={20}
                 tick={{ fill: "#fff" }}
               />
               <Tooltip labelFormatter={formatMonthLabel} />

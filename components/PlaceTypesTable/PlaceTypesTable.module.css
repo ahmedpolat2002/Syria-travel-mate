@@ -3,15 +3,36 @@
   padding: 20px;
 }
 
+.card {
+  background-color: var(--color-darksidebar--3);
+  border-radius: 8px;
+  padding: 40px 20px;
+  border: 1px solid #656478;
+  margin: 20px;
+  overflow-x: auto;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  margin-left: 40px;
+  color: var(--color-light--2);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 576px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0;
+  }
 }
 
 .addButton {
-  background-color: #6200ea;
+  background-color: rgb(0, 196, 106);
   color: white;
   padding: 10px 16px;
   border: none;
@@ -21,19 +42,76 @@
 }
 
 .addButton:hover {
-  background-color: #3700b3;
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  color: var(--color-light--2);
+  min-width: 800px;
+  /* Ensures table doesn't get too squished */
+}
+
+@media (max-width: 576px) {
+  .table {
+    min-width: 300px;
+  }
+
+  .editButton,
+  .deleteButton {
+    padding: 6px 8px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 20px 10px;
+    margin: 10px;
+  }
+}
+
+
+
+.table th {
+  background-color: #4d4e67;
+  padding: 12px;
+  border: none;
+}
+
+.table td {
+  padding: 10px;
+}
+
+.last {
+  border-top-right-radius: 8px;
+
+}
+
+.first {
+  border-top-left-radius: 8px;
 }
 
 .table th,
 .table td {
-  padding: 12px;
-  border: 1px solid #bbb;
   text-align: center;
+  border-left: 1px solid #656478;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: var(--color-darksidebar--3);
+  /* فضي داكن */
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #48485570;
+  /* أسود أو شبه أسود */
 }
 
 .image {
@@ -63,6 +141,10 @@
   margin-right: 8px;
   border-radius: 6px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .deleteButton {
@@ -72,6 +154,10 @@
   padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .spinner {
@@ -79,17 +165,25 @@
   width: 16px;
   height: 16px;
   border: 2px solid #fff;
-  border-top: 2px solid #f87171; /* لون سبينر أحمر */
+  border-top: 2px solid #f87171;
+  /* لون سبينر أحمر */
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-left: 5px;
   vertical-align: middle;
 }
 
+.scalable:hover {
+  transform: scale(1.01);
+  transition: transform 0.3s ease;
+  border-radius: 8px;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

@@ -32,23 +32,19 @@ const SignUpForm: React.FC = () => {
     try {
       const response = await fetch("/api/users/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Registration failed");
+        throw new Error(result.error || "فشل إنشاء الحساب");
       }
 
-      setSuccessMessage("Account created successfully! You can now log in.");
+      setSuccessMessage("تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.");
       setErrorMessage(null);
 
-      // اختياري: إعادة توجيه المستخدم لصفحة تسجيل الدخول بعد النجاح
-      // مثلا بعد 2 ثانية
       setTimeout(() => {
         window.location.href = "/login";
       }, 2000);
@@ -56,93 +52,96 @@ const SignUpForm: React.FC = () => {
       if (error instanceof Error) {
         setErrorMessage(error.message);
       } else {
-        setErrorMessage("An unknown error occurred.");
+        setErrorMessage("حدث خطأ غير متوقع.");
       }
       setSuccessMessage(null);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <div>
-        <h2>Sign Up</h2>
-        <p>
-          Do you have account?{" "}
-          <Link href="/login" className={styles.link}>
-            I have account
-          </Link>
-        </p>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form} dir="rtl">
+      <h2>إنشاء حساب</h2>
+      <p>
+        لديك حساب؟{" "}
+        <Link href="/login" className={styles.link}>
+          تسجيل الدخول
+        </Link>
+      </p>
 
-        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-        {successMessage && <p className={styles.success}>{successMessage}</p>}
+      {errorMessage && (
+        <span className={styles.errorMessage}>{errorMessage}</span>
+      )}
+      {successMessage && (
+        <span className={styles.successMessage}>{successMessage}</span>
+      )}
 
-        <label>Username</label>
+      <label>اسم المستخدم</label>
+      <input
+        type="text"
+        value={signupinputs.username}
+        {...register("username", { required: "اسم المستخدم مطلوب" })}
+        onChange={(e) =>
+          setsignupinputs({ ...signupinputs, username: e.target.value })
+        }
+      />
+      {errors.username && (
+        <span className={styles.errorMessage}>{errors.username.message}</span>
+      )}
+
+      <label>البريد الإلكتروني</label>
+      <input
+        type="text"
+        value={signupinputs.email}
+        {...register("email", {
+          required: "البريد الإلكتروني مطلوب",
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: "البريد الإلكتروني غير صالح",
+          },
+        })}
+        onChange={(e) =>
+          setsignupinputs({ ...signupinputs, email: e.target.value })
+        }
+      />
+      {errors.email && (
+        <span className={styles.errorMessage}>{errors.email.message}</span>
+      )}
+
+      <label>كلمة المرور</label>
+      <div className={styles.passwordWrapper}>
         <input
-          value={signupinputs.username}
-          type="text"
-          {...register("username", { required: "Username is required" })}
-          onChange={(e) =>
-            setsignupinputs({ ...signupinputs, username: e.target.value })
-          }
-        />
-        {errors.username && (
-          <p className={styles.error}>{errors.username.message}</p>
-        )}
-
-        <label>Email</label>
-        <input
-          type="text"
-          value={signupinputs.email}
-          {...register("email", {
-            required: "Email is required",
+          type={showPassword ? "text" : "password"}
+          value={signupinputs.password}
+          {...register("password", {
+            required: "كلمة المرور مطلوبة",
+            minLength: {
+              value: 8,
+              message: "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+            },
             pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "Invalid email address",
+              value: /^(?=.*[!@#$%^&*])(?=.*\d).+$/,
+              message: "يجب أن تحتوي كلمة المرور على رمز خاص ورقم",
             },
           })}
           onChange={(e) =>
-            setsignupinputs({ ...signupinputs, email: e.target.value })
+            setsignupinputs({ ...signupinputs, password: e.target.value })
           }
         />
-        {errors.email && <p className={styles.error}>{errors.email.message}</p>}
-
-        <label>Password</label>
-        <div className={styles.passwordWrapper}>
-          <input
-            value={signupinputs.password}
-            type={showPassword ? "text" : "password"}
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters",
-              },
-              pattern: {
-                value: /^(?=.*[!@#$%^&*])(?=.*\d).+$/,
-                message:
-                  "Password must contain at least one special character and one number",
-              },
-            })}
-            onChange={(e) =>
-              setsignupinputs({ ...signupinputs, password: e.target.value })
-            }
-          />
-          <span
-            className={styles.show}
-            onMouseEnter={() => setShowPassword(true)}
-            onMouseLeave={() => setShowPassword(false)}
-          >
-            Show
-          </span>
-        </div>
-        {errors.password && (
-          <p className={styles.error}>{errors.password.message}</p>
-        )}
-
-        <button type="submit" className={styles.loginButton}>
-          Sign Up
-        </button>
+        <span
+          className={styles.show}
+          onMouseEnter={() => setShowPassword(true)}
+          onMouseLeave={() => setShowPassword(false)}
+        >
+          إظهار
+        </span>
       </div>
+      {errors.password && (
+        <span className={styles.errorMessage}>{errors.password.message}</span>
+      )}
+
+      <button type="submit" className={styles.loginButton}>
+        إنشاء حساب
+      </button>
     </form>
   );
 };

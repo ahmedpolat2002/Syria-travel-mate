@@ -3,52 +3,93 @@
   margin-bottom: 24px;
 }
 
+.card {
+  background-color: var(--color-darksidebar--3);
+  border-radius: 8px;
+  padding: 40px 20px;
+  border: 1px solid #656478;
+  margin: 20px;
+  overflow-x: auto;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  margin-left: 40px;
+}
+
+@media (max-width: 576px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0;
+  }
 }
 
 .addButton {
-  background-color: #0070f3;
+  background-color: rgb(0, 196, 106);
   color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
   text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
 }
 
 .addButton:hover {
-  background-color: #005bb5;
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  color: var(--color-light--2);
+  min-width: 800px;
+  /* Ensures table doesn't get too squished */
+}
+
+
+
+.table th {
+  background-color: #4d4e67;
+  padding: 12px;
+  border: none;
+}
+
+
+.last {
+  border-top-right-radius: 8px;
+
+}
+
+.first {
+  border-top-left-radius: 8px;
 }
 
 .table th,
 .table td {
-  padding: 12px 10px;
-  border: 1px solid #ddd;
   text-align: center;
-  vertical-align: middle;
-  font-size: 14px;
+  border-left: 1px solid #656478;
 }
 
-.table th {
-  background-color: #f5f5f5;
-  font-weight: bold;
+.table tbody tr:nth-child(even) {
+  background-color: var(--color-darksidebar--3);
+  /* فضي داكن */
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #48485570;
+  /* أسود أو شبه أسود */
 }
 
 .image {
-  width: 80px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   object-fit: cover;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
 /* حالة الفعالية */
@@ -69,7 +110,7 @@
 
 /* الأزرار */
 .editButton {
-  background-color: #ffc107;
+  background-color: #1976d2;
   color: #fff;
   border: none;
   padding: 6px 10px;
@@ -80,7 +121,7 @@
 }
 
 .deleteButton {
-  background-color: #dc3545;
+  background-color: #d32f2f;
   color: #fff;
   border: none;
   padding: 6px 10px;
@@ -106,6 +147,12 @@
   animation: spin 1s linear infinite;
   margin-left: 6px;
   vertical-align: middle;
+}
+
+.scalable:hover {
+  transform: scale(1.01);
+  transition: transform 0.3s ease;
+  border-radius: 8px;
 }
 
 @keyframes spin {

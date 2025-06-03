@@ -1,20 +1,49 @@
 .container {
   padding: 20px;
   border-radius: 12px;
+  width: 100%;
+  overflow-x: auto;
   /* background: #fff; */
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); */
+}
+
+.card {
+  background-color: var(--color-darksidebar--3);
+  border-radius: 8px;
+  padding: 40px 20px;
+  border: 1px solid #656478;
+  margin: 20px;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 20px 10px;
+    margin: 10px;
+  }
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+@media (max-width: 576px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .addButton {
   padding: 8px 16px;
-  background-color: #4caf50;
+  background-color: rgb(0, 196, 106);
   color: white;
   font-weight: bold;
   border-radius: 8px;
@@ -23,30 +52,54 @@
 }
 
 .addButton:hover {
-  background-color: #45a049;
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  color: var(--color-light--2);
+  min-width: 900px; /* Ensures table doesn't get too squished - slightly wider for places table */
+}
+
+.table th {
+  background-color: #4d4e67;
+  padding: 12px;
+  border: none;
+}
+
+
+.last {
+  border-top-right-radius: 8px;
+
+}
+
+.first {
+  border-top-left-radius: 8px;
 }
 
 .table th,
 .table td {
-  padding: 12px 10px;
   text-align: center;
-  border-bottom: 1px solid #eee;
+  border-left: 1px solid #656478;
+
 }
 
-.table th {
-  background-color: #f8f8f8;
-  font-weight: bold;
-  font-size: 14px;
+
+.table tbody tr:nth-child(even) {
+  background-color: var(--color-darksidebar--3);
+  /* فضي داكن */
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #48485570;
+  /* أسود أو شبه أسود */
 }
 
 .table td img {
-  width: 80px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -63,22 +116,43 @@
 }
 
 .editButton {
-  background-color: #2196f3;
+  background-color: #1976d2;
   color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-right: 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
 }
 
-.editButton:hover {
-  background-color: #1e88e5;
+@media (max-width: 576px) {
+  .editButton {
+    padding: 6px 8px;
+    margin-right: 4px;
+    font-size: 12px;
+  }
 }
+
+
 
 .deleteButton {
-  background-color: #f44336;
+  background-color: #d32f2f;
   color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
 }
 
-.deleteButton:hover {
-  background-color: #e53935;
+@media (max-width: 576px) {
+  .deleteButton {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
 }
+
 
 /* Safety status colors */
 .safe {
@@ -97,8 +171,21 @@
 }
 
 .image {
-  width: 80px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   object-fit: cover;
+  border-radius: 8px;
+}
+
+@media (max-width: 576px) {
+  .image {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.scalable:hover {
+  transform: scale(1.01);
+  transition: transform 0.3s ease;
   border-radius: 8px;
 }

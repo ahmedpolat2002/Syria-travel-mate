@@ -30,113 +30,121 @@ const LoginForm: React.FC = () => {
     username: "",
     password: "",
   });
+  const [message, setMessage] = useState<{
+    text: string;
+    type: "error" | "success";
+  } | null>(null);
   const router = useRouter();
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
       const response = await fetch("/api/users/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          usernameOrEmail: data.username, // ✨ هنا نرسله باسم usernameOrEmail
+          usernameOrEmail: data.username,
           password: data.password,
         }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Login failed");
+        setMessage({
+          text: "فشل تسجيل الدخول" + " " + (errorData.error || ""),
+          type: "error",
+        });
+        return;
       }
 
       const result = await response.json();
-
-      console.log("Login successful:", result);
-
-      // ✨ فك التوكن
       const decoded = jwtDecode<TokenPayload>(result.token);
 
-      // ✨ تحقق من الدور وعمل التوجيه
-      if (decoded.role === "admin") {
-        router.push("/admin"); // إعادة توجيه للوحة تحكم الأدمن
-        // window.location.href = "/admin"; // إعادة توجيه للوحة تحكم الأدمن مثلاً
-      } else {
-        router.push("/"); // إعادة توجيه للصفحة الرئيسية
-        // window.location.href = "/"; // إعادة توجيه مثلاً للصفحة الرئيسية
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Login error:", error.message);
-      } else {
-        console.error("Login error:", error);
-      }
+      setMessage({ text: "تم تسجيل الدخول بنجاح", type: "success" });
+
+      setTimeout(() => {
+        if (decoded.role === "admin") {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
+      }, 1500);
+    } catch {
+      setMessage({ text: "حدث خطأ أثناء تسجيل الدخول", type: "error" });
     }
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <h2>Log in</h2>
-        <p>
-          Need a Mailchimp account?{" "}
-          <Link href="/register" className={styles.link}>
-            Create an account
-          </Link>
-        </p>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form} dir="rtl">
+      <h2>تسجيل الدخول</h2>
+      <p>
+        لا تملك حساباً؟{" "}
+        <Link href="/register" className={styles.link}>
+          إنشاء حساب جديد
+        </Link>
+      </p>
 
-        <label>Username or Email</label>
+      {message && (
+        <span
+          className={
+            message.type === "error"
+              ? styles.errorMessage
+              : styles.successMessage
+          }
+        >
+          {message.text}
+        </span>
+      )}
+
+      <label>اسم المستخدم أو البريد الإلكتروني</label>
+      <input
+        type="text"
+        value={logininputs.username}
+        {...register("username", { required: "هذا الحقل مطلوب" })}
+        onChange={(e) =>
+          setlogininputs({ ...logininputs, username: e.target.value })
+        }
+      />
+      {errors.username && (
+        <span className={styles.error}>{errors.username.message}</span>
+      )}
+
+      <label>كلمة المرور</label>
+      <div className={styles.passwordWrapper}>
         <input
-          value={logininputs.username}
-          type="text"
-          {...register("username", { required: "This field is required" })}
-          onChange={(e) => {
-            setlogininputs({ ...logininputs, username: e.target.value });
-          }}
+          type={showPassword ? "text" : "password"}
+          value={logininputs.password}
+          {...register("password", {
+            required: "كلمة المرور مطلوبة",
+            minLength: {
+              value: 8,
+              message: "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+            },
+            pattern: {
+              value: /^(?=.*[!@#$%^&*])(?=.*\d).+$/,
+              message: "يجب أن تحتوي كلمة المرور على رقم ورمز خاص على الأقل",
+            },
+          })}
+          onChange={(e) =>
+            setlogininputs({ ...logininputs, password: e.target.value })
+          }
         />
-        {errors.username && (
-          <p className={styles.error}>{errors.username.message}</p>
-        )}
+        <span
+          className={styles.show}
+          onMouseEnter={() => setShowPassword(true)}
+          onMouseLeave={() => setShowPassword(false)}
+        >
+          إظهار
+        </span>
+      </div>
+      {errors.password && (
+        <span className={styles.error}>{errors.password.message}</span>
+      )}
 
-        <label>Password</label>
-        <div className={styles.passwordWrapper}>
-          <input
-            value={logininputs.password}
-            type={showPassword ? "text" : "password"}
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters",
-              },
-              pattern: {
-                value: /^(?=.*[!@#$%^&*])(?=.*\d).+$/,
-                message:
-                  "Password must contain at least one special character and one number",
-              },
-            })}
-            onChange={(e) => {
-              setlogininputs({ ...logininputs, password: e.target.value });
-            }}
-          />
-          <span
-            className={styles.show}
-            onMouseEnter={() => setShowPassword(true)}
-            onMouseLeave={() => setShowPassword(false)}
-          >
-            Show
-          </span>
-        </div>
-        {errors.password && (
-          <p className={styles.error}>{errors.password.message}</p>
-        )}
-
-        <button type="submit" className={styles.loginButton}>
-          Log in
-        </button>
-      </form>
-    </>
+      <button type="submit" className={styles.loginButton}>
+        تسجيل الدخول
+      </button>
+    </form>
   );
 };
 
