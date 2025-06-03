@@ -50,7 +50,7 @@ const SignUpForm: React.FC = () => {
       }, 2000);
     } catch (error) {
       if (error instanceof Error) {
-        setErrorMessage(error.message);
+        setErrorMessage("فشل إنشاء الحساب : " + error.message);
       } else {
         setErrorMessage("حدث خطأ غير متوقع.");
       }
