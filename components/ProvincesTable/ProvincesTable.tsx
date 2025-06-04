@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { Provinces } from "@/types/provinces";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import Image from "next/image";
 
 export default function ProvincesTable({
   provinces,
@@ -111,7 +112,9 @@ export default function ProvincesTable({
                     </td>
                   )}
                   <td>
-                    <img
+                    <Image
+                      width={800}
+                      height={400}
                       src={province.image}
                       alt={province.name}
                       className={styles.image}

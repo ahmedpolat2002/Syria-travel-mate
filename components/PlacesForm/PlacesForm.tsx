@@ -6,6 +6,7 @@ import { useState } from "react";
 import styles from "./PlacesForm.module.css";
 import { toast } from "react-hot-toast";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 const LocationPickerMap = dynamic(
   () => import("../LocationPickerMap/LocationPickerMap"),
   { ssr: false }
@@ -229,7 +230,12 @@ export default function PlaceForm({
         {place?.image && (
           <div className={styles.oldImage}>
             <p>الصورة الحالية:</p>
-            <img src={place.image} alt={place.name} />
+            <Image
+              width={800}
+              height={400}
+              src={place.image}
+              alt={place.name}
+            />
           </div>
         )}
 

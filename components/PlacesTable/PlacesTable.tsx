@@ -7,6 +7,7 @@ import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import Image from "next/image";
 type Place = {
   id: number;
   name: string;
@@ -122,7 +123,9 @@ export default function PlacesTable({ places }: { places: Place[] }) {
                     </td>
                   )}
                   <td>
-                    <img
+                    <Image
+                      width={800}
+                      height={400}
                       src={place.image}
                       alt={place.name}
                       className={styles.image}

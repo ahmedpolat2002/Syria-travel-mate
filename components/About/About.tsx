@@ -2,13 +2,15 @@
 import React from "react";
 import { FaMapMarkedAlt, FaUserFriends, FaShieldAlt } from "react-icons/fa";
 import styles from "./About.module.css";
+import Image from "next/image";
+import img from "../../public/aboutUs.png";
 
 const About: React.FC = () => {
   return (
     <section id="about" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.imageContainer}>
-          <img src="aboutUs.png" alt="" />
+          <Image width={800} height={400} src={img} alt="Syria" />
         </div>
 
         <div className={styles.content}>

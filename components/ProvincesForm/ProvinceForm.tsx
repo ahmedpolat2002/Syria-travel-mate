@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./ProvinceForm.module.css";
 import { toast } from "react-hot-toast";
+import Image from "next/image";
 
 type Province = {
   id?: number;
@@ -168,7 +169,12 @@ export default function ProvinceForm({ province }: { province?: Province }) {
       {province && province.image && (
         <div className={styles.oldImage}>
           <p>الصورة الحالية:</p>
-          <img src={province.image} alt={province.name} />
+          <Image
+            width={800}
+            height={400}
+            src={province.image}
+            alt={province.name}
+          />
         </div>
       )}
 

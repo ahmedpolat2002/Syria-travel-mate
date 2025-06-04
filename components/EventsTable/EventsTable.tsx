@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import Image from "next/image";
 
 type Event = {
   id: number;
@@ -112,7 +113,9 @@ export default function EventsTable({ events }: { events: Event[] }) {
                   {showProvince && <td>{event.provinceName}</td>}
                   {showImage && (
                     <td>
-                      <img
+                      <Image
+                        width={800}
+                        height={400}
                         src={event.image}
                         alt={event.title}
                         className={styles.image}

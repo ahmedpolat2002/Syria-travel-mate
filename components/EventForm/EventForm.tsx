@@ -6,6 +6,7 @@ import { useState } from "react";
 import styles from "./EventForm.module.css";
 import { toast } from "react-hot-toast";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const LocationPickerMap = dynamic(
   () => import("../LocationPickerMap/LocationPickerMap"),
@@ -211,7 +212,12 @@ export default function EventForm({
         {event?.image && (
           <div className={styles.oldImage}>
             <p>الصورة الحالية:</p>
-            <img src={event.image} alt={event.title} />
+            <Image
+              width={800}
+              height={400}
+              src={event.image}
+              alt={event.title}
+            />
           </div>
         )}
 

@@ -8,6 +8,7 @@ import StarRating from "./components/StarRating";
 import LikeButton from "./components/LikeButton";
 import Comments from "./components/Comments";
 import SafetyStatus from "./components/SafetyStatus";
+import Image from "next/image";
 
 // Define the Place interface
 interface Place {
@@ -37,7 +38,9 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place }) => {
   return (
     <div className={styles.placeDetails}>
       <div className={styles.imageContainer}>
-        <img
+        <Image
+          width={800}
+          height={400}
           src={place.imageUrl}
           alt={place.name}
           className={styles.placeImage}

@@ -4,6 +4,7 @@ import { FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
 import styles from "./EventDetails.module.css";
 import EventStatus from "./components/EventStatus";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const EventMap = dynamic(() => import("./components/EventMap"), { ssr: false });
 
@@ -37,7 +38,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
   return (
     <div className={styles.eventDetails}>
       <div className={styles.imageContainer}>
-        <img
+        <Image
+          width={800}
+          height={400}
           src={event.image}
           alt={event.title}
           className={styles.eventImage}
