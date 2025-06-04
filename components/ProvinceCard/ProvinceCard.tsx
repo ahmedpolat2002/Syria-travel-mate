@@ -1,6 +1,7 @@
 // components/ProvinceCard.tsx
 import React from "react";
 import styles from "./ProvinceCard.module.css";
+import Image from "next/image";
 
 type Province = {
   id: number;
@@ -24,7 +25,13 @@ const ProvinceCard: React.FC<{ province: Province }> = ({ province }) => {
 
   return (
     <div className={styles.card}>
-      <img src={province.image} alt={province.name} className={styles.image} />
+      <Image
+        width={800}
+        height={400}
+        src={province.image}
+        alt={province.name}
+        className={styles.image}
+      />
       <div className={styles.content}>
         <h3>{province.name}</h3>
         <p>
