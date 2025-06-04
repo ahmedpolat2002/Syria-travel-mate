@@ -1,0 +1,35 @@
+.container {
+  padding: 2rem;
+  background-color: var(--color-dark--0);
+  min-height: 100vh;
+  direction: rtl;
+}
+
+.title {
+  color: var(--color-light--2);
+  font-size: 2rem;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.backButton {
+  display: block;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-brand--2);
+  color: var(--color-light--0);
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+}

@@ -1,0 +1,57 @@
+.card {
+  background-color: var(--color-dark--1);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.content {
+  padding: 1rem;
+  color: var(--color-light--2);
+}
+
+.content h3 {
+  margin: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--color-brand--2);
+}
+
+.content p {
+  font-size: 0.95rem;
+  color: var(--color-light--3);
+  margin-bottom: 0.5rem;
+}
+
+.status {
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  font-size: 0.85rem;
+}
+
+.safe {
+  background-color: green;
+  color: white;
+}
+
+.warning {
+  background-color: orange;
+  color: white;
+}
+
+.danger {
+  background-color: red;
+  color: white;
+}
