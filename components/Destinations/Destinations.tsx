@@ -47,13 +47,17 @@ const Destinations: React.FC = () => {
           </p>
         </div>
 
-        <div className={styles.destinationsGrid}>
-          {loading ? (
-            <p>Loading...</p>
-          ) : places.length === 0 ? (
-            <p>No popular places found.</p>
-          ) : (
-            places.map((place) => (
+        {loading ? (
+          <p style={{ textAlign: "center", width: "100%" }}>
+            جارٍ تحميل الأماكن... يرجى الانتظار.
+          </p>
+        ) : places.length === 0 ? (
+          <p style={{ textAlign: "center", width: "100%" }}>
+            لا توجد أماكن متاحة حالياً. يرجى التحقق لاحقاً.
+          </p>
+        ) : (
+          <div className={styles.destinationsGrid}>
+            {places.map((place) => (
               <div key={place.id} className={styles.destinationCard}>
                 <div className={styles.cardImage}>
                   {place.image ? (
@@ -86,9 +90,9 @@ const Destinations: React.FC = () => {
                   </Link>
                 </div>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

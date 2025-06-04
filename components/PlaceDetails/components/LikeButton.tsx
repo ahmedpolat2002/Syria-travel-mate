@@ -10,6 +10,18 @@ const LikeButton: React.FC<LikeButtonProps> = ({ placeId }) => {
   const [liked, setLiked] = useState(false);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<{ username: string } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/users/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated) {
+          setUser(data.user);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch user:", err));
+  }, []);
 
   // جلب عدد الإعجابات وحالة المستخدم
   useEffect(() => {
@@ -53,23 +65,44 @@ const LikeButton: React.FC<LikeButtonProps> = ({ placeId }) => {
   };
 
   return (
-    <button
-      onClick={toggleLike}
-      disabled={loading}
-      style={{
-        background: "none",
-        border: "none",
-        color: liked ? "red" : "gray",
-        cursor: "pointer",
-        fontSize: "1.2rem",
-        display: "flex",
-        alignItems: "center",
-        gap: "0.3rem",
-      }}
-    >
-      {liked ? <FaHeart /> : <FaRegHeart />}
-      <span>{count}</span>
-    </button>
+    <>
+      {user ? (
+        <button
+          onClick={toggleLike}
+          disabled={loading}
+          style={{
+            background: "none",
+            border: "none",
+            color: liked ? "red" : "gray",
+            cursor: "pointer",
+            fontSize: "1.2rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.3rem",
+          }}
+        >
+          {liked ? <FaHeart /> : <FaRegHeart />}
+          <span>{count}</span>
+        </button>
+      ) : (
+        <button
+          onClick={() => alert("يرجى تسجيل الدخول لإبداء الإعجاب")}
+          style={{
+            background: "none",
+            border: "none",
+            color: "gray",
+            cursor: "pointer",
+            fontSize: "1.2rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.3rem",
+          }}
+        >
+          <FaRegHeart />
+          <span>{count}</span>
+        </button>
+      )}
+    </>
   );
 };
 

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
 interface User {
@@ -20,6 +20,7 @@ const Header = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     fetch("/api/users/me")
@@ -63,21 +64,41 @@ const Header = () => {
 
         <nav className={`${styles.nav} ${isMenuOpen ? styles.active : ""}`}>
           <ul>
-            <li>
-              <Link href="#home">الرئيسية</Link>
-            </li>
-            <li>
-              <Link href="#destinations">الوجهات</Link>
-            </li>
-            <li>
-              <Link href="#events">الفعاليات</Link>
-            </li>
-            <li>
-              <Link href="#about">من نحن</Link>
-            </li>
-            <li>
-              <Link href="#contact">اتصل بنا</Link>
-            </li>
+            {pathname === "/" ? (
+              <>
+                <li>
+                  <Link href="#home">الرئيسية</Link>
+                </li>
+                <li>
+                  <Link href="#destinations">الوجهات</Link>
+                </li>
+                <li>
+                  <Link href="#events">الفعاليات</Link>
+                </li>
+                <li>
+                  <Link href="#about">من نحن</Link>
+                </li>
+                <li>
+                  <Link href="#contact">اتصل بنا</Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link href="/">الرئيسية</Link>
+                </li>
+                <li>
+                  <Link href="/map">الخريطة</Link>
+                </li>
+                <li>
+                  <Link href="/#destinations">الوجهات</Link>
+                </li>
+                <li>
+                  <Link href="/#events">الفعاليات</Link>
+                </li>
+              </>
+            )}
+
             {user?.role === "admin" && (
               <li>
                 <Link href="/admin">لوحة التحكم</Link>

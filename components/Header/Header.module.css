@@ -43,7 +43,7 @@
 }
 
 .nav a:hover {
-  color: var(--color-brand--1);
+  color: var(--color-brand--2);
 }
 
 .buttonGroup {
@@ -63,6 +63,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  transition: all 0.3s ease;
 }
 
 .authButton {
@@ -72,7 +73,7 @@
 }
 
 .authButton:hover {
-  background-color: var(--color-brand--1);
+  background-color: var(--color-brand--2);
 }
 
 .langButton:hover {

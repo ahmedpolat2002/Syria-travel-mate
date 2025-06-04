@@ -59,15 +59,17 @@ const Events: React.FC = () => {
           </p>
         </div>
 
-        <div className={styles.eventsGrid}>
-          {loading ? (
-            <p>...جاري تحميل الفعاليات الثقافية القادمة</p>
-          ) : events.length === 0 ? (
-            <p>
-              .لا توجد فعاليات ثقافية قادمة في الوقت الحالي. يرجى التحقق لاحقاً
-            </p>
-          ) : (
-            events.map((event) => (
+        {loading ? (
+          <p style={{ textAlign: "center", width: "100%" }}>
+            ...جاري تحميل الفعاليات الثقافية القادمة
+          </p>
+        ) : events.length === 0 ? (
+          <p style={{ textAlign: "center", width: "100%" }}>
+            .لا توجد فعاليات ثقافية قادمة في الوقت الحالي. يرجى التحقق لاحقاً
+          </p>
+        ) : (
+          <div className={styles.eventsGrid}>
+            {events.map((event) => (
               <div key={event.id} className={styles.eventCard}>
                 <div className={styles.cardImage}>
                   {event.image ? (
@@ -116,9 +118,9 @@ const Events: React.FC = () => {
                   </Link>
                 </div>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

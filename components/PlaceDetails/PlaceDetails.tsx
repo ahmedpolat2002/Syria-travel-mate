@@ -34,11 +34,6 @@ interface PlaceDetailsProps {
 }
 
 const PlaceDetails: React.FC<PlaceDetailsProps> = ({ place }) => {
-  // const handleAddComment = (comment: { username: string; text: string }) => {
-  //   console.log("New comment added:", comment);
-  //   // Here you would typically send the new comment to your backend
-  // };
-
   return (
     <div className={styles.placeDetails}>
       <div className={styles.imageContainer}>
