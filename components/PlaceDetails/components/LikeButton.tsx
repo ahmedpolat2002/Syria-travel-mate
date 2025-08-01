@@ -11,6 +11,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ placeId }) => {
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<{ username: string } | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     fetch("/api/users/me")
@@ -23,7 +24,6 @@ const LikeButton: React.FC<LikeButtonProps> = ({ placeId }) => {
       .catch((err) => console.error("Failed to fetch user:", err));
   }, []);
 
-  // جلب عدد الإعجابات وحالة المستخدم
   useEffect(() => {
     const fetchLikes = async () => {
       try {
@@ -86,7 +86,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ placeId }) => {
         </button>
       ) : (
         <button
-          onClick={() => alert("يرجى تسجيل الدخول لإبداء الإعجاب")}
+          onClick={() => setShowPopup(true)}
           style={{
             background: "none",
             border: "none",
@@ -102,8 +102,78 @@ const LikeButton: React.FC<LikeButtonProps> = ({ placeId }) => {
           <span>{count}</span>
         </button>
       )}
+
+      {showPopup && (
+        <div style={overlayStyle}>
+          <div style={modalStyle}>
+            <h3 style={{ marginTop: 0 }}>تنبيه</h3>
+            <p>يرجى تسجيل الدخول لإبداء الإعجاب.</p>
+            <div
+              style={{
+                marginTop: "1.5rem",
+                textAlign: "right",
+                display: "flex",
+                gap: "8px",
+              }}
+            >
+              <button
+                onClick={() => setShowPopup(false)}
+                style={{
+                  padding: "6px 12px",
+                  backgroundColor: "#ccc",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                  fontFamily: "var(--font-family-primary)",
+                }}
+              >
+                إغلاق
+              </button>
+              <a
+                href="/login"
+                style={{
+                  padding: "6px 12px",
+                  backgroundColor: "#007BFF",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "4px",
+                  textDecoration: "none",
+                  cursor: "pointer",
+                  fontSize: "14px",
+                }}
+              >
+                تسجيل الدخول
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
+};
+
+// أنماط النافذة المنبثقة
+const overlayStyle: React.CSSProperties = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0, 0, 0, 0.6)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  zIndex: 1000,
+};
+
+const modalStyle: React.CSSProperties = {
+  backgroundColor: "#fff",
+  padding: "1.5rem",
+  borderRadius: "8px",
+  width: "400px",
+  boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+  direction: "rtl",
 };
 
 export default LikeButton;

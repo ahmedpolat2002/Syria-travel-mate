@@ -23,6 +23,7 @@ type Place = {
 
 export default function PlacesTable({ places }: { places: Place[] }) {
   const router = useRouter();
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 1200
@@ -44,6 +45,18 @@ export default function PlacesTable({ places }: { places: Place[] }) {
   const showSafetyStatus = windowWidth > 480;
   const showCoordinates = windowWidth > 992;
   const showCreatedDate = windowWidth > 1100;
+
+  // search in name :
+  const filteredPlaces = places.filter((place) =>
+    place.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  // search in name, description, provinceName :
+  // const filteredPlaces = places.filter((place) =>
+  //   [place.name, place.description, place.provinceName].some((field) =>
+  //     field.toLowerCase().includes(search.toLowerCase())
+  //   )
+  // );
 
   const handleDelete = async (id: number) => {
     setLoading(true);
@@ -85,6 +98,16 @@ export default function PlacesTable({ places }: { places: Place[] }) {
           </Link>
         </div>
 
+        <div className={styles.searchContainer}>
+          <input
+            type="text"
+            placeholder="...بحث عن مكان"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className={styles.search}
+          />
+        </div>
+
         <table className={styles.table}>
           <thead>
             <tr>
@@ -103,8 +126,8 @@ export default function PlacesTable({ places }: { places: Place[] }) {
             </tr>
           </thead>
           <tbody>
-            {places.length > 0 ? (
-              places.map((place) => (
+            {filteredPlaces.length > 0 ? (
+              filteredPlaces.map((place) => (
                 <tr key={place.id} className={styles.scalable}>
                   <td style={{ borderLeft: "none" }}>{place.name}</td>
                   {showDescription && (

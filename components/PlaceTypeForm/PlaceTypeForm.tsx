@@ -62,25 +62,33 @@ export default function PlaceTypeForm({
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <h2>{placeType ? "تعديل النوع" : "إضافة نوع جديد"}</h2>
+    <div className={styles.card}>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <h2>{placeType ? "تعديل النوع" : "إضافة نوع جديد"}</h2>
 
-      <div className={styles.grid}>
-        <div>
-          <label>الاسم</label>
-          <input
-            type="text"
-            {...register("name", { required: "اسم النوع مطلوب" })}
-          />
-          {errors.name && (
-            <span className={styles.error}>{errors.name.message}</span>
-          )}
+        <div className={styles.grid}>
+          <div>
+            <label>الاسم</label>
+            <input
+              type="text"
+              className={styles.custominput}
+              placeholder="الاسم"
+              {...register("name", { required: "اسم النوع مطلوب" })}
+            />
+            {errors.name && (
+              <span className={styles.error}>{errors.name.message}</span>
+            )}
+          </div>
         </div>
-      </div>
 
-      <button type="submit" className={styles.submitButton} disabled={loading}>
-        {loading ? "جاري المعالجة..." : placeType ? "تحديث" : "إضافة"}
-      </button>
-    </form>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={loading}
+        >
+          {loading ? "جاري المعالجة..." : placeType ? "تحديث" : "إضافة"}
+        </button>
+      </form>
+    </div>
   );
 }

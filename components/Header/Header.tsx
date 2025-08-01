@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface User {
@@ -20,7 +20,7 @@ const Header = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     fetch("/api/users/me")
@@ -29,7 +29,19 @@ const Header = () => {
         setIsAuthenticated(data.authenticated);
         setUser(data.user);
       });
-  }, []);
+
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+
+    document.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrolled]);
 
   const handleLogout = async () => {
     setLoading(true);
@@ -50,7 +62,7 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
       <div className={styles.container}>
         <div className={styles.logo}>
           <Link href="/">
@@ -64,41 +76,21 @@ const Header = () => {
 
         <nav className={`${styles.nav} ${isMenuOpen ? styles.active : ""}`}>
           <ul>
-            {pathname === "/" ? (
-              <>
-                <li>
-                  <Link href="#home">الرئيسية</Link>
-                </li>
-                <li>
-                  <Link href="#destinations">الوجهات</Link>
-                </li>
-                <li>
-                  <Link href="#events">الفعاليات</Link>
-                </li>
-                <li>
-                  <Link href="#about">من نحن</Link>
-                </li>
-                <li>
-                  <Link href="#contact">اتصل بنا</Link>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Link href="/">الرئيسية</Link>
-                </li>
-                <li>
-                  <Link href="/map">الخريطة</Link>
-                </li>
-                <li>
-                  <Link href="/#destinations">الوجهات</Link>
-                </li>
-                <li>
-                  <Link href="/#events">الفعاليات</Link>
-                </li>
-              </>
-            )}
-
+            <li>
+              <Link href="#home">الرئيسية</Link>
+            </li>
+            <li>
+              <Link href="#destinations">الوجهات</Link>
+            </li>
+            <li>
+              <Link href="#events">الفعاليات</Link>
+            </li>
+            <li>
+              <Link href="#about">من نحن</Link>
+            </li>
+            <li>
+              <Link href="#contact">اتصل بنا</Link>
+            </li>
             {user?.role === "admin" && (
               <li>
                 <Link href="/admin">لوحة التحكم</Link>
@@ -110,13 +102,13 @@ const Header = () => {
             {!isAuthenticated ? (
               <>
                 <button
-                  className={styles.authButton}
+                  className={`${styles.authButton} ${styles.secondary}`}
                   onClick={() => router.push("/login")}
                 >
                   تسجيل الدخول
                 </button>
                 <button
-                  className={styles.authButton}
+                  className={`${styles.authButton} ${styles.primary}`}
                   onClick={() => router.push("/register")}
                 >
                   إنشاء حساب
@@ -124,7 +116,7 @@ const Header = () => {
               </>
             ) : (
               <button
-                className={styles.authButton}
+                className={`${styles.authButton} ${styles.primary}`}
                 onClick={handleLogout}
                 disabled={loading}
               >

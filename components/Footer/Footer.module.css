@@ -150,3 +150,17 @@
     grid-template-columns: 1fr;
   }
 }
+
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialLink {
+  color: var(--color-light--1);
+  font-size: 1.5rem;
+}
+
+.socialLink:hover {
+  color: var(--color-brand--1);
+}

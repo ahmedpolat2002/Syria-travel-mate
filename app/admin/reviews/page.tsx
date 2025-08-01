@@ -111,15 +111,21 @@ export default function ReviewsStatsPage() {
       </div>
 
       {topPlaces.length > 0 && (
-        <div className={styles.topPlaces + " " + styles.chartBox}>
-          <h3>أكثر الأماكن حصولًا على مراجعات</h3>
-          {/* <p className={styles.description}>
-            يعرض هذا القسم الأماكن التي حصلت على أعلى عدد من المراجعات.
-          </p> */}
-          <ul>
-            {topPlaces.map((place, idx) => (
-              <li key={idx}>
-                <strong>{place.name}</strong> = {place.count} مراجعة
+        <div
+          className={`${styles.topPlaces} ${styles.chartBox}`}
+          style={{ direction: "rtl" }}
+        >
+          <h3>أكثر ٣ أماكن حصولًا على مراجعات</h3>
+          <ul className={styles.topPlacesList}>
+            {topPlaces.slice(0, 3).map((place, idx) => (
+              <li key={idx} className={styles.placeItem}>
+                <span className={styles.rank}>{idx + 1}</span>
+                <div className={styles.placeContent}>
+                  <strong className={styles.placeName}>{place.name}</strong>
+                  <span className={styles.reviewCount}>
+                    {place.count} مراجعة
+                  </span>
+                </div>
               </li>
             ))}
           </ul>

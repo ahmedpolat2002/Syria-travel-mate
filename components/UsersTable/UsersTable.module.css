@@ -4,29 +4,120 @@
   margin: auto;
 }
 
+.card {
+  background-color: var(--color-darksidebar--3);
+  border-radius: 8px;
+  padding: 40px 20px;
+  border: 1px solid #656478;
+  margin: 20px;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 20px 10px;
+    margin: 10px;
+  }
+}
+
+.searchContainer {
+  position: relative;
+  margin-bottom: 20px;
+  width: 30%;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #888;
+}
+
 .search {
-  margin-bottom: 16px;
-  padding: 8px;
-  width: calc(100% - 16px);
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  width: 100%;
+  padding: 12px 20px 12px 45px;
+  /* Increased padding */
+  border: 1px solid #555555;
+  border-radius: 8px;
+  background-color: #3a3a4a;
+  color: var(--color-light--2);
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.search::placeholder {
+  color: #aaa;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  color: var(--color-light--2);
+  min-width: 800px;
+}
+
+.table th {
+  background-color: #4d4e67;
+  padding: 12px;
+  border: none;
+}
+
+.last {
+  border-top-right-radius: 8px;
+}
+
+.first {
+  border-top-left-radius: 8px;
 }
 
 .table th,
 .table td {
   padding: 12px;
-  border: 1px solid #ddd;
   text-align: left;
+  border-left: 1px solid #656478;
 }
 
-.usernameInput {
-  padding: 6px;
-  border: 1px solid #aaa;
-  border-radius: 4px;
+.table tbody tr:nth-child(even) {
+  background-color: var(--color-darksidebar--3);
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #48485570;
+}
+
+.tableInput,
+.tableSelect {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #3a3a4a;
+  color: var(--color-light--2);
+  box-sizing: border-box;
+}
+
+.tableButton {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #4d4e67;
+  color: var(--color-light--2);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tableButton:hover {
+  background-color: #656478;
+}
+
+.email {
+  color: #4096e0;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .searchContainer {
+    width: 100%;
+  }
 }

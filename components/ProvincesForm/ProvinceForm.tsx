@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./ProvinceForm.module.css";
 import { toast } from "react-hot-toast";
-import Image from "next/image";
 
 type Province = {
   id?: number;
@@ -93,94 +92,114 @@ export default function ProvinceForm({ province }: { province?: Province }) {
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <h2>{province ? "تعديل المحافظة" : "إضافة محافظة جديدة"}</h2>
+    <div className={styles.card}>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <h2>{province ? "تعديل المحافظة" : "إضافة محافظة جديدة"}</h2>
 
-      <div className={styles.grid}>
-        <div>
-          <label>الاسم</label>
-          <input
-            type="text"
-            {...register("name", { required: "الاسم مطلوب" })}
-          />
-          {errors.name && (
-            <span className={styles.error}>{errors.name.message}</span>
-          )}
+        <div className={styles.grid}>
+          <div>
+            <label>الاسم</label>
+            <input
+              type="text"
+              placeholder="الاسم"
+              className={styles.custominput}
+              {...register("name", { required: "الاسم مطلوب" })}
+            />
+            {errors.name && (
+              <span className={styles.error}>{errors.name.message}</span>
+            )}
+          </div>
+
+          <div>
+            <label>الوصف</label>
+            <input
+              type="text"
+              placeholder="الوصف"
+              className={styles.custominput}
+              {...register("description", { required: "الوصف مطلوب" })}
+            />
+            {errors.description && (
+              <span className={styles.error}>{errors.description.message}</span>
+            )}
+          </div>
+
+          <div>
+            <label>خط العرض</label>
+            <input
+              type="number"
+              step="any"
+              placeholder="خط العرض"
+              className={styles.custominput}
+              {...register("latitude", { required: "خط العرض مطلوب" })}
+            />
+            {errors.latitude && (
+              <span className={styles.error}>{errors.latitude.message}</span>
+            )}
+          </div>
+
+          <div>
+            <label>خط الطول</label>
+            <input
+              type="number"
+              step="any"
+              placeholder="خط الطول"
+              className={styles.custominput}
+              {...register("longitude", { required: "خط الطول مطلوب" })}
+            />
+            {errors.longitude && (
+              <span className={styles.error}>{errors.longitude.message}</span>
+            )}
+          </div>
+
+          <div>
+            <label>حالة الأمان</label>
+            <select
+              className={styles.customselect}
+              {...register("safetyStatus", { required: "حالة الأمان مطلوبة" })}
+            >
+              <option value="safe">آمن</option>
+              <option value="warning">تحذير</option>
+              <option value="danger">خطر</option>
+            </select>
+            {errors.safetyStatus && (
+              <span className={styles.error}>
+                {errors.safetyStatus.message}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <label>الصورة</label>
+            <input
+              className={styles.custominput}
+              type="file"
+              accept="image/*"
+              {...register("image", {
+                validate: (files) =>
+                  files.length > 0 || province?.image ? true : "الصورة مطلوبة",
+              })}
+            />
+            {errors.image && (
+              <span className={styles.error}>{errors.image.message}</span>
+            )}
+          </div>
         </div>
 
-        <div>
-          <label>الوصف</label>
-          <input
-            type="text"
-            {...register("description", { required: "الوصف مطلوب" })}
-          />
-          {errors.description && (
-            <span className={styles.error}>{errors.description.message}</span>
-          )}
-        </div>
+        {province && province.image && (
+          <div className={styles.oldImage}>
+            <p>الصورة الحالية:</p>
+            <img src={province.image} alt={province.name} />
+          </div>
+        )}
 
-        <div>
-          <label>خط العرض</label>
-          <input
-            type="number"
-            step="any"
-            {...register("latitude", { required: "خط العرض مطلوب" })}
-          />
-          {errors.latitude && (
-            <span className={styles.error}>{errors.latitude.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label>خط الطول</label>
-          <input
-            type="number"
-            step="any"
-            {...register("longitude", { required: "خط الطول مطلوب" })}
-          />
-          {errors.longitude && (
-            <span className={styles.error}>{errors.longitude.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label>حالة الأمان</label>
-          <select
-            {...register("safetyStatus", { required: "حالة الأمان مطلوبة" })}
-          >
-            <option value="safe">آمن</option>
-            <option value="warning">تحذير</option>
-            <option value="danger">خطر</option>
-          </select>
-          {errors.safetyStatus && (
-            <span className={styles.error}>{errors.safetyStatus.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label>الصورة</label>
-          <input type="file" accept="image/*" {...register("image")} />
-          {province && !province.image && (
-            <span className={styles.error}>يجب اختيار صورة</span>
-          )}
-        </div>
-      </div>
-
-      {province && province.image && (
-        <div className={styles.oldImage}>
-          <p>الصورة الحالية:</p>
-          <Image
-            width={800}
-            height={400}
-            src={province.image}
-            alt={province.name}
-          />
-        </div>
-      )}
-
-      <button type="submit" className={styles.submitButton} disabled={loading}>
-        {loading ? "جاري المعالجة..." : province ? "تحديث" : "إضافة"}
-      </button>
-    </form>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={loading}
+        >
+          {loading ? "جاري المعالجة..." : province ? "تحديث" : "إضافة"}
+        </button>
+      </form>
+    </div>
   );
 }

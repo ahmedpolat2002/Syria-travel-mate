@@ -76,7 +76,7 @@ const Footer: React.FC = () => {
             <div className={styles.footerContact}>
               <p>
                 <FaMapMarkerAlt />
-                123 Main Street, Damascus, Syria
+                123 Main Street, Aleppo, Syria
               </p>
               <p>
                 <FaPhoneAlt />

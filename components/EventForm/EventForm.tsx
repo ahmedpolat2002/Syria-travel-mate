@@ -6,7 +6,6 @@ import { useState } from "react";
 import styles from "./EventForm.module.css";
 import { toast } from "react-hot-toast";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 
 const LocationPickerMap = dynamic(
   () => import("../LocationPickerMap/LocationPickerMap"),
@@ -111,136 +110,165 @@ export default function EventForm({
 
   return (
     <>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <h2>{event ? "تعديل الفعالية" : "إضافة فعالية جديدة"}</h2>
+      <div className={styles.card}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          <h2>{event ? "تعديل الفعالية" : "إضافة فعالية جديدة"}</h2>
 
-        <div className={styles.grid}>
-          <div>
-            <label>عنوان الفعالية</label>
-            <input type="text" {...register("title", { required: true })} />
-            {errors.title && (
-              <span className={styles.error}>العنوان مطلوب</span>
-            )}
+          <div className={styles.grid}>
+            <div>
+              <label>عنوان الفعالية</label>
+              <input
+                type="text"
+                className={styles.custominput}
+                {...register("title", { required: true })}
+              />
+              {errors.title && (
+                <span className={styles.error}>العنوان مطلوب</span>
+              )}
+            </div>
+
+            <div>
+              <label>الوصف</label>
+              <input
+                type="text"
+                className={styles.custominput}
+                {...register("description", { required: true })}
+              />
+              {errors.description && (
+                <span className={styles.error}>الوصف مطلوب</span>
+              )}
+            </div>
+
+            <div>
+              <label>المحافظة</label>
+              <select
+                className={styles.customselect}
+                {...register("provinceId", { required: "المحافظة مطلوبة" })}
+              >
+                <option value="">اختر المحافظة</option>
+                {provinces.map((prov) => (
+                  <option key={prov.id} value={prov.id}>
+                    {prov.name}
+                  </option>
+                ))}
+              </select>
+              {errors.provinceId && (
+                <span className={styles.error}>
+                  {errors.provinceId.message}
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label>تاريخ البداية</label>
+              <input
+                type="date"
+                className={styles.custominput}
+                {...register("startDate", { required: true })}
+              />
+              {errors.startDate && (
+                <span className={styles.error}>تاريخ البداية مطلوب</span>
+              )}
+            </div>
+
+            <div>
+              <label>تاريخ النهاية</label>
+              <input
+                type="date"
+                className={styles.custominput}
+                {...register("endDate", { required: true })}
+              />
+              {errors.endDate && (
+                <span className={styles.error}>تاريخ النهاية مطلوب</span>
+              )}
+            </div>
+
+            <div>
+              <label>خط العرض</label>
+              <input
+                type="number"
+                step="any"
+                className={styles.custominput}
+                {...register("latitude", { required: true })}
+              />
+              {errors.latitude && (
+                <span className={styles.error}>خط العرض مطلوب</span>
+              )}
+            </div>
+
+            <div>
+              <label>خط الطول</label>
+              <input
+                type="number"
+                step="any"
+                className={styles.custominput}
+                {...register("longitude", { required: true })}
+              />
+              {errors.longitude && (
+                <span className={styles.error}>خط الطول مطلوب</span>
+              )}
+            </div>
+
+            <div>
+              <label>الحالة</label>
+              <select
+                className={styles.customselect}
+                {...register("status", { required: true })}
+              >
+                <option value="active">نشطة</option>
+                <option value="finished">منتهية</option>
+                <option value="cancelled">ملغاة</option>
+              </select>
+              {errors.status && (
+                <span className={styles.error}>الحالة مطلوبة</span>
+              )}
+            </div>
+
+            <div>
+              <label>الصورة</label>
+              <input
+                type="file"
+                accept="image/*"
+                className={styles.custominput}
+                {...register("image", {
+                  validate: (files) =>
+                    files.length > 0 || event?.image ? true : "الصورة مطلوبة",
+                })}
+              />
+              {errors.image && (
+                <span className={styles.error}>{errors.image.message}</span>
+              )}
+            </div>
           </div>
 
-          <div>
-            <label>الوصف</label>
-            <input
-              type="text"
-              {...register("description", { required: true })}
-            />
-            {errors.description && (
-              <span className={styles.error}>الوصف مطلوب</span>
-            )}
-          </div>
+          {event?.image && (
+            <div className={styles.oldImage}>
+              <p>الصورة الحالية:</p>
+              <img src={event.image} alt={event.title} />
+            </div>
+          )}
 
-          <div>
-            <label>المحافظة</label>
-            <select
-              {...register("provinceId", { required: "المحافظة مطلوبة" })}
-            >
-              <option value="">اختر المحافظة</option>
-              {provinces.map((prov) => (
-                <option key={prov.id} value={prov.id}>
-                  {prov.name}
-                </option>
-              ))}
-            </select>
-            {errors.provinceId && (
-              <span className={styles.error}>{errors.provinceId.message}</span>
-            )}
-          </div>
+          <button
+            type="submit"
+            className={styles.submitButton}
+            disabled={loading}
+          >
+            {loading ? "جاري الحفظ..." : event ? "تحديث" : "إضافة"}
+          </button>
+        </form>
 
-          <div>
-            <label>تاريخ البداية</label>
-            <input type="date" {...register("startDate", { required: true })} />
-            {errors.startDate && (
-              <span className={styles.error}>تاريخ البداية مطلوب</span>
-            )}
-          </div>
-
-          <div>
-            <label>تاريخ النهاية</label>
-            <input type="date" {...register("endDate", { required: true })} />
-            {errors.endDate && (
-              <span className={styles.error}>تاريخ النهاية مطلوب</span>
-            )}
-          </div>
-
-          <div>
-            <label>خط العرض</label>
-            <input
-              type="number"
-              step="any"
-              {...register("latitude", { required: true })}
-            />
-            {errors.latitude && (
-              <span className={styles.error}>خط العرض مطلوب</span>
-            )}
-          </div>
-
-          <div>
-            <label>خط الطول</label>
-            <input
-              type="number"
-              step="any"
-              {...register("longitude", { required: true })}
-            />
-            {errors.longitude && (
-              <span className={styles.error}>خط الطول مطلوب</span>
-            )}
-          </div>
-
-          <div>
-            <label>الحالة</label>
-            <select {...register("status", { required: true })}>
-              <option value="active">نشطة</option>
-              <option value="finished">منتهية</option>
-              <option value="cancelled">ملغاة</option>
-            </select>
-            {errors.status && (
-              <span className={styles.error}>الحالة مطلوبة</span>
-            )}
-          </div>
-
-          <div>
-            <label>الصورة</label>
-            <input type="file" accept="image/*" {...register("image")} />
-          </div>
-        </div>
-
-        {event?.image && (
-          <div className={styles.oldImage}>
-            <p>الصورة الحالية:</p>
-            <Image
-              width={800}
-              height={400}
-              src={event.image}
-              alt={event.title}
-            />
-          </div>
-        )}
-
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={loading}
-        >
-          {loading ? "جاري الحفظ..." : event ? "تحديث" : "إضافة"}
-        </button>
-      </form>
-
-      <LocationPickerMap
-        onSelect={(lat, lng) => {
-          setLatitude(lat);
-          setLongitude(lng);
-          setValue("latitude", lat); // تحديث القيمة داخل الفورم
-          setValue("longitude", lng);
-        }}
-        initialPosition={
-          latitude && longitude ? [latitude, longitude] : undefined
-        }
-      />
+        <LocationPickerMap
+          onSelect={(lat, lng) => {
+            setLatitude(lat);
+            setLongitude(lng);
+            setValue("latitude", lat); // تحديث القيمة داخل الفورم
+            setValue("longitude", lng);
+          }}
+          initialPosition={
+            latitude && longitude ? [latitude, longitude] : undefined
+          }
+        />
+      </div>
     </>
   );
 }

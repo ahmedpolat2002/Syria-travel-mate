@@ -68,7 +68,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <PiCityLight
               className={`${styles.icon} ${collapsed ? styles.closedicon : ""}`}
             />
-            {collapsed && <span className={styles.tooltip}>المحافظات</span>}
+            {/* {collapsed && <span className={styles.tooltip}>المحافظات</span>} */}
           </div>
           {!collapsed && <span className={styles.label}>المحافظات</span>}
           {!collapsed && (
@@ -108,7 +108,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <CiFilter
               className={`${styles.icon} ${collapsed ? styles.closedicon : ""}`}
             />
-            {collapsed && <span className={styles.tooltip}>فلترة</span>}
+            {/* {collapsed && <span className={styles.tooltip}>فلترة</span>} */}
           </div>
           {!collapsed && <span className={styles.label}>فلترة</span>}
           {!collapsed && (

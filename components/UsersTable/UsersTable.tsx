@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import styles from "./UsersTable.module.css";
 import toast from "react-hot-toast";
+import { FaSearch } from "react-icons/fa";
 
 type User = {
   id: number;
@@ -78,60 +79,77 @@ export default function UsersTable() {
 
   return (
     <div className={styles.container}>
-      <h1>إدارة المستخدمين</h1>
+      <div className={styles.card}>
+        <h1 style={{ color: "var(--color-light--2)", textAlign: "center" }}>
+          إدارة المستخدمين
+        </h1>
 
-      <input
-        type="text"
-        placeholder="بحث عن مستخدم..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className={styles.search}
-      />
+        <div className={styles.searchContainer}>
+          <FaSearch className={styles.searchIcon} />
+          <input
+            type="text"
+            placeholder="...بحث عن مستخدم"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className={styles.search}
+          />
+        </div>
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>الاسم</th>
-            <th>البريد الإلكتروني</th>
-            <th>الصلاحية</th>
-            <th>أنشئ في</th>
-            <th>إجراء</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredUsers.map((user) => (
-            <tr key={user.id}>
-              <td>
-                {user.id === currentUserId ? (
-                  <input
-                    value={editingUsername}
-                    onChange={(e) => setEditingUsername(e.target.value)}
-                    className={styles.usernameInput}
-                  />
-                ) : (
-                  user.username
-                )}
-              </td>
-              <td>{user.email}</td>
-              <td>
-                <select
-                  value={user.role}
-                  onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                >
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </td>
-              <td>{user.created_at}</td>
-              <td>
-                {user.id === currentUserId && (
-                  <button onClick={handleUsernameUpdate}>تعديل الاسم</button>
-                )}
-              </td>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th className={styles.first} style={{ borderLeft: "none" }}>
+                الاسم
+              </th>
+              <th>البريد الإلكتروني</th>
+              <th>الصلاحية</th>
+              <th>أنشئ في</th>
+              <th className={styles.last}>إجراء</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredUsers.map((user) => (
+              <tr key={user.id}>
+                <td data-label="الاسم" style={{ borderLeft: "none" }}>
+                  {user.id === currentUserId ? (
+                    <input
+                      value={editingUsername}
+                      onChange={(e) => setEditingUsername(e.target.value)}
+                      className={styles.tableInput}
+                    />
+                  ) : (
+                    user.username
+                  )}
+                </td>
+                <td data-label="البريد الإلكتروني" className={styles.email}>
+                  {user.email}
+                </td>
+                <td data-label="الصلاحية">
+                  <select
+                    value={user.role}
+                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                    className={styles.tableSelect}
+                  >
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </td>
+                <td data-label="أنشئ في">{user.created_at}</td>
+                <td data-label="إجراء">
+                  {user.id === currentUserId && (
+                    <button
+                      onClick={handleUsernameUpdate}
+                      className={styles.tableButton}
+                    >
+                      تعديل الاسم
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
