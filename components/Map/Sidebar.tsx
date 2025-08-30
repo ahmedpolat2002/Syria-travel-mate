@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import { SlArrowDown } from "react-icons/sl";
 import { PiCityLight } from "react-icons/pi";
+import { FiHome } from "react-icons/fi";
 import styles from "./Sidebar.module.css";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -62,6 +63,15 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       <ul className={styles.menuList}>
+        {/* الصفحة الرئيسية */}
+        <li className={styles.menuItem} onClick={() => router.push("/")}>
+          <div className={styles.iconWrapper}>
+            <FiHome
+              className={`${styles.icon} ${collapsed ? styles.closedicon : ""}`}
+            />
+          </div>
+          {!collapsed && <span className={styles.label}>الصفحة الرئيسية</span>}
+        </li>
         {/* المحافظات */}
         <li className={styles.menuItem} onClick={() => setShowGovs(!showGovs)}>
           <div className={styles.iconWrapper}>

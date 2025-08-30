@@ -1,28 +1,70 @@
 .tableContainer {
+  padding: 20px;
+  width: 100%;
   overflow-x: auto;
-  margin: 1rem 0;
+}
+
+
+.card {
+  background-color: var(--color-darksidebar--3);
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 40px 20px;
+  border: 1px solid #656478;
+  margin: 20px;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 20px 10px;
+    margin: 10px;
+  }
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
-  font-family: "Segoe UI", sans-serif;
+  color: var(--color-light--2);
+  min-width: 900px;
+  /* Ensures table doesn't get too squished - slightly wider for places table */
+}
+
+.table th {
+  background-color: #4d4e67;
+  padding: 12px;
+  border: none;
 }
 
 .table th,
 .table td {
   padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
+  text-align: center;
+  border-left: 1px solid #656478;
 }
 
-.table th {
-  background-color: #f4f4f4;
-  color: #333;
-  font-weight: 600;
+.last {
+  border-top-right-radius: 8px;
+
+}
+
+.first {
+  border-top-left-radius: 8px;
+}
+
+.scalable:hover {
+  transform: scale(1.01);
+  transition: transform 0.3s ease;
+  border-radius: 8px;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: var(--color-darksidebar--3);
+  /* فضي داكن */
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #48485570;
+  /* أسود أو شبه أسود */
 }
 
 .table tr:hover {
@@ -30,6 +72,5 @@
 }
 
 .table td {
-  color: #555;
   font-size: 0.95rem;
 }

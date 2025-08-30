@@ -20,7 +20,7 @@ export default async function ReviewsTablePage() {
 
   return (
     <main className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold text-center">جدول جميع المراجعات</h1>
+      {/* <h1 className="text-2xl font-bold text-center">جدول جميع المراجعات</h1> */}
       <ReviewsTable reviews={reviews} />
     </main>
   );
